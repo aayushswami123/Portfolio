@@ -160,6 +160,7 @@
                             <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
                         </div>
                     </div>
+                    
                 </div>
                 <div class="project-card">
                     <div class="project-image">
@@ -173,6 +174,24 @@
                             <span class="tag">Keras</span>
                         </div>
                         <p class="project-description">An image classification system trained on a custom dataset that can identify objects with high accuracy.</p>
+                        <div class="project-links">
+                            <a href="#"><i class="fab fa-github"></i> View Code</a>
+                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="/api/placeholder/400/320" alt="Project 3">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Real-time Chat Application</h3>
+                        <div class="project-tags">
+                            <span class="tag">Socket.io</span>
+                            <span class="tag">Express</span>
+                            <span class="tag">React</span>
+                        </div>
+                        <p class="project-description">A real-time messaging platform with features like user presence, typing indicators, and message delivery status.</p>
                         <div class="project-links">
                             <a href="#"><i class="fab fa-github"></i> View Code</a>
                             <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
@@ -211,14 +230,7 @@
                         <div class="timeline-date">2023 - Present</div>
                         <p>Arizona State University</p>
                         <p>Relevant coursework: Data Structures, Algorithms, Database Systems, Web Development, Machine Learning, Operating Systems</p>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>BS in Computer Science (Software Engineering)</h3>
-                        <div class="timeline-date">2023 - Present</div>
-                        <p>Arizona State University</p>
-                        <p>Relevant coursework: Data Structures, Algorithms, Database Systems, Web Development, Machine Learning, Operating Systems</p>
-                    </div>
-                    
+                    </div> 
                 </div>
                 <div class="timeline-item right">
                     <div class="timeline-content">
@@ -292,25 +304,29 @@
                     </div>
                 </div>
                 <div class="contact-form">
-                    <form>
+                    <form id="contactForm" action="/contact" method="post">
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" class="form-control" placeholder="Your Name">
+                          <label for="name">Name</label>
+                          <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required>
                         </div>
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" class="form-control" placeholder="Your Email">
+                          <label for="email">Email</label>
+                          <input type="email" id="email" name="email" class="form-control" placeholder="Your Email" required>
                         </div>
                         <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" class="form-control" placeholder="Subject">
+                          <label for="subject">Subject</label>
+                          <input type="text" id="subject" name="subject" class="form-control" placeholder="Subject" required>
                         </div>
                         <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" class="form-control" placeholder="Your Message"></textarea>
+                          <label for="message">Message</label>
+                          <textarea id="message" name="message" class="form-control" placeholder="Your Message" required></textarea>
                         </div>
                         <button type="submit" class="btn" style="width: 100%;">Send Message</button>
-                    </form>
+                      </form>
+                      
+                      <!-- Confirmation Message -->
+                      <div id="responseMessage" style="display: none; margin-top: 20px;"></div>
+                      
                 </div>
             </div>
         </div>
