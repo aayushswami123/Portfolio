@@ -4,588 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Name - CS Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #2563eb;
-            --secondary: #4f46e5;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --accent: #8b5cf6;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        header {
-            background-color: var(--dark);
-            color: var(--light);
-            padding: 1.5rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--light);
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: var(--light);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--light);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(135deg, var(--dark) 0%, var(--secondary) 100%);
-            color: var(--light);
-            margin-bottom: 4rem;
-        }
-
-        .hero-content {
-            max-width: 600px;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background-color: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background-color: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            margin-left: 1rem;
-        }
-
-        .btn-outline:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        section {
-            padding: 5rem 0;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            width: 80px;
-            height: 4px;
-            background-color: var(--primary);
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .about-image {
-            border-radius: 0.5rem;
-            overflow: hidden;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        .about-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .about-text h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .skills {
-            background-color: var(--dark);
-            color: var(--light);
-        }
-
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .skill-card {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 0.5rem;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-        }
-
-        .skill-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card {
-            background-color: white;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        .project-image {
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .project-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .project-card:hover .project-image img {
-            transform: scale(1.05);
-        }
-
-        .project-info {
-            padding: 1.5rem;
-        }
-
-        .project-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .tag {
-            background-color: var(--primary);
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .project-description {
-            margin-bottom: 1.5rem;
-            color: #4b5563;
-        }
-
-        .project-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .project-links a {
-            color: var(--primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            font-weight: 500;
-        }
-
-        .education {
-            background-color: #f3f4f6;
-        }
-
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 4px;
-            background-color: var(--primary);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -2px;
-        }
-
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            width: 50%;
-            box-sizing: border-box;
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            right: -10px;
-            background-color: white;
-            border: 4px solid var(--primary);
-            top: 15px;
-            border-radius: 50%;
-            z-index: 1;
-        }
-
-        .left {
-            left: 0;
-        }
-
-        .right {
-            left: 50%;
-        }
-
-        .right::after {
-            left: -10px;
-        }
-
-        .timeline-content {
-            padding: 20px;
-            background-color: white;
-            position: relative;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        .timeline-content h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-date {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .contact {
-            background: linear-gradient(135deg, var(--dark) 0%, var(--secondary) 100%);
-            color: var(--light);
-        }
-
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
-
-        .contact-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-methods {
-            margin-bottom: 2rem;
-        }
-
-        .contact-method {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            background-color: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-
-        .contact-form {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 0.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid transparent;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            border-radius: 0.375rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        textarea.form-control {
-            height: 150px;
-            resize: vertical;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            transition: all 0.3s ease;
-        }
-
-        .social-icon:hover {
-            background-color: var(--primary);
-            transform: translateY(-5px);
-        }
-
-        footer {
-            background-color: var(--dark);
-            color: var(--light);
-            text-align: center;
-            padding: 2rem 0;
-        }
-
-        .footer-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .footer-logo {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .footer-text {
-            opacity: 0.8;
-            margin-bottom: 1.5rem;
-        }
-
-        .scroll-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 99;
-        }
-
-        .scroll-to-top.active {
-            opacity: 1;
-        }
-
-        @media (max-width: 992px) {
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .contact-container {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .timeline::after {
-                left: 31px;
-            }
-            
-            .timeline-item {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-            
-            .timeline-item::after {
-                left: 21px;
-            }
-            
-            .right {
-                left: 0;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animated {
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
 </head>
 <body>
     <header>
         <div class="container">
             <nav>
-                <a href="#" class="logo">YourName</a>
+                <a href="#" class="logo">Aayush Swami </a>
                 <div class="nav-links">
                     <a href="#about">About</a>
                     <a href="#skills">Skills</a>
@@ -603,7 +30,7 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>Hi, I'm <span style="color: var(--primary);">Your Name</span></h1>
+                <h1>Hi, I'm <span style="color: var(--primary);">Aayush Swami</span></h1>
                 <p>Computer Science Student | Software Developer | Problem Solver</p>
                 <a href="#contact" class="btn">Contact Me</a>
                 <a href="#projects" class="btn btn-outline">View Projects</a>
@@ -616,68 +43,100 @@
             <h2 class="section-title">About Me</h2>
             <div class="about-content">
                 <div class="about-image">
-                    <img src="/api/placeholder/500/600" alt="Your Name">
+                    <img src="/contents/Aayush.PNG" alt="Your Name">
                 </div>
                 <div class="about-text">
                     <h2>Computer Science Enthusiast</h2>
-                    <p>Hello! I'm a passionate computer science student with a strong interest in software development and emerging technologies. I enjoy solving complex problems and building applications that make a positive impact.</p>
-                    <p>My journey in computer science began when I was in high school, where I first discovered my love for coding. Since then, I've been constantly learning and improving my skills through coursework, personal projects, and internships.</p>
-                    <p>I'm particularly interested in [add your interests here, e.g., web development, machine learning, data science, cybersecurity, etc.], and I'm always open to collaborating on exciting projects.</p>
-                    <p>When I'm not coding, you can find me [add your hobbies or interests outside of computer science].</p>
-                    <a href="#" class="btn" style="margin-top: 1rem;">Download CV</a>
+                    <p>Hello! I'm Aayush, a passionate computer science student with a strong interest in software engineering and emerging technologies. I enjoy solving complex problems and building applications that make a positive impact.</p>
+                    <p>My journey in computer science began in high school, where I first discovered my love for coding. Since then, I've been constantly learning and improving my skills through coursework, personal projects, and internships.</p>
+                    <p>I'm particularly interested in web development, machine learning, and data science, and I'm always open to collaborating on exciting projects. My recent experience includes developing a Java-based calculator, building a real-time monitoring system for a Lego automated car, and contributing to NASA's International Space App Challenge by creating a user-centric website. I'm also conducting research using machine learning models to predict lithium-ion battery lifespans.</p>
+                    <p>When I'm not coding, you can find me engaging with the ASU community as a Fulton Ambassador, coordinating student events, or exploring new technologies. I'm always excited to meet like-minded individuals and work on impactful projects!</p>
+
+                    <a href="/contents/Aayush.pdf" class="btn" style="margin-top: 1rem;">Download CV</a>
+                    <a href="/contents/aboutme.pdf" class="btn" style="margin-top: 1rem;">Download About me</a>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="skills" class="skills">
+      
         <div class="container">
-            <h2 class="section-title" style="color: var(--light);">My Skills</h2>
-            <div class="skills-container">
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3>Programming Languages</h3>
-                    <p>Python, Java, JavaScript, C++, SQL</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <h3>Web Development</h3>
-                    <p>HTML, CSS, React, Node.js, Express</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3>Databases</h3>
-                    <p>MySQL, MongoDB, PostgreSQL</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <h3>Tools & Technologies</h3>
-                    <p>Git, Docker, AWS, Linux</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>Data Science</h3>
-                    <p>Machine Learning, NumPy, Pandas, TensorFlow</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile Development</h3>
-                    <p>React Native, Flutter</p>
-                </div>
+          <h2 class="section-title" style="color: var(--light);">My Skills</h2>
+          <div class="skills-container">
+        
+            <!-- Programming Languages -->
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fa-brands fa-python" title="Python"></i>
+                <i class="fa-brands fa-java" title="Java"></i>
+                <i class="fa-brands fa-js" title="JavaScript"></i>
+                <i class="fa-solid fa-c" title="C++"></i>
+                <i class="fa-solid fa-database" title="SQL"></i>
+              </div>
+              <h3>Programming Languages</h3>
+              <p>Python, Java, JavaScript, C++, SQL</p>
             </div>
+        
+            <!-- Web Development -->
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fa-brands fa-html5" title="HTML"></i>
+                <i class="fa-brands fa-css3-alt" title="CSS"></i>
+                <i class="fa-brands fa-react" title="React"></i>
+                <i class="fa-brands fa-node-js" title="Node.js"></i>
+              </div>
+              <h3>Web Development</h3>
+              <p>HTML, CSS, React, Node.js, Express</p>
+            </div>
+        
+            <!-- Databases -->
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fa-solid fa-database" title="MySQL"></i>
+                <i class="fa-solid fa-leaf" title="MongoDB"></i>
+                <i class="fa-solid fa-database" title="PostgreSQL"></i>
+              </div>
+              <h3>Databases</h3>
+              <p>MySQL, MongoDB, PostgreSQL</p>
+            </div>
+        
+            <!-- Tools & Technologies -->
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fa-brands fa-git-alt" title="Git"></i>
+                <i class="fa-brands fa-docker" title="Docker"></i>
+                <i class="fa-brands fa-aws" title="AWS"></i>
+                <i class="fa-solid fa-terminal" title="Linux"></i>
+              </div>
+              <h3>Tools & Technologies</h3>
+              <p>Git, Docker, AWS, Linux</p>
+            </div>
+        
+            <!-- Data Science -->
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fa-solid fa-robot" title="Machine Learning"></i>
+                <i class="fa-solid fa-chart-line" title="NumPy"></i>
+                <i class="fa-solid fa-table" title="Pandas"></i>
+                <i class="fa-solid fa-brain" title="TensorFlow"></i>
+              </div>
+              <h3>Data Science</h3>
+              <p>Machine Learning, NumPy, Pandas, TensorFlow</p>
+            </div>
+        
+            <!-- Mobile Development -->
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fa-brands fa-react" title="React Native"></i>
+                <i class="fa-brands fa-android" title="Flutter"></i>
+              </div>
+              <h3>Mobile Development</h3>
+              <p>React Native, Flutter</p>
+            </div>
+          </div>
         </div>
+        
     </section>
 
     <section id="projects" class="projects">
@@ -748,34 +207,41 @@
             <div class="timeline">
                 <div class="timeline-item left">
                     <div class="timeline-content">
-                        <h3>Bachelor of Science in Computer Science</h3>
-                        <div class="timeline-date">2020 - Present</div>
-                        <p>University Name</p>
+                        <h3>BS in Computer Science (Software Engineering)</h3>
+                        <div class="timeline-date">2023 - Present</div>
+                        <p>Arizona State University</p>
                         <p>Relevant coursework: Data Structures, Algorithms, Database Systems, Web Development, Machine Learning, Operating Systems</p>
                     </div>
+                    <div class="timeline-content">
+                        <h3>BS in Computer Science (Software Engineering)</h3>
+                        <div class="timeline-date">2023 - Present</div>
+                        <p>Arizona State University</p>
+                        <p>Relevant coursework: Data Structures, Algorithms, Database Systems, Web Development, Machine Learning, Operating Systems</p>
+                    </div>
+                    
                 </div>
                 <div class="timeline-item right">
                     <div class="timeline-content">
                         <h3>Software Development Intern</h3>
-                        <div class="timeline-date">Summer 2023</div>
-                        <p>Company Name</p>
+                        <div class="timeline-date">Summer 2024</div>
+                        <p>Nexus Softawre</p>
                         <p>Developed new features for the company's web application using React and Node.js. Collaborated with the team to improve the user experience and optimize database queries.</p>
                     </div>
                 </div>
                 <div class="timeline-item left">
                     <div class="timeline-content">
                         <h3>Web Development Course</h3>
-                        <div class="timeline-date">2021</div>
-                        <p>Online Platform</p>
-                        <p>Completed a comprehensive web development bootcamp covering HTML, CSS, JavaScript, React, Node.js, and MongoDB.</p>
+                        <div class="timeline-date">2024</div>
+                        <p>Apna college</p>
+                        <p>Completed a comprehensive web development bootcamp covering the Entire MERN stack</p>
                     </div>
                 </div>
                 <div class="timeline-item right">
                     <div class="timeline-content">
                         <h3>High School Diploma</h3>
-                        <div class="timeline-date">2016 - 2020</div>
-                        <p>High School Name</p>
-                        <p>Graduated with honors. Participated in programming competitions and led the school's computer science club.</p>
+                        <div class="timeline-date">2019 - 2023</div>
+                        <p>Delhi Public School</p>
+                        <p> Participated in programming competitions and led the school's computer science club.</p>
                     </div>
                 </div>
             </div>
@@ -796,7 +262,7 @@
                             </div>
                             <div>
                                 <h4>Email</h4>
-                                <p>your.email@example.com</p>
+                                <p>aayushswami8@gmail.com</p>
                             </div>
                         </div>
                         <div class="contact-method">
@@ -805,23 +271,23 @@
                             </div>
                             <div>
                                 <h4>Location</h4>
-                                <p>City, Country</p>
+                                <p>Tempe , AZ , USA</p>
                             </div>
                         </div>
                     </div>
                     <h3>Find Me On</h3>
                     <div class="social-icons">
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-github"></i>
+                        <a href="https://github.com/aayushswami123" class="social-icon">
+                            <i class="fa-brands fa-github" style="color: #000000;"></i>                    
                         </a>
                         <a href="#" class="social-icon">
-                            <i class="fab fa-linkedin-in"></i>
+                            <i class="fab fa-linkedin-in" style="color: #000000;" ></i>
                         </a>
                         <a href="#" class="social-icon">
-                            <i class="fab fa-twitter"></i>
+                            <i class="fab fa-twitter" style="color: #000000;"></i>
                         </a>
                         <a href="#" class="social-icon">
-                            <i class="fab fa-instagram"></i>
+                            <i class="fab fa-instagram" style="color: #000000;"></i>
                         </a>
                     </div>
                 </div>
@@ -853,9 +319,9 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">YourName</div>
+                <div class="footer-logo">Aayush</div>
                 <p class="footer-text">Thank you for visiting my portfolio. Looking forward to connecting with you!</p>
-                <p>&copy; 2025 Your Name. All Rights Reserved.</p>
+                <p>&copy; 2025 Aayush swami. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
@@ -864,62 +330,4 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <script>
-        // Mobile menu toggle
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        
-        mobileMenuBtn.addEventListener('click', function() {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-                
-                // Close mobile menu if open
-                if (window.innerWidth < 768) {
-                    navLinks.style.display = 'none';
-                }
-            });
-        });
-        
-        // Scroll to top button
-        const scrollToTopBtn = document.querySelector('.scroll-to-top');
-        
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                scrollToTopBtn.classList.add('active');
-            } else {
-                scrollToTopBtn.classList.remove('active');
-            }
-        });
-        
-        scrollToTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-        
-        // Animation on scroll
-        function animateOnScroll() {
-            const elements = document.querySelectorAll('.skill-card, .project-card, .timeline-item, .section-title');
-            
-            elements.forEach(element => {
-                const elementPosition = element.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
-                
-                if (elementPosition < windowHeight - 100) {
-                    element.classList.add('animated');
-                }
-            });
-        }
-        
-        window.addEventListener('scroll', animateOnScroll);
-        window.addEventListener('load', animateOnScroll);
+  
