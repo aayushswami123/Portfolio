@@ -309,6 +309,9 @@ document.addEventListener("DOMContentLoaded", () => {
       mobileMenuBtn.setAttribute("aria-expanded", "false")
       document.body.style.overflow = ""
     }
+    
+    // NEW: Center education and project sections on mobile
+    centerMobileElements();
   }, 200)
 
   window.addEventListener("resize", handleResize)
@@ -320,6 +323,54 @@ document.addEventListener("DOMContentLoaded", () => {
     // Disable animations for users who prefer reduced motion
     document.documentElement.classList.add("reduced-motion")
   }
+  
+  // NEW: Function to center education items and projects on mobile
+  function centerMobileElements() {
+    const isMobile = window.innerWidth < 768;
+    
+    // Center education timeline items on mobile
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    timelineItems.forEach(item => {
+      if (isMobile) {
+        item.style.transform = 'none';  // Reset any transform
+        item.style.margin = '0 auto';   // Center with auto margins
+        item.style.left = '0';          // Reset left position
+        item.style.right = '0';         // Reset right position
+        item.classList.add('mobile-centered'); // Add class for additional styling
+      } else {
+        item.style.margin = '';         // Reset margins
+        item.style.left = '';           // Reset left to CSS default
+        item.style.right = '';          // Reset right to CSS default
+        item.classList.remove('mobile-centered'); // Remove mobile class
+      }
+    });
+    
+    // Center project cards on mobile
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+      if (isMobile) {
+        card.style.transform = 'none';  // Reset any transform
+        card.style.margin = '0 auto 2rem auto';  // Center with auto margins (and bottom margin)
+        card.style.float = 'none';      // Remove float
+        card.classList.add('mobile-centered'); // Add class for additional styling
+      } else {
+        card.style.margin = '';         // Reset margins
+        card.style.float = '';          // Reset float to CSS default
+        card.classList.remove('mobile-centered'); // Remove mobile class
+      }
+    });
+    
+    // Apply specific animation for centered mobile elements
+    if (isMobile) {
+      document.querySelectorAll('.mobile-centered').forEach(element => {
+        // Change animation to fade in from bottom for mobile centered elements
+        element.dataset.animation = 'fade-in-up-center';
+      });
+    }
+  }
+  
+  // Call center function on initial load
+  setTimeout(centerMobileElements, 300);
 })
 
 // IMPROVED: Particle Background Animation with better timing
@@ -495,11 +546,16 @@ document.addEventListener("DOMContentLoaded", () => {
       // Special handling for timeline items
       const timelineItems = document.querySelectorAll(".timeline-item")
       timelineItems.forEach((item, index) => {
-        // Set animation type based on position
-        if (item.classList.contains("left")) {
-          item.dataset.animation = "slide-in-left"
+        // NEW: On mobile, use centered animation instead of left/right animations
+        if (window.innerWidth < 768) {
+          item.dataset.animation = "fade-in-up-center";
         } else {
-          item.dataset.animation = "slide-in-right"
+          // Set animation type based on position for desktop
+          if (item.classList.contains("left")) {
+            item.dataset.animation = "slide-in-left";
+          } else {
+            item.dataset.animation = "slide-in-right";
+          }
         }
 
         // IMPROVED: Longer staggered delay for better visibility
@@ -526,11 +582,16 @@ document.addEventListener("DOMContentLoaded", () => {
       // Special handling for project cards
       const projectCards = document.querySelectorAll(".project-card")
       projectCards.forEach((card, index) => {
-        // Alternate between left and right animations
-        if (index % 2 === 0) {
-          card.dataset.animation = "slide-in-left"
+        // NEW: On mobile, use centered animation
+        if (window.innerWidth < 768) {
+          card.dataset.animation = "fade-in-up-center";
         } else {
-          card.dataset.animation = "slide-in-right"
+          // Alternate between left and right animations on desktop
+          if (index % 2 === 0) {
+            card.dataset.animation = "slide-in-left";
+          } else {
+            card.dataset.animation = "slide-in-right";
+          }
         }
         
         // IMPROVED: Add staggered delay based on position
@@ -798,5 +859,49 @@ styleElement.textContent = `
       transform: translateX(0);
     }
   }
+  
+  /* NEW: Centered animations for mobile */
+  @keyframes fade-in-up-center {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* NEW: Mobile centering styles */
+  @media (max-width: 767px) {
+    .mobile-centered {
+      margin-left: auto !important;
+      margin-right: auto !important;
+      float: none !important;
+      left: 0 !important;
+      right: 0 !important;
+      transform: none !important;
+      max-width: 90% !important;
+      text-align: center !important;
+    }
+    
+    .timeline-item.mobile-centered::before {
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+    }
+    
+    .timeline-item.mobile-centered .timeline-content {
+      text-align: center !important;
+    }
+    
+    .project-card.mobile-centered {
+      display: block !important;
+    }
+    
+    .education-section .timeline-item {
+      width: 85% !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+  }
 `;
-document.head.appendChild(styleElement);
