@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
     handleHeaderScroll()
   }
 
-  // Animation on scroll with Intersection Observer
+  // IMPROVED: Animation on scroll with Intersection Observer
   function setupAnimations() {
     // Elements to animate
     const elements = document.querySelectorAll(
@@ -153,38 +153,51 @@ document.addEventListener("DOMContentLoaded", () => {
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              // Add animation classes when element is visible
-              entry.target.classList.add("animated")
+              // IMPROVED: Add animation classes when element is visible with delay
+              setTimeout(() => {
+                entry.target.classList.add("animated")
 
-              // Add specific animation classes based on element type
-              if (entry.target.classList.contains("timeline-item") && entry.target.classList.contains("right")) {
-                entry.target.style.animation = "fadeInSide 0.6s forwards"
-              } else if (entry.target.classList.contains("timeline-item")) {
-                entry.target.style.animation = "fadeInSide 0.6s forwards"
-              } else {
-                entry.target.style.animation = "fadeInUp 0.6s forwards"
-              }
+                // Add specific animation classes based on element type
+                if (entry.target.classList.contains("timeline-item") && entry.target.classList.contains("right")) {
+                  entry.target.style.animation = "fadeInSide 0.8s forwards ease-out"
+                } else if (entry.target.classList.contains("timeline-item")) {
+                  entry.target.style.animation = "fadeInSide 0.8s forwards ease-out"
+                } else {
+                  entry.target.style.animation = "fadeInUp 0.8s forwards ease-out"
+                }
+              }, 100) // Small delay to ensure animations are visible
 
-              // Unobserve after animation is triggered
-              animationObserver.unobserve(entry.target)
+              // IMPROVED: Don't unobserve immediately to prevent flickering
+              setTimeout(() => {
+                animationObserver.unobserve(entry.target)
+              }, 1000)
             }
           })
         },
         {
           root: null,
-          threshold: 0.1,
-          rootMargin: "0px 0px -100px 0px",
+          threshold: 0.15, // IMPROVED: Lower threshold to trigger earlier
+          rootMargin: "0px 0px -50px 0px", // IMPROVED: Adjusted for better visibility
         },
       )
 
-      elements.forEach((element) => {
+      elements.forEach((element, index) => {
+        // IMPROVED: Add staggered delay based on position
+        const staggerDelay = index * 0.1
+        element.style.setProperty('--animation-delay', `${staggerDelay}s`)
+        
+        // Add initial state classes
+        element.classList.add("animation-ready")
+        
         animationObserver.observe(element)
       })
     }
   }
 
-  // Initialize animations
-  setupAnimations()
+  // IMPROVED: Wait a bit to ensure DOM is fully rendered before setting up animations
+  setTimeout(() => {
+    setupAnimations()
+  }, 200)
 
   // Contact form submission with validation and feedback
   const contactForm = document.getElementById("contactForm")
@@ -308,7 +321,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.documentElement.classList.add("reduced-motion")
   }
 })
-// Particle Background Animation
+
+// IMPROVED: Particle Background Animation with better timing
 document.addEventListener("DOMContentLoaded", () => {
   // Check if user prefers reduced motion
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -317,235 +331,308 @@ document.addEventListener("DOMContentLoaded", () => {
     return // Don't create particles if user prefers reduced motion
   }
 
-  // Create particle container
-  const particlesContainer = document.createElement("div")
-  particlesContainer.className = "particles-background"
-  document.body.prepend(particlesContainer)
+  // IMPROVED: Delay particle creation to prevent initial performance issues
+  setTimeout(() => {
+    // Create particle container
+    const particlesContainer = document.createElement("div")
+    particlesContainer.className = "particles-background"
+    document.body.prepend(particlesContainer)
 
-  // Particle settings
-  const particleCount = 100 // Total number of particles
-  const directions = ["down", "up", "left", "right"] // Possible movement directions
+    // IMPROVED: Reduced particle count for better performance
+    const particleCount = 60 // Total number of particles
+    const directions = ["down", "up", "left", "right"] // Possible movement directions
 
-  // Create initial particles
-  for (let i = 0; i < particleCount; i++) {
-    createParticle(particlesContainer)
-  }
-
-  // Function to create a single particle
-  function createParticle(container) {
-    const particle = document.createElement("div")
-    particle.className = "particle"
-
-    // Random particle size
-    const sizeClasses = ["particle-tiny", "particle-small", "particle-medium", "particle-large"]
-    const sizeClass = sizeClasses[Math.floor(Math.random() * sizeClasses.length)]
-    particle.classList.add(sizeClass)
-
-    // Random position based on direction
-    const direction = directions[Math.floor(Math.random() * directions.length)]
-
-    // Random starting position
-    let xPos, yPos
-
-    switch (direction) {
-      case "down":
-        xPos = Math.random() * 100
-        yPos = -10
-        break
-      case "up":
-        xPos = Math.random() * 100
-        yPos = 110
-        break
-      case "right":
-        xPos = -10
-        yPos = Math.random() * 100
-        break
-      case "left":
-        xPos = 110
-        yPos = Math.random() * 100
-        break
-    }
-
-    // Set particle position
-    particle.style.left = `${xPos}%`
-    particle.style.top = `${yPos}%`
-
-    // Random drift (perpendicular movement)
-    const drift = Math.random() * 100 - 50
-    particle.style.setProperty("--drift", `${drift}px`)
-
-    // Random duration between 10s and 30s
-    const duration = Math.random() * 20 + 10
-
-    // Set animation based on direction
-    switch (direction) {
-      case "down":
-        particle.style.animation = `float-down ${duration}s linear infinite`
-        break
-      case "up":
-        particle.style.animation = `float-up ${duration}s linear infinite`
-        break
-      case "right":
-        particle.style.animation = `float-right ${duration}s linear infinite`
-        break
-      case "left":
-        particle.style.animation = `float-left ${duration}s linear infinite`
-        break
-    }
-
-    // Add particle to container
-    container.appendChild(particle)
-
-    // Remove and recreate particle after animation completes
-    setTimeout(() => {
-      if (particle.parentNode === container) {
-        container.removeChild(particle)
-        createParticle(container)
+    // Create initial particles in batches to improve performance
+    function createParticlesBatch(container, count, batchSize, delay) {
+      let created = 0;
+      
+      function createBatch() {
+        const batchCount = Math.min(batchSize, count - created);
+        
+        for (let i = 0; i < batchCount; i++) {
+          createParticle(container);
+          created++;
+        }
+        
+        if (created < count) {
+          setTimeout(createBatch, delay);
+        }
       }
-    }, duration * 1000)
-  }
+      
+      createBatch();
+    }
+
+    // Start creating particles in batches (10 particles every 100ms)
+    createParticlesBatch(particlesContainer, particleCount, 10, 100);
+
+    // Function to create a single particle
+    function createParticle(container) {
+      const particle = document.createElement("div")
+      particle.className = "particle"
+
+      // Random particle size
+      const sizeClasses = ["particle-tiny", "particle-small", "particle-medium", "particle-large"]
+      const sizeClass = sizeClasses[Math.floor(Math.random() * sizeClasses.length)]
+      particle.classList.add(sizeClass)
+
+      // Random position based on direction
+      const direction = directions[Math.floor(Math.random() * directions.length)]
+
+      // Random starting position
+      let xPos, yPos
+
+      switch (direction) {
+        case "down":
+          xPos = Math.random() * 100
+          yPos = -10
+          break
+        case "up":
+          xPos = Math.random() * 100
+          yPos = 110
+          break
+        case "right":
+          xPos = -10
+          yPos = Math.random() * 100
+          break
+        case "left":
+          xPos = 110
+          yPos = Math.random() * 100
+          break
+      }
+
+      // Set particle position
+      particle.style.left = `${xPos}%`
+      particle.style.top = `${yPos}%`
+
+      // Random drift (perpendicular movement)
+      const drift = Math.random() * 100 - 50
+      particle.style.setProperty("--drift", `${drift}px`)
+
+      // IMPROVED: Longer animation duration for better visibility
+      const duration = Math.random() * 25 + 15
+
+      // Set animation based on direction
+      switch (direction) {
+        case "down":
+          particle.style.animation = `float-down ${duration}s linear infinite`
+          break
+        case "up":
+          particle.style.animation = `float-up ${duration}s linear infinite`
+          break
+        case "right":
+          particle.style.animation = `float-right ${duration}s linear infinite`
+          break
+        case "left":
+          particle.style.animation = `float-left ${duration}s linear infinite`
+          break
+      }
+
+      // Add particle to container
+      container.appendChild(particle)
+
+      // Remove and recreate particle after animation completes
+      setTimeout(() => {
+        if (particle.parentNode === container) {
+          container.removeChild(particle)
+          createParticle(container)
+        }
+      }, duration * 1000)
+    }
+  }, 500); // Delay particle creation to prevent initial performance issues
 })
-// Animation System - Detect elements and apply animations
+
+// IMPROVED: Animation System - Detect elements with better timing
 document.addEventListener("DOMContentLoaded", () => {
-  // Function to check if IntersectionObserver is supported
-  if ("IntersectionObserver" in window) {
-    // Create animation observer
-    const animationObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          // If element is in viewport
-          if (entry.isIntersecting) {
-            // Get animation type from data attribute
-            const animationType = entry.target.dataset.animation || "fade-in"
+  // Delay animation setup to ensure DOM is fully populated
+  setTimeout(() => {
+    // Function to check if IntersectionObserver is supported
+    if ("IntersectionObserver" in window) {
+      // Create animation observer with improved settings
+      const animationObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            // If element is in viewport
+            if (entry.isIntersecting) {
+              // Get animation type from data attribute
+              const animationType = entry.target.dataset.animation || "fade-in"
+              
+              // IMPROVED: Add a small delay before applying animations
+              setTimeout(() => {
+                // Add animation class
+                entry.target.classList.add(animationType)
+                
+                // IMPROVED: Mark as animated to prevent re-animation
+                entry.target.dataset.animated = "true";
+              }, 100);
 
-            // Add animation class
-            entry.target.classList.add(animationType)
+              // IMPROVED: Delay unobserving to ensure animation completes
+              setTimeout(() => {
+                animationObserver.unobserve(entry.target)
+              }, 1000);
+            }
+          })
+        },
+        {
+          root: null,
+          threshold: 0.15, // IMPROVED: Lower threshold to trigger earlier
+          rootMargin: "0px 0px -100px 0px", // IMPROVED: Adjusted for better visibility
+        },
+      )
 
-            // Unobserve after animation is triggered
-            animationObserver.unobserve(entry.target)
-          }
-        })
-      },
-      {
-        root: null,
-        threshold: 0.1, // Trigger when 10% of the element is visible
-        rootMargin: "0px 0px -50px 0px", // Adjust based on when you want animations to trigger
-      },
-    )
+      // Select all elements to animate
+      const elementsToAnimate = document.querySelectorAll(".animate-element")
 
-    // Select all elements to animate
-    const elementsToAnimate = document.querySelectorAll(".animate-element")
+      // Observe each element
+      elementsToAnimate.forEach((element, index) => {
+        // IMPROVED: Add initial state and delay
+        element.style.opacity = "0";
+        element.style.setProperty('--animation-delay', `${index * 0.05}s`);
+        element.style.animationFillMode = "forwards";
+        
+        animationObserver.observe(element)
+      })
 
-    // Observe each element
-    elementsToAnimate.forEach((element) => {
-      animationObserver.observe(element)
-    })
+      // Special handling for timeline items
+      const timelineItems = document.querySelectorAll(".timeline-item")
+      timelineItems.forEach((item, index) => {
+        // Set animation type based on position
+        if (item.classList.contains("left")) {
+          item.dataset.animation = "slide-in-left"
+        } else {
+          item.dataset.animation = "slide-in-right"
+        }
 
-    // Special handling for timeline items
-    const timelineItems = document.querySelectorAll(".timeline-item")
-    timelineItems.forEach((item, index) => {
-      // Set animation type based on position
-      if (item.classList.contains("left")) {
-        item.dataset.animation = "slide-in-left"
-      } else {
-        item.dataset.animation = "slide-in-right"
+        // IMPROVED: Longer staggered delay for better visibility
+        item.style.animationDelay = `${0.3 * index}s`
+        item.style.opacity = "0";
+        item.style.animationFillMode = "forwards";
+
+        // Add to animation observer
+        animationObserver.observe(item)
+      })
+
+      // Special handling for skill cards
+      const skillCards = document.querySelectorAll(".skill-card")
+      skillCards.forEach((card, index) => {
+        card.dataset.animation = "fall-in"
+        // IMPROVED: Add staggered delay based on position
+        card.style.animationDelay = `${0.15 * index}s`
+        card.style.opacity = "0";
+        card.style.animationFillMode = "forwards";
+        
+        animationObserver.observe(card)
+      })
+
+      // Special handling for project cards
+      const projectCards = document.querySelectorAll(".project-card")
+      projectCards.forEach((card, index) => {
+        // Alternate between left and right animations
+        if (index % 2 === 0) {
+          card.dataset.animation = "slide-in-left"
+        } else {
+          card.dataset.animation = "slide-in-right"
+        }
+        
+        // IMPROVED: Add staggered delay based on position
+        card.style.animationDelay = `${0.25 * index}s`
+        card.style.opacity = "0";
+        card.style.animationFillMode = "forwards";
+
+        animationObserver.observe(card)
+      })
+
+      // Hero section elements
+      const heroElements = document.querySelectorAll(".hero-content > *")
+      heroElements.forEach((element, index) => {
+        element.classList.add("animate-element")
+        element.dataset.animation = "fall-in"
+        // IMPROVED: Longer delay for hero elements
+        element.style.animationDelay = `${0.3 * index}s`
+        element.style.opacity = "0";
+        element.style.animationFillMode = "forwards";
+        
+        animationObserver.observe(element)
+      })
+
+      // About section
+      const aboutImage = document.querySelector(".about-image")
+      if (aboutImage) {
+        aboutImage.classList.add("animate-element")
+        aboutImage.dataset.animation = "slide-in-left"
+        aboutImage.style.opacity = "0";
+        aboutImage.style.animationFillMode = "forwards";
+        
+        animationObserver.observe(aboutImage)
       }
 
-      // Add staggered delay
-      item.style.animationDelay = `${0.2 * index}s`
+      const aboutTextElements = document.querySelectorAll(".about-text > *")
+      aboutTextElements.forEach((element, index) => {
+        element.classList.add("animate-element")
+        element.dataset.animation = "slide-in-right"
+        // IMPROVED: More noticeable staggered delay
+        element.style.animationDelay = `${0.2 * index}s`
+        element.style.opacity = "0";
+        element.style.animationFillMode = "forwards";
+        
+        animationObserver.observe(element)
+      })
 
-      // Add to animation observer
-      animationObserver.observe(item)
-    })
-
-    // Special handling for skill cards
-    const skillCards = document.querySelectorAll(".skill-card")
-    skillCards.forEach((card, index) => {
-      card.dataset.animation = "fall-in"
-      animationObserver.observe(card)
-    })
-
-    // Special handling for project cards
-    const projectCards = document.querySelectorAll(".project-card")
-    projectCards.forEach((card, index) => {
-      // Alternate between left and right animations
-      if (index % 2 === 0) {
-        card.dataset.animation = "slide-in-left"
-      } else {
-        card.dataset.animation = "slide-in-right"
+      // Contact section
+      const contactInfo = document.querySelector(".contact-info")
+      if (contactInfo) {
+        contactInfo.classList.add("animate-element")
+        contactInfo.dataset.animation = "slide-in-left"
+        contactInfo.style.opacity = "0";
+        contactInfo.style.animationFillMode = "forwards";
+        
+        animationObserver.observe(contactInfo)
       }
 
-      animationObserver.observe(card)
-    })
+      const contactForm = document.querySelector(".contact-form")
+      if (contactForm) {
+        contactForm.classList.add("animate-element")
+        contactForm.dataset.animation = "slide-in-right"
+        contactForm.style.opacity = "0";
+        contactForm.style.animationFillMode = "forwards";
+        
+        animationObserver.observe(contactForm)
+      }
 
-    // Hero section elements
-    const heroElements = document.querySelectorAll(".hero-content > *")
-    heroElements.forEach((element, index) => {
-      element.classList.add("animate-element")
-      element.dataset.animation = "fall-in"
-      element.style.animationDelay = `${0.2 * index}s`
-      animationObserver.observe(element)
-    })
-
-    // About section
-    const aboutImage = document.querySelector(".about-image")
-    if (aboutImage) {
-      aboutImage.classList.add("animate-element")
-      aboutImage.dataset.animation = "slide-in-left"
-      animationObserver.observe(aboutImage)
+      // Section titles
+      const sectionTitles = document.querySelectorAll(".section-title, .timeline-title")
+      sectionTitles.forEach((title) => {
+        title.classList.add("animate-element")
+        title.dataset.animation = "fall-in"
+        title.style.opacity = "0";
+        title.style.animationFillMode = "forwards";
+        
+        animationObserver.observe(title)
+      })
+    } else {
+      // Fallback for browsers that don't support IntersectionObserver
+      document.querySelectorAll(".animate-element").forEach((element) => {
+        element.style.opacity = "1"
+        element.style.transform = "none"
+      })
     }
 
-    const aboutTextElements = document.querySelectorAll(".about-text > *")
-    aboutTextElements.forEach((element, index) => {
-      element.classList.add("animate-element")
-      element.dataset.animation = "slide-in-right"
-      element.style.animationDelay = `${0.1 * index}s`
-      animationObserver.observe(element)
-    })
-
-    // Contact section
-    const contactInfo = document.querySelector(".contact-info")
-    if (contactInfo) {
-      contactInfo.classList.add("animate-element")
-      contactInfo.dataset.animation = "slide-in-left"
-      animationObserver.observe(contactInfo)
+    // Add typing effect to hero heading
+    const heroHeading = document.querySelector(".hero h1")
+    if (heroHeading) {
+      // Create wrapper for typing effect
+      const headingText = heroHeading.innerHTML
+      heroHeading.innerHTML = `<span class="typing-effect">${headingText}</span>`
     }
 
-    const contactForm = document.querySelector(".contact-form")
-    if (contactForm) {
-      contactForm.classList.add("animate-element")
-      contactForm.dataset.animation = "slide-in-right"
-      animationObserver.observe(contactForm)
-    }
-
-    // Section titles
-    const sectionTitles = document.querySelectorAll(".section-title, .timeline-title")
-    sectionTitles.forEach((title) => {
-      title.classList.add("animate-element")
-      title.dataset.animation = "fall-in"
-      animationObserver.observe(title)
-    })
-  } else {
-    // Fallback for browsers that don't support IntersectionObserver
-    document.querySelectorAll(".animate-element").forEach((element) => {
-      element.style.opacity = "1"
-      element.style.transform = "none"
-    })
-  }
-
-  // Add typing effect to hero heading
-  const heroHeading = document.querySelector(".hero h1")
-  if (heroHeading) {
-    // Create wrapper for typing effect
-    const headingText = heroHeading.innerHTML
-    heroHeading.innerHTML = `<span class="typing-effect">${headingText}</span>`
-  }
-
-  // Add random falling animation to particles (if you have a particle background)
-  createFallingParticles()
+    // IMPROVED: Add falling particles with delayed start
+    setTimeout(() => {
+      createFallingParticles()
+    }, 1000);
+    
+  }, 300); // Delay to ensure DOM is fully populated
 })
 
-// Function to create falling particles in the background
+// IMPROVED: Function to create falling particles in the background with better performance
 function createFallingParticles() {
   const particlesContainer = document.createElement("div")
   particlesContainer.className = "particles-container"
@@ -560,12 +647,23 @@ function createFallingParticles() {
 
   document.body.prepend(particlesContainer)
 
-  // Create particles
-  for (let i = 0; i < 50; i++) {
-    createParticle(particlesContainer)
+  // IMPROVED: Create particles gradually for better performance
+  let particleCount = 0;
+  const maxParticles = 30; // IMPROVED: Reduced number of particles
+  
+  function addParticle() {
+    if (particleCount < maxParticles) {
+      createParticle(particlesContainer);
+      particleCount++;
+      setTimeout(addParticle, 200); // Add one particle every 200ms
+    }
   }
+  
+  // Start adding particles
+  addParticle();
 }
 
+// IMPROVED: Function to create particles with better animation parameters
 function createParticle(container) {
   const particle = document.createElement("div")
 
@@ -576,8 +674,8 @@ function createParticle(container) {
   const xPos = Math.random() * 100
   const yPos = Math.random() * -100 // Start above the viewport
 
-  // Random fall duration between 10s and 20s
-  const fallDuration = Math.random() * 10 + 10
+  // IMPROVED: Longer fall duration for better visibility
+  const fallDuration = Math.random() * 15 + 15
 
   // Random horizontal drift
   const drift = Math.random() * 50 - 25
@@ -590,12 +688,15 @@ function createParticle(container) {
   particle.style.backgroundColor = "rgba(99, 102, 241, 0.2)"
   particle.style.top = `${yPos}%`
   particle.style.left = `${xPos}%`
-  particle.style.animation = `fall ${fallDuration}s linear infinite`
+  
+  // IMPROVED: Use custom animation name to prevent conflicts
+  const animationName = `fall-${Math.floor(Math.random() * 1000)}`;
+  particle.style.animation = `${animationName} ${fallDuration}s ease-in infinite`;
 
   // Add keyframes for this specific particle
-  const styleSheet = document.styleSheets[0]
-  const keyframes = `
-    @keyframes fall {
+  const styleElement = document.createElement('style');
+  styleElement.textContent = `
+    @keyframes ${animationName} {
       0% {
         transform: translateY(0) translateX(0);
         opacity: 0;
@@ -611,22 +712,91 @@ function createParticle(container) {
         opacity: 0;
       }
     }
-  `
-
-  try {
-    styleSheet.insertRule(keyframes, styleSheet.cssRules.length)
-  } catch (e) {
-    // Fallback if inserting rules fails
-    const style = document.createElement("style")
-    style.textContent = keyframes
-    document.head.appendChild(style)
-  }
+  `;
+  document.head.appendChild(styleElement);
 
   container.appendChild(particle)
 
   // Remove and recreate particle after animation completes
   setTimeout(() => {
     particle.remove()
+    styleElement.remove()
     createParticle(container)
   }, fallDuration * 1000)
 }
+
+// Add CSS variables for animation control
+document.documentElement.style.setProperty('--animation-duration', '1s');
+document.documentElement.style.setProperty('--animation-timing', 'ease-out');
+
+// IMPROVED: Add basic animation CSS if not already in stylesheet
+const styleElement = document.createElement('style');
+styleElement.textContent = `
+  .animation-ready {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+  }
+  
+  .animated {
+    animation-delay: var(--animation-delay, 0s);
+    animation-duration: var(--animation-duration, 0.8s);
+    animation-timing-function: var(--animation-timing, ease-out);
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInSide {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes fall-in {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slide-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slide-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+`;
+document.head.appendChild(styleElement);
