@@ -1,4 +1,6 @@
 // Wait for DOM to be fully loaded
+document.title = "Aayush Swami - Portfolio";
+
 document.addEventListener("DOMContentLoaded", () => {
   // Debounce function to improve performance for scroll and resize events
   function debounce(func, delay) {
@@ -12,31 +14,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Mobile menu toggle with improved accessibility
   const mobileMenuBtn = document.querySelector(".mobile-menu-btn")
-  const navLinks = document.querySelector(".nav-links")
+  const mobileMenu = document.querySelector(".mobile-menu")
+  const mobileMenuClose = document.querySelector(".mobile-menu-close")
   let isMenuOpen = false
 
-  if (mobileMenuBtn && navLinks) {
+  if (mobileMenuBtn && mobileMenu) {
     // Set initial ARIA attributes
     mobileMenuBtn.setAttribute("aria-expanded", "false")
-    mobileMenuBtn.setAttribute("aria-controls", "nav-links")
-    navLinks.id = "nav-links"
+    mobileMenuBtn.setAttribute("aria-controls", "mobile-menu")
+    mobileMenu.id = "mobile-menu"
 
     mobileMenuBtn.addEventListener("click", () => {
-      isMenuOpen = !isMenuOpen
-      navLinks.classList.toggle("active")
+      isMenuOpen = true
+      mobileMenu.classList.add("active")
+      mobileMenuBtn.setAttribute("aria-expanded", "true")
+      document.body.style.overflow = "hidden" // Prevent body scrolling
+    })
 
-      // Update ARIA attributes
-      mobileMenuBtn.setAttribute("aria-expanded", isMenuOpen.toString())
+    if (mobileMenuClose) {
+      mobileMenuClose.addEventListener("click", () => {
+        isMenuOpen = false
+        mobileMenu.classList.remove("active")
+        mobileMenuBtn.setAttribute("aria-expanded", "false")
+        document.body.style.overflow = "" // Restore body scrolling
+      })
+    }
 
-      // Prevent body scrolling when menu is open
-      document.body.style.overflow = isMenuOpen ? "hidden" : ""
+    // Close menu when clicking on mobile menu links
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        isMenuOpen = false
+        mobileMenu.classList.remove("active")
+        mobileMenuBtn.setAttribute("aria-expanded", "false")
+        document.body.style.overflow = ""
+      })
     })
 
     // Close menu when clicking outside
     document.addEventListener("click", (e) => {
-      if (isMenuOpen && !navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+      if (isMenuOpen && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
         isMenuOpen = false
-        navLinks.classList.remove("active")
+        mobileMenu.classList.remove("active")
         mobileMenuBtn.setAttribute("aria-expanded", "false")
         document.body.style.overflow = ""
       }
@@ -65,9 +83,9 @@ document.addEventListener("DOMContentLoaded", () => {
         requestAnimationFrame(scrollToElement)
 
         // Close mobile menu if open
-        if (isMenuOpen && window.innerWidth < 768) {
+        if (isMenuOpen) {
           isMenuOpen = false
-          navLinks.classList.remove("active")
+          mobileMenu.classList.remove("active")
           mobileMenuBtn.setAttribute("aria-expanded", "false")
           document.body.style.overflow = ""
         }
@@ -168,39 +186,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize animations
   setupAnimations()
 
-  // Typing animation for hero section
-  function setupTypingAnimation() {
-    const heroTitle = document.querySelector(".hero h1")
-    if (heroTitle) {
-      // Create a wrapper for the typing animation instead of modifying the h1 directly
-      const originalText = heroTitle.innerHTML
-      heroTitle.innerHTML = `<span class="typing-text">${originalText}</span>`
-    }
-  }
-
-  // Initialize typing animation
-  setupTypingAnimation()
-
-  // Parallax effect for hero section
-  function parallaxEffect() {
-    const hero = document.querySelector(".hero")
-    if (hero) {
-      window.addEventListener("scroll", () => {
-        const scrollPosition = window.pageYOffset
-        hero.style.backgroundPosition = `center ${scrollPosition * 0.5}px`
-      })
-    }
-  }
-
-  // Initialize parallax effect
-  parallaxEffect()
-
-  // Contact form submission
+  // Contact form submission with validation and feedback
   const contactForm = document.getElementById("contactForm")
+  const responseMessage = document.getElementById("responseMessage")
 
   if (contactForm) {
     contactForm.addEventListener("submit", (e) => {
       e.preventDefault() // Prevent default form submission
+
+      // Show loading state
+      const submitBtn = contactForm.querySelector('button[type="submit"]')
+      const originalBtnText = submitBtn.innerHTML
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...'
+      submitBtn.disabled = true
 
       // Capture form data
       const formData = {
@@ -225,22 +223,55 @@ document.addEventListener("DOMContentLoaded", () => {
           return response.json()
         })
         .then((data) => {
+          // Display response message
+          if (responseMessage) {
+            responseMessage.textContent = data.message
+            responseMessage.className = data.success ? "success-message" : "error-message"
+            responseMessage.style.display = "block"
+
+            // Hide message after 5 seconds
+            setTimeout(() => {
+              responseMessage.style.display = "none"
+            }, 5000)
+          }
+
           if (data.success) {
+            // Reset form on success
+            contactForm.reset()
+            // Show success popup
             showPopup(data.message, "success")
-            contactForm.reset() // Clear the form
           } else {
+            // Show error popup
             showPopup(data.message || "Something went wrong", "error")
           }
         })
         .catch((error) => {
           console.error("Error submitting form:", error)
           showPopup("An error occurred. Please try again.", "error")
+
+          // Display error in the form
+          if (responseMessage) {
+            responseMessage.textContent = "An error occurred. Please try again."
+            responseMessage.className = "error-message"
+            responseMessage.style.display = "block"
+          }
+        })
+        .finally(() => {
+          // Restore button state
+          submitBtn.innerHTML = originalBtnText
+          submitBtn.disabled = false
         })
     })
   }
 
-  // Function to show a popup
+  // Function to show a popup notification
   function showPopup(message, type) {
+    // Remove any existing popups
+    const existingPopup = document.querySelector(".popup")
+    if (existingPopup) {
+      existingPopup.remove()
+    }
+
     const popup = document.createElement("div")
     popup.className = `popup ${type}`
     popup.textContent = message
@@ -261,11 +292,19 @@ document.addEventListener("DOMContentLoaded", () => {
     // Adjust mobile menu state if window is resized beyond mobile breakpoint
     if (window.innerWidth >= 768 && isMenuOpen) {
       isMenuOpen = false
-      navLinks.classList.remove("active")
+      mobileMenu.classList.remove("active")
       mobileMenuBtn.setAttribute("aria-expanded", "false")
       document.body.style.overflow = ""
     }
   }, 200)
 
   window.addEventListener("resize", handleResize)
+
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+  if (prefersReducedMotion) {
+    // Disable animations for users who prefer reduced motion
+    document.documentElement.classList.add("reduced-motion")
+  }
 })
