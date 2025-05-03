@@ -790,4 +790,3 @@ function createParticle(container) {
 document.documentElement.style.setProperty('--animation-duration', '1s');
 document.documentElement.style.setProperty('--animation-timing', 'ease-out');
 
-// IMPROVED: Add basic animation CSS if not already in stylesheet
