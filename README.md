@@ -1,103 +1,227 @@
-<h1 align="center">Hi 👋, I'm Aayush Swami</h1>
-<h3 align="center"> Software Engineer • AI/ML Developer • Full-Stack & Cloud Engineer Building scalable systems, intelligent agents, and high-impact applications. </h3> <p align="center"> <img src="https://komarev.com/ghpvc/?username=aayushswami123&label=Profile%20Views&color=blue&style=flat"/> </p>
-🚀 About Me
+This is excellent content for a professional README\! Below is the copy-pastable code using HTML tags for centering, detailed organization, and visual appeal, as requested.
 
-I’m a CS junior at Arizona State University passionate about building
-AI systems, scalable backend infrastructure, fast serverless APIs, and ML-powered products.
+```html
+<a name="readme-top"></a>
 
-I work across:
+<div align="center">
+  <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="Logo" width="60" height="60">
+  <h1 align="center">🌙 Aayush Swami — Portfolio Website</h1>
+  <p align="center">
+    Software Engineer • AI/ML Developer • Backend & Systems Engineering
+    <br />
+    <br />
+    <img src="https://img.shields.io/badge/Tech-HTML5_|_CSS3_|_JavaScript-E34F26?style=for-the-badge&logo=javascript&logoColor=F7DF1E&labelColor=2a2a2a" alt="Tech Stack Badge">
+    <img src="https://img.shields.io/badge/UI-Glassmorphism_|_Dark_Mode-000000?style=for-the-badge&logo=figma&logoColor=C8A2C8&labelColor=2a2a2a" alt="UI Style Badge">
+    <img src="https://img.shields.io/badge/Code-Hand--rolled_UI-61DAFB?style=for-the-badge&logo=react&logoColor=white&labelColor=2a2a2a" alt="Hand Rolled Badge">
+  </p>
+</div>
 
-AI/ML pipelines → PyTorch, TensorFlow, Gaussian Process Regression (GPR), BLIP-2
+<div align="center">
+  <p>
+    A modern, dark-mode, fully responsive portfolio website built using **vanilla HTML, CSS, and JavaScript** — no frameworks. Designed to showcase work in software engineering, AI/ML, backend systems, research, and automation.
+    <br>
+    <a href="https://github.com/aayushswami123/portfolio"><strong>View Live Demo »</strong></a>
+    ·
+    <a href="https://github.com/aayushswami123/portfolio/issues">Report Issue</a>
+  </p>
+</div>
 
-Backend + Cloud systems → FastAPI, Node.js, Docker, Cloudflare Workers, AWS/GCP
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#key-features">✨ Key Features</a></li>
+    <li><a href="#tech-stack">🛠️ Tech Stack</a></li>
+    <li><a href="#folder-structure">📂 Folder Structure</a></li>
+    <li><a href="#local-setup">⚙️ Local Setup</a></li>
+    <li><a href="#deployment">🚀 Deployment</a></li>
+    <li><a href="#future-improvements">📌 Future Improvements</a></li>
+    <li><a href="#about-the-developer">👨‍💻 About Me</a></li>
+    <li><a href="#contact">📬 Contact</a></li>
+  </ol>
+</details>
 
-Full-stack engineering → MERN, TypeScript, React, REST APIs
+<br>
+## ✨ Key Features
 
-Agentic-AI automation and smart workflow tools
+This release includes a **full redesign** with glassmorphism UI, animated navbar, typewriter hero text, particle background, and updated content aligned with SWE + AI/ML roles.
 
-Real-time systems → telemetry, sensing, robotics, dashboards
+<a name="features-list"></a>
+<div align="left">
+  <ul>
+    <li>🔥 <b>Modern Dark UI</b>: Neon purple/blue accent theme, soft gradients, glassmorphism cards, dynamic glow effects, and a custom particle background animation.</li>
+    <li>🧭 <b>Animated Navigation Bar</b>: Floating glass navbar with an animated gradient border, smooth scroll transitions, sticky behavior, and responsive mobile dropdown.</li>
+    <li>🎬 <b>Hero Section</b>: Typewriter text animation, fading text, animated cursor, and SWE • AI/ML • Systems intro tags.</li>
+    <li>📦 <b>Full Website Sections</b>:
+      <ul>
+        <li><b>About Me</b> — CS @ ASU, AI/ML + backend focus</li>
+        <li><b>Skills</b> — languages, ML frameworks, backend, DevOps</li>
+        <li><b>Experience</b> — Rolston Lab, Odyssey Rover, Spectra Consultancy</li>
+        <li><b>Projects</b> — AI Chart Analyzer, Trading Bot, Voice Assistant, Rover Dashboard</li>
+        <li><b>Research</b> — BLIP-2 scientific ML, GPR battery modeling</li>
+        <li><b>Activities</b> — GDG Core Team, Adobe Student Ambassador</li>
+        <li><b>Resume</b> — direct PDF link</li>
+        <li><b>Contact</b> — email, GitHub, LinkedIn</li>
+      </ul>
+    </li>
+    <li>✨ <b>Animations Everywhere</b>: Scroll reveal (IntersectionObserver), hover card animations, neon glow highlights, and animated navbar pulse.</li>
+  </ul>
+  <p align="center">
+    <img src="https://via.placeholder.com/800x450?text=Glassmorphism+Portfolio+Screenshot" alt="Website Screenshot" width="800" />
+  </p>
+</div>
 
-I enjoy building fast, shipping fast, and solving complex engineering problems with clean system design.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-🔭 Current Work
+<a name="tech-stack"></a>
+## 🛠️ Tech Stack
 
-Odyssey Rover Project → real-time telemetry, diagnostics, sensor fusion
+<div align="center">
+  <h3>The 100% Hand-Rolled UI Commitment: No Frameworks. No Libraries.</h3>
+</div>
 
-AI-Powered Trading Agent → GPU pipelines + BLIP-2 chart interpretation
+| Category | Technologies | Description |
+| :--- | :--- | :--- |
+| **Frontend** | HTML5, CSS3, JavaScript (ES6+) | Core development using modern standards. |
+| **Styling** | Custom CSS (Glassmorphism, Gradients, Keyframes) | Custom particle background, typewriter engine, and all visual effects built from scratch. |
+| **Animations & Effects** | Canvas API, Intersection Observer | Used for the custom particle background, scroll reveal, and fade effects. |
 
-Personal AI Infra → portfolio systems + LLM tools
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Auto-Apply Bot → automated cover-letter generation + Greenhouse automation
+<a name="folder-structure"></a>
+## 📂 Folder Structure
 
-🧠 Currently Learning
+```
 
-MERA Stack (MongoDB, Express, React, Angular)
+portfolio/
+│
+├── index.html        \# Main website page
+├── style.css         \# Styling + animations + responsive layouts
+├── script.js         \# Typewriter, particles, navbar, reveal effects
+│
+├── assets/
+│   ├── favicon.svg / favicon.png
+│   ├── Aayush\_Resume\_swe\_2025.pdf
+│   └── images/
+│
+└── README.md
 
-Advanced Data Structures & Algorithms
+````
 
-Distributed AI systems & GPU workflows
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Cloud-native design + DevOps pipelines
 
-📌 Featured Projects
-🔹 AI-Powered Trading Agent — FastAPI + PostgreSQL + BLIP-2
+<a name="local-setup"></a>
+## ⚙️ Local Setup
 
-Real-time trading predictions, GPU-accelerated ML pipelines, multimodal chart analysis
-Tech: Python, FastAPI, PyTorch, BLIP-2, PostgreSQL, Docker, Cloudflare Workers
-🔗 Repo: https://github.com/aayushswami123
- (Insert actual repo link)
+### Clone the repository
 
-🔹 Auto Cover-Letter Generator + Auto-Apply Bot
+```sh
+git clone [https://github.com/aayushswami123/portfolio.git](https://github.com/aayushswami123/portfolio.git)
+cd portfolio
+````
 
-Converts job descriptions → ATS-ready cover letters & automates application workflows
-Tech: Python, Playwright, Cloudflare AI, Durable Objects
-🔗 Repo: (Insert repo link)
+### Open Locally (Recommended)
 
-🔹 Odyssey Rover Telemetry Dashboard
+Running a local server is recommended to ensure all scripts and assets load correctly.
 
-Real-time sensor visualization, LiDAR + ultrasonic mapping, LLM diagnostics
-Tech: TypeScript, Python, MQTT/WebSockets, InfluxDB, Grafana
-🔗 Repo: (Insert repo link)
+```sh
+python3 -m http.server
+```
 
-🔹 Battery Health Prediction (GPR + EIS Modeling)
+Then open:
 
-Gaussian Process Regression model achieving 0.94 R² for Li-ion battery degradation forecasting
-Tech: Python, Scikit-learn, NumPy, Matplotlib
-🔗 Repo: (Insert repo link)
+```
+http://localhost:8000
+```
 
-🧑‍💼 Experience
-ML Researcher — Rolston Lab (ASU)
+\<details\>
+\<summary\>Alternative: Double-Click Method\</summary\>
+\<p\>
+Just open \<code\>index.html\</code\>. Some JavaScript features might behave differently due to browser file security restrictions (CORS), but the main content should load.
+\</p\>
+\</details\>
 
-Built BLIP-2 + PyTorch multimodal pipeline for scientific imaging
+\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
 
-Improved GPU inference latency by 65%
+\<a name="deployment"\>\</a\>
 
-Developed EIS-based GPR model with 0.94 R²
+## 🚀 Deployment
 
-Authored reproducible documentation & research workflows
+The simplicity of this vanilla stack makes deployment exceptionally easy.
 
-Software Engineer Intern — Spectra Education
+### GitHub Pages
 
-Built AI Support Chatbot (NLP + LLM) → 60% faster response time
+1.  Push your code to GitHub.
+2.  Go to: **Settings → Pages**.
+3.  Select branch: `main` → `/root`.
+4.  **Save**.
 
-Modernized MERN backend → 99% uptime with Docker CI/CD
+\<div align="center"\>
+Your portfolio goes live instantly 🎉
+\</div\>
 
-Developed ML recommendation engine → 40% increase in engagement
+### Vercel / Netlify / Cloudflare Pages
 
-📫 Contact Me
+Just drag & drop the folder or connect the repository — the site works instantly with zero configuration needed.
 
-Email: aayushswami.dev@gmail.com
+\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
 
-LinkedIn: https://linkedin.com/in/aayush-swami
+## ✏️ Development Workflow
 
-Portfolio: https://white-cathi-52.tiiny.site
+The project follows **Conventional Commits** for clear version control history.
 
-🛠️ Languages & Tools
-<p align="left"> <img src="https://skillicons.dev/icons?i=python,typescript,java,cpp,go,javascript,swift,react,nodejs,express,fastapi,bootstrap,mongodb,postgresql,mysql,firebase,redis,docker,kubernetes,aws,gcp,cloudflare,tensorflow,pytorch,sklearn,opencv,git,linux" /> </p>
-📈 GitHub Stats
-<p align="center"> <img height="150" src="https://github-readme-stats.vercel.app/api/top-langs?username=aayushswami123&layout=compact&theme=react"/> <img height="150" src="https://github-readme-stats.vercel.app/api?username=aayushswami123&show_icons=true&theme=react"/> <img height="150" src="https://github-readme-streak-stats.herokuapp.com/?user=aayushswami123&theme=react"/> </p>
-🌌 Contribution Graph
-<p align="center"> <img src="https://github-readme-activity-graph.vercel.app/graph?username=aayushswami123&theme=react-dark&area=true" height="250"/> </p>
-⚡ Fun Fact
+| Prefix | Description | Example |
+| :--- | :--- | :--- |
+| `feat:` | New features | `feat: add projects gallery` |
+| `style:` | UI updates / styling | `style(navbar): add animated gradient glow` |
+| `fix:` | Bug fixes | `fix: resolve mobile dropdown issue` |
+| `refactor:` | Structure updates | `refactor: move particles to separate file` |
+| `chore:` | Minor updates (CI/CD, dependencies) | `chore: update resume PDF link` |
 
-I build fast, learn fast, and ship faster — if it’s useful, I’ll automate it.
+\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
+
+\<a name="future-improvements"\>\</a\>
+
+## 📌 Future Improvements
+
+  * Add a dedicated **blog / articles** section.
+  * Implement a backend for **analytics** or functional **contact forms**.
+  * Enhance the projects gallery with more detailed **images and videos**.
+  * Integrate an **AI chatbot assistant** on the homepage for interactive Q\&A.
+  * Add a **dark/light mode toggle** (currently dark mode only).
+
+\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
+
+\<a name="about-the-developer"\>\</a\>
+
+## 👨‍💻 About Me
+
+\<div align="left"\>
+\<p\>
+I’m **Aayush Swami**, a CS Junior at ASU (GPA 3.88) actively seeking Software Engineering / AI/ML internships for Summer–Fall 2026. My focus areas include:
+\</p\>
+\<ul\>
+\<li\>AI/ML pipelines (BLIP-2, GPR, multimodal scientific ML)\</li\>
+\<li\>Backend systems (FastAPI, Node.js, PostgreSQL)\</li\>
+\<li\>Cloud + Distributed systems (Docker, Cloudflare Workers, GitHub Actions)\</li\>
+\<li\>Trading automation + agentic AI\</li\>
+\<li\>Real-time telemetry dashboards\</li\>
+\</ul\>
+\</div\>
+
+\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
+
+\<a name="contact"\>\</a\>
+
+## 📬 Contact
+
+\<div align="center"\>
+\<a href="mailto:aayushswami.dev@gmail.com"\>\<img src="https://www.google.com/search?q=https://img.shields.io/badge/Email-aayushswami.dev%40gmail.com-D14836%3Fstyle%3Dfor-the-badge%26logo%3Dgmail%26logoColor%3Dwhite" alt="Email Badge"\>\</a\>
+\<a href="https://github.com/aayushswami123" target="\_blank"\>\<img src="https://www.google.com/search?q=https://img.shields.io/badge/GitHub-aayushswami123-181717%3Fstyle%3Dfor-the-badge%26logo%3Dgithub%26logoColor%3Dwhite" alt="GitHub Badge"\>\</a\>
+\<a href="https://linkedin.com/in/aayush-swami" target="\_blank"\>\<img src="https://www.google.com/search?q=https://img.shields.io/badge/LinkedIn-aayush--swami-0077B5%3Fstyle%3Dfor-the-badge%26logo%3Dlinkedin%26logoColor%3Dwhite" alt="LinkedIn Badge"\>\</a\>
+\</div\>
+
+\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
+
+```
+```
