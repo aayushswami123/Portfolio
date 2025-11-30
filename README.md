@@ -1,95 +1,103 @@
-🌙 Aayush Swami — Portfolio Website
+<h1 align="center">Hi 👋, I'm Aayush Swami</h1>
+<h3 align="center"> Software Engineer • AI/ML Developer • Full-Stack & Cloud Engineer Building scalable systems, intelligent agents, and high-impact applications. </h3> <p align="center"> <img src="https://komarev.com/ghpvc/?username=aayushswami123&label=Profile%20Views&color=blue&style=flat"/> </p>
+🚀 About Me
 
-Software Engineer • AI/ML Developer • Backend & Systems Engineering
+I’m a CS junior at Arizona State University passionate about building
+AI systems, scalable backend infrastructure, fast serverless APIs, and ML-powered products.
 
-A modern, dark-mode, fully responsive portfolio website built using vanilla HTML, CSS, and JavaScript — no frameworks.
-Designed to showcase my experience in software engineering, AI/ML, backend systems, research, and automation.
+I work across:
 
-This site includes a full redesign with glassmorphism UI, animated navbar, typewriter hero text, scroll reveal animations, particle background, and a completely updated content structure aligned with SWE + AI/ML roles.
+AI/ML pipelines → PyTorch, TensorFlow, Gaussian Process Regression (GPR), BLIP-2
 
-🚀 Features
-🔥 Modern Dark UI
+Backend + Cloud systems → FastAPI, Node.js, Docker, Cloudflare Workers, AWS/GCP
 
-Neon purple/blue accent theme
+Full-stack engineering → MERN, TypeScript, React, REST APIs
 
-Soft gradients + glass morphism cards
+Agentic-AI automation and smart workflow tools
 
-Particle background animation
+Real-time systems → telemetry, sensing, robotics, dashboards
 
-Dynamic glow effects on components
+I enjoy building fast, shipping fast, and solving complex engineering problems with clean system design.
 
-🧭 Animated Navigation Bar
+🔭 Current Work
 
-Floating glass navigation bar
+Odyssey Rover Project → real-time telemetry, diagnostics, sensor fusion
 
-Gradient animated border
+AI-Powered Trading Agent → GPU pipelines + BLIP-2 chart interpretation
 
-Smooth scroll transitions
+Personal AI Infra → portfolio systems + LLM tools
 
-Sticky scroll behavior
+Auto-Apply Bot → automated cover-letter generation + Greenhouse automation
 
-Responsive mobile dropdown
+🧠 Currently Learning
 
-🎬 Hero Section
+MERA Stack (MongoDB, Express, React, Angular)
 
-Typewriter text animation
+Advanced Data Structures & Algorithms
 
-Fading text + animated cursor
+Distributed AI systems & GPU workflows
 
-Intro tags for SWE, AI/ML, Systems
+Cloud-native design + DevOps pipelines
 
-Clean responsive layout
+📌 Featured Projects
+🔹 AI-Powered Trading Agent — FastAPI + PostgreSQL + BLIP-2
 
-📦 Full Sections
+Real-time trading predictions, GPU-accelerated ML pipelines, multimodal chart analysis
+Tech: Python, FastAPI, PyTorch, BLIP-2, PostgreSQL, Docker, Cloudflare Workers
+🔗 Repo: https://github.com/aayushswami123
+ (Insert actual repo link)
 
-About Me — CS @ ASU, AI/ML + backend systems
+🔹 Auto Cover-Letter Generator + Auto-Apply Bot
 
-Skills — languages, ML frameworks, backend & DevOps
+Converts job descriptions → ATS-ready cover letters & automates application workflows
+Tech: Python, Playwright, Cloudflare AI, Durable Objects
+🔗 Repo: (Insert repo link)
 
-Experience — Rolston Lab, Odyssey Rover, Spectra Consultancy
+🔹 Odyssey Rover Telemetry Dashboard
 
-Projects — AI Chart Analyzer, Trading Bot, Voice Assistant, Rover Dashboard
+Real-time sensor visualization, LiDAR + ultrasonic mapping, LLM diagnostics
+Tech: TypeScript, Python, MQTT/WebSockets, InfluxDB, Grafana
+🔗 Repo: (Insert repo link)
 
-Research — BLIP-2 scientific ML, GPR battery pipeline
+🔹 Battery Health Prediction (GPR + EIS Modeling)
 
-Activities — GDG Core Team, Adobe Student Ambassador
+Gaussian Process Regression model achieving 0.94 R² for Li-ion battery degradation forecasting
+Tech: Python, Scikit-learn, NumPy, Matplotlib
+🔗 Repo: (Insert repo link)
 
-Resume — open PDF in new tab
+🧑‍💼 Experience
+ML Researcher — Rolston Lab (ASU)
 
-Contact — email, GitHub, LinkedIn
+Built BLIP-2 + PyTorch multimodal pipeline for scientific imaging
 
-✨ Animations Everywhere
+Improved GPU inference latency by 65%
 
-Scroll reveal using IntersectionObserver
+Developed EIS-based GPR model with 0.94 R²
 
-Hover animations on cards
+Authored reproducible documentation & research workflows
 
-Pulsing logo
+Software Engineer Intern — Spectra Education
 
-Animated navbar glow
+Built AI Support Chatbot (NLP + LLM) → 60% faster response time
 
-🛠️ Tech Stack
+Modernized MERN backend → 99% uptime with Docker CI/CD
 
-Frontend:
+Developed ML recommendation engine → 40% increase in engagement
 
-HTML5
+📫 Contact Me
 
-CSS3 (glassmorphism, gradients, animations)
+Email: aayushswami.dev@gmail.com
 
-JavaScript (ES6+)
+LinkedIn: https://linkedin.com/in/aayush-swami
 
-Animations & Effects:
+Portfolio: https://white-cathi-52.tiiny.site
 
-Custom particle engine (Canvas)
+🛠️ Languages & Tools
+<p align="left"> <img src="https://skillicons.dev/icons?i=python,typescript,java,cpp,go,javascript,swift,react,nodejs,express,fastapi,bootstrap,mongodb,postgresql,mysql,firebase,redis,docker,kubernetes,aws,gcp,cloudflare,tensorflow,pytorch,sklearn,opencv,git,linux" /> </p>
+📈 GitHub Stats
+<p align="center"> <img height="150" src="https://github-readme-stats.vercel.app/api/top-langs?username=aayushswami123&layout=compact&theme=react"/> <img height="150" src="https://github-readme-stats.vercel.app/api?username=aayushswami123&show_icons=true&theme=react"/> <img height="150" src="https://github-readme-streak-stats.herokuapp.com/?user=aayushswami123&theme=react"/> </p>
+🌌 Contribution Graph
+<p align="center"> <img src="https://github-readme-activity-graph.vercel.app/graph?username=aayushswami123&theme=react-dark&area=true" height="250"/> </p>
+⚡ Fun Fact
 
-Typewriter effect
-
-IntersectionObserver
-
-Responsive UI
-
-Infrastructure:
-
-Works on GitHub Pages, Netlify, Vercel, Render, Cloudflare Pages
-
-No frameworks. No libraries. 100% hand-rolled UI.
+I build fast, learn fast, and ship faster — if it’s useful, I’ll automate it.
