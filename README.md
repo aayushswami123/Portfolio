@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+</head>
+
+<body style="font-family: Arial, sans-serif; line-height: 1.6;">
 
 <a name="readme-top"></a>
 
@@ -6,218 +14,254 @@
   <h1 align="center">🌙 Aayush Swami — Portfolio Website</h1>
   <p align="center">
     Software Engineer • AI/ML Developer • Backend & Systems Engineering
-    <br />
-    <br />
-    <img src="https://img.shields.io/badge/Tech-HTML5_|_CSS3_|_JavaScript-E34F26?style=for-the-badge&logo=javascript&logoColor=F7DF1E&labelColor=2a2a2a" alt="Tech Stack Badge">
-    <img src="https://img.shields.io/badge/UI-Glassmorphism_|_Dark_Mode-000000?style=for-the-badge&logo=figma&logoColor=C8A2C8&labelColor=2a2a2a" alt="UI Style Badge">
-    <img src="https://img.shields.io/badge/Code-Hand--rolled_UI-61DAFB?style=for-the-badge&logo=react&logoColor=white&labelColor=2a2a2a" alt="Hand Rolled Badge">
+    <br><br>
+    <img src="https://img.shields.io/badge/Tech-HTML5_|_CSS3_|_JavaScript-3178C6?style=for-the-badge&logo=javascript&logoColor=F7DF1E&labelColor=2a2a2a" />
+    <img src="https://img.shields.io/badge/UI-Glassmorphism_|_Dark_Mode-000000?style=for-the-badge&logo=figma&logoColor=C8A2C8&labelColor=2a2a2a" />
+    <img src="https://img.shields.io/badge/Code-Hand--rolled_UI-61DAFB?style=for-the-badge&logo=code&logoColor=white&labelColor=2a2a2a" />
+  </p>
+
+  <p align="center">
+    A modern, dark-mode, fully responsive portfolio website built using <b>vanilla HTML, CSS, and JavaScript</b> — no frameworks.<br>
+    Designed to showcase work in Software Engineering, AI/ML, backend systems, research, and automation.
+
   </p>
 </div>
 
-<div align="center">
-  <p>
-    A modern, dark-mode, fully responsive portfolio website built using **vanilla HTML, CSS, and JavaScript** — no frameworks. Designed to showcase work in software engineering, AI/ML, backend systems, research, and automation.
-    <br>
-    <a href="https://github.com/aayushswami123/portfolio"><strong>View Live Demo »</strong></a>
-    ·
-    <a href="https://github.com/aayushswami123/portfolio/issues">Report Issue</a>
-  </p>
-</div>
+<hr>
 
 <details>
-  <summary>Table of Contents</summary>
+  <summary><h2>📚 Table of Contents</h2></summary>
   <ol>
     <li><a href="#key-features">✨ Key Features</a></li>
     <li><a href="#tech-stack">🛠️ Tech Stack</a></li>
     <li><a href="#folder-structure">📂 Folder Structure</a></li>
     <li><a href="#local-setup">⚙️ Local Setup</a></li>
     <li><a href="#deployment">🚀 Deployment</a></li>
-    <li><a href="#future-improvements">📌 Future Improvements</a></li>
-    <li><a href="#about-the-developer">👨‍💻 About Me</a></li>
+    <li><a href="#workflow">✏️ Development Workflow</a></li>
+    <li><a href="#future">📌 Future Improvements</a></li>
+    <li><a href="#about">👨‍💻 About Me</a></li>
     <li><a href="#contact">📬 Contact</a></li>
   </ol>
 </details>
 
-<br>
-## ✨ Key Features
+<hr>
 
-This release includes a **full redesign** with glassmorphism UI, animated navbar, typewriter hero text, particle background, and updated content aligned with SWE + AI/ML roles.
+<a name="key-features"></a>
+<h2>✨ Key Features</h2>
 
-<a name="features-list"></a>
-<div align="left">
-  <ul>
-    <li>🔥 <b>Modern Dark UI</b>: Neon purple/blue accent theme, soft gradients, glassmorphism cards, dynamic glow effects, and a custom particle background animation.</li>
-    <li>🧭 <b>Animated Navigation Bar</b>: Floating glass navbar with an animated gradient border, smooth scroll transitions, sticky behavior, and responsive mobile dropdown.</li>
-    <li>🎬 <b>Hero Section</b>: Typewriter text animation, fading text, animated cursor, and SWE • AI/ML • Systems intro tags.</li>
-    <li>📦 <b>Full Website Sections</b>:
-      <ul>
-        <li><b>About Me</b> — CS @ ASU, AI/ML + backend focus</li>
-        <li><b>Skills</b> — languages, ML frameworks, backend, DevOps</li>
-        <li><b>Experience</b> — Rolston Lab, Odyssey Rover, Spectra Consultancy</li>
-        <li><b>Projects</b> — AI Chart Analyzer, Trading Bot, Voice Assistant, Rover Dashboard</li>
-        <li><b>Research</b> — BLIP-2 scientific ML, GPR battery modeling</li>
-        <li><b>Activities</b> — GDG Core Team, Adobe Student Ambassador</li>
-        <li><b>Resume</b> — direct PDF link</li>
-        <li><b>Contact</b> — email, GitHub, LinkedIn</li>
-      </ul>
-    </li>
-    <li>✨ <b>Animations Everywhere</b>: Scroll reveal (IntersectionObserver), hover card animations, neon glow highlights, and animated navbar pulse.</li>
-  </ul>
-  <p align="center">
-    <img src="https://via.placeholder.com/800x450?text=Glassmorphism+Portfolio+Screenshot" alt="Website Screenshot" width="800" />
-  </p>
-</div>
+<ul>
+  <li><b>🔥 Modern Dark UI:</b> Neon purple/blue accents, glassmorphism, gradient glows, particle animation.</li>
+  <li><b>🧭 Animated Navigation Bar:</b> Floating glass navbar, animated gradient border, mobile dropdown.</li>
+  <li><b>🎬 Hero Section:</b> Typewriter text, animated cursor, SWE/AI/ML role tags.</li>
+  <li><b>📦 Full Website Sections:</b>
+    <ul>
+      <li>About Me</li>
+      <li>Skills (Languages, ML, Backend, DevOps)</li>
+      <li>Experience</li>
+      <li>Projects</li>
+      <li>Research</li>
+      <li>Activities</li>
+      <li>Resume</li>
+      <li>Contact</li>
+    </ul>
+  </li>
+  <li><b>✨ Animations Everywhere:</b> Scroll reveal, glow, hover effects, pulsing logo.</li>
+</ul>
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="center">
+  <img src="https://via.placeholder.com/900x450?text=Portfolio+Screenshot" width="85%" />
+</p>
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+<hr>
 
 <a name="tech-stack"></a>
-## 🛠️ Tech Stack
+<h2>🛠️ Tech Stack</h2>
 
-<div align="center">
-  <h3>The 100% Hand-Rolled UI Commitment: No Frameworks. No Libraries.</h3>
-</div>
+<div align="center"><h3>No Frameworks. No Libraries. 100% Handmade UI.</h3></div>
 
-| Category | Technologies | Description |
-| :--- | :--- | :--- |
-| **Frontend** | HTML5, CSS3, JavaScript (ES6+) | Core development using modern standards. |
-| **Styling** | Custom CSS (Glassmorphism, Gradients, Keyframes) | Custom particle background, typewriter engine, and all visual effects built from scratch. |
-| **Animations & Effects** | Canvas API, Intersection Observer | Used for the custom particle background, scroll reveal, and fade effects. |
+<table>
+<tr>
+  <th>Category</th>
+  <th>Technologies</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td><b>Frontend</b></td>
+  <td>HTML5, CSS3, JavaScript (ES6+)</td>
+  <td>Core structure, styling, animations</td>
+</tr>
+<tr>
+  <td><b>UI/UX</b></td>
+  <td>Custom CSS, gradients, shadows</td>
+  <td>Glassmorphism design, responsive layout</td>
+</tr>
+<tr>
+  <td><b>Animations</b></td>
+  <td>Canvas API, Keyframes, IntersectionObserver</td>
+  <td>Particles, typewriter, scroll reveal</td>
+</tr>
+<tr>
+  <td><b>Deployment</b></td>
+  <td>GitHub Pages, Netlify, Vercel</td>
+  <td>Instant static hosting</td>
+</tr>
+</table>
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+<hr>
 
 <a name="folder-structure"></a>
-## 📂 Folder Structure
+<h2>📂 Folder Structure</h2>
 
-```
-
+<pre>
 portfolio/
 │
-├── index.html        \# Main website page
-├── style.css         \# Styling + animations + responsive layouts
-├── script.js         \# Typewriter, particles, navbar, reveal effects
+├── index.html        # Main site
+├── style.css         # Styling + animations
+├── script.js         # JS logic (particles, reveal, navbar)
 │
 ├── assets/
-│   ├── favicon.svg / favicon.png
-│   ├── Aayush\_Resume\_swe\_2025.pdf
+│   ├── favicon.png
+│   ├── Aayush_Resume_swe_2025.pdf
 │   └── images/
 │
 └── README.md
+</pre>
 
-````
+<p align="right"><a href="#readme-top">back to top</a></p>
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+<hr>
 
 <a name="local-setup"></a>
-## ⚙️ Local Setup
+<h2>⚙️ Local Setup</h2>
 
-### Clone the repository
+<h3>Clone Repository</h3>
 
-```sh
-git clone [https://github.com/aayushswami123/portfolio.git](https://github.com/aayushswami123/portfolio.git)
+<pre>
+git clone https://github.com/aayushswami123/portfolio.git
 cd portfolio
-````
+</pre>
 
-### Open Locally (Recommended)
+<h3>Run Local Server (recommended)</h3>
 
-Running a local server is recommended to ensure all scripts and assets load correctly.
-
-```sh
+<pre>
 python3 -m http.server
-```
+</pre>
 
-Then open:
+Then open:  
+<b>http://localhost:8000</b>
 
-```
-http://localhost:8000
-```
+<details>
+<summary><b>Alternative: Open index.html directly</b></summary>
+<p>
+Some JS features may be restricted due to browser security policies (CORS).
+</p>
+</details>
 
-\<details\>
-\<summary\>Alternative: Double-Click Method\</summary\>
-\<p\>
-Just open \<code\>index.html\</code\>. Some JavaScript features might behave differently due to browser file security restrictions (CORS), but the main content should load.
-\</p\>
-\</details\>
+<p align="right"><a href="#readme-top">back to top</a></p>
 
-\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
+<hr>
 
-\<a name="deployment"\>\</a\>
+<a name="deployment"></a>
+<h2>🚀 Deployment</h2>
 
-## 🚀 Deployment
+<h3>📌 GitHub Pages</h3>
 
-The simplicity of this vanilla stack makes deployment exceptionally easy.
+<ol>
+  <li>Push code to GitHub</li>
+  <li>Go to <b>Settings → Pages</b></li>
+  <li>Select branch: <b>main</b> → root</li>
+  <li>Save</li>
+</ol>
 
-### GitHub Pages
+<h3>Other Hosting</h3>
+<ul>
+  <li>Netlify</li>
+  <li>Vercel</li>
+  <li>Cloudflare Pages</li>
+</ul>
 
-1.  Push your code to GitHub.
-2.  Go to: **Settings → Pages**.
-3.  Select branch: `main` → `/root`.
-4.  **Save**.
+<p align="right"><a href="#readme-top">back to top</a></p>
 
-\<div align="center"\>
-Your portfolio goes live instantly 🎉
-\</div\>
+<hr>
 
-### Vercel / Netlify / Cloudflare Pages
+<a name="workflow"></a>
+<h2>✏️ Development Workflow</h2>
 
-Just drag & drop the folder or connect the repository — the site works instantly with zero configuration needed.
+<table>
+<tr><th>Prefix</th><th>Use Case</th><th>Example</th></tr>
+<tr><td><code>feat:</code></td><td>New features</td><td>feat: add AI section</td></tr>
+<tr><td><code>style:</code></td><td>UI updates</td><td>style(nav): glow effect</td></tr>
+<tr><td><code>fix:</code></td><td>Bug fixes</td><td>fix: navbar alignment</td></tr>
+<tr><td><code>refactor:</code></td><td>Code cleanup</td><td>refactor: optimize scripts</td></tr>
+<tr><td><code>chore:</code></td><td>Maintenance</td><td>chore: update resume PDF</td></tr>
+</table>
 
-\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
+<p align="right"><a href="#readme-top">back to top</a></p>
 
-## ✏️ Development Workflow
+<hr>
 
-The project follows **Conventional Commits** for clear version control history.
+<a name="future"></a>
+<h2>📌 Future Improvements</h2>
 
-| Prefix | Description | Example |
-| :--- | :--- | :--- |
-| `feat:` | New features | `feat: add projects gallery` |
-| `style:` | UI updates / styling | `style(navbar): add animated gradient glow` |
-| `fix:` | Bug fixes | `fix: resolve mobile dropdown issue` |
-| `refactor:` | Structure updates | `refactor: move particles to separate file` |
-| `chore:` | Minor updates (CI/CD, dependencies) | `chore: update resume PDF link` |
+<ul>
+  <li>Blog / articles section</li>
+  <li>Backend-enabled contact form</li>
+  <li>Project gallery with screenshots</li>
+  <li>AI chatbot on homepage</li>
+  <li>Light/dark theme toggle</li>
+</ul>
 
-\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
+<p align="right"><a href="#readme-top">back to top</a></p>
 
-\<a name="future-improvements"\>\</a\>
+<hr>
 
-## 📌 Future Improvements
+<a name="about"></a>
+<h2>👨‍💻 About Me</h2>
 
-  * Add a dedicated **blog / articles** section.
-  * Implement a backend for **analytics** or functional **contact forms**.
-  * Enhance the projects gallery with more detailed **images and videos**.
-  * Integrate an **AI chatbot assistant** on the homepage for interactive Q\&A.
-  * Add a **dark/light mode toggle** (currently dark mode only).
+<p>
+I’m <b>Aayush Swami</b>, CS Junior @ ASU (GPA 3.88), focused on:
+</p>
 
-\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
+<ul>
+  <li>AI/ML pipelines (BLIP-2, GPR, multimodal ML)</li>
+  <li>Backend systems (FastAPI, Node.js, PostgreSQL)</li>
+  <li>Cloud computing (Docker, Cloudflare Workers, GitHub Actions)</li>
+  <li>Trading automation + agentic AI</li>
+  <li>Real-time telemetry dashboards</li>
+</ul>
 
-\<a name="about-the-developer"\>\</a\>
+<p>
+Currently seeking <b>Software Engineering / AI/ML internships for Summer–Fall 2026</b>.
+</p>
 
-## 👨‍💻 About Me
+<p align="right"><a href="#readme-top">back to top</a></p>
 
-\<div align="left"\>
-\<p\>
-I’m **Aayush Swami**, a CS Junior at ASU (GPA 3.88) actively seeking Software Engineering / AI/ML internships for Summer–Fall 2026. My focus areas include:
-\</p\>
-\<ul\>
-\<li\>AI/ML pipelines (BLIP-2, GPR, multimodal scientific ML)\</li\>
-\<li\>Backend systems (FastAPI, Node.js, PostgreSQL)\</li\>
-\<li\>Cloud + Distributed systems (Docker, Cloudflare Workers, GitHub Actions)\</li\>
-\<li\>Trading automation + agentic AI\</li\>
-\<li\>Real-time telemetry dashboards\</li\>
-\</ul\>
-\</div\>
+<hr>
 
-\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
+<a name="contact"></a>
+<h2>📬 Contact</h2>
 
-\<a name="contact"\>\</a\>
+<div align="center">
 
-## 📬 Contact
+<a href="mailto:aayushswami.dev@gmail.com">
+  <img src="https://img.shields.io/badge/Email-aayushswami.dev%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
+</a>
 
-\<div align="center"\>
-\<a href="mailto:aayushswami.dev@gmail.com"\>\<img src="https://www.google.com/search?q=https://img.shields.io/badge/Email-aayushswami.dev%40gmail.com-D14836%3Fstyle%3Dfor-the-badge%26logo%3Dgmail%26logoColor%3Dwhite" alt="Email Badge"\>\</a\>
-\<a href="https://github.com/aayushswami123" target="\_blank"\>\<img src="https://www.google.com/search?q=https://img.shields.io/badge/GitHub-aayushswami123-181717%3Fstyle%3Dfor-the-badge%26logo%3Dgithub%26logoColor%3Dwhite" alt="GitHub Badge"\>\</a\>
-\<a href="https://linkedin.com/in/aayush-swami" target="\_blank"\>\<img src="https://www.google.com/search?q=https://img.shields.io/badge/LinkedIn-aayush--swami-0077B5%3Fstyle%3Dfor-the-badge%26logo%3Dlinkedin%26logoColor%3Dwhite" alt="LinkedIn Badge"\>\</a\>
-\</div\>
+<a href="https://github.com/aayushswami123" target="_blank">
+  <img src="https://img.shields.io/badge/GitHub-aayushswami123-181717?style=for-the-badge&logo=github&logoColor=white" />
+</a>
 
-\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
+<a href="https://linkedin.com/in/aayush-swami" target="_blank">
+  <img src="https://img.shields.io/badge/LinkedIn-aayush--swami-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
+</a>
 
+</div>
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+</body>
+</html>
