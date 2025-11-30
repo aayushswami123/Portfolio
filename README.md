@@ -1,6 +1,4 @@
-This is excellent content for a professional README\! Below is the copy-pastable code using HTML tags for centering, detailed organization, and visual appeal, as requested.
 
-```html
 <a name="readme-top"></a>
 
 <div align="center">
@@ -223,5 +221,3 @@ I’m **Aayush Swami**, a CS Junior at ASU (GPA 3.88) actively seeking Software 
 
 \<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
 
-```
-```
