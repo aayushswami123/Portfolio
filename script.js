@@ -1,222 +1,245 @@
-// ---------- TYPEWRITER / FADING TEXT ----------
-const typedElement = document.getElementById("hero-typed");
-const cursorElement = document.querySelector(".cursor");
+/* ═══════════════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════════════ */
+(function setupCursor() {
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  if (!dot || !ring) return;
 
-// phrases to cycle through
-const phrases = [
-  "Welcome to Aayush's Portfolio",
-  "Software Engineer",
-  "AI/ML Developer",
-  "Backend & Systems",
-  "Serverless & Cloud",
-  "Scientific ML & Trading Automation"
-];
+  let mx = -100, my = -100;
+  let rx = -100, ry = -100;
 
-let currentPhrase = 0;
-let currentChar = 0;
-let isDeleting = false;
-let typingSpeed = 90; // base typing speed (ms)
-
-function typeLoop() {
-  const phrase = phrases[currentPhrase];
-
-  if (!isDeleting) {
-    // typing forward
-    currentChar++;
-    typedElement.textContent = phrase.slice(0, currentChar);
-    if (currentChar === phrase.length) {
-      // pause at full word
-      setTimeout(() => {
-        isDeleting = true;
-      }, 1300);
-    }
-  } else {
-    // deleting
-    currentChar--;
-    typedElement.textContent = phrase.slice(0, currentChar);
-    if (currentChar === 0) {
-      isDeleting = false;
-      currentPhrase = (currentPhrase + 1) % phrases.length;
-    }
-  }
-
-  const delay = isDeleting ? typingSpeed * 0.45 : typingSpeed;
-  setTimeout(typeLoop, delay);
-}
-
-// ---------- SMOOTH SCROLL FOR NAV LINKS ----------
-function setupSmoothScroll() {
-  const links = document.querySelectorAll('a[href^="#"]');
-  links.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      const href = link.getAttribute("href");
-      if (!href || href === "#") return;
-
-      const target = document.querySelector(href);
-      if (!target) return;
-
-      e.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
   });
-}
 
-// ---------- INTERSECTION OBSERVER FOR REVEALS ----------
-function setupRevealAnimations() {
-  const reveals = document.querySelectorAll(".reveal");
+  (function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  })();
 
-  if (!("IntersectionObserver" in window)) {
-    // fallback
-    reveals.forEach((el) => el.classList.add("visible"));
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.15,
-      rootMargin: "0px 0px -10% 0px"
-    }
-  );
-
-  reveals.forEach((el) => observer.observe(el));
-}
-
-// ---------- NAVBAR SCROLL STATE + MOBILE MENU ----------
-function setupNavbar() {
-  const nav = document.querySelector(".nav");
-  const navInner = document.querySelector(".nav-inner");
-  const navLinks = document.querySelector(".nav-links");
-  const toggle = document.querySelector(".nav-toggle");
-
-  // scroll state
-  const onScroll = () => {
-    if (window.scrollY > 10) {
-      nav.classList.add("scrolled");
-    } else {
-      nav.classList.remove("scrolled");
-    }
-  };
-  window.addEventListener("scroll", onScroll);
-  onScroll();
-
-  // mobile toggle
-  if (toggle) {
-    toggle.addEventListener("click", () => {
-      toggle.classList.toggle("open");
-      navLinks.classList.toggle("open");
-    });
-  }
-
-  // close mobile nav on link click
-  navInner.addEventListener("click", (e) => {
-    if (e.target.classList.contains("nav-link")) {
-      navLinks.classList.remove("open");
-      toggle.classList.remove("open");
-    }
+  document.addEventListener('mouseleave', () => {
+    dot.style.opacity = '0';
+    ring.style.opacity = '0';
   });
-}
+  document.addEventListener('mouseenter', () => {
+    dot.style.opacity = '1';
+    ring.style.opacity = '1';
+  });
+})();
 
-// ---------- PARTICLE BACKGROUND ----------
-function setupParticles() {
-  const canvas = document.getElementById("bg-particles");
+/* ═══════════════════════════════════════════════
+   MESH / AURORA BACKGROUND CANVAS
+═══════════════════════════════════════════════ */
+(function setupCanvas() {
+  const canvas = document.getElementById('bg-canvas');
   if (!canvas) return;
+  const ctx = canvas.getContext('2d');
 
-  const ctx = canvas.getContext("2d");
-  const particles = [];
-  const PARTICLE_COUNT = 60;
-  const MAX_SPEED = 0.35;
+  let W = canvas.width = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
 
-  let width = window.innerWidth;
-  let height = window.innerHeight;
+  // Orbs
+  const orbs = [
+    { x: 0.1, y: 0.15, r: 0.55, hue: 80, sat: 90, lit: 55, speed: 0.00018, phase: 0 },    // lime
+    { x: 0.85, y: 0.75, r: 0.5,  hue: 260, sat: 85, lit: 60, speed: 0.00022, phase: 2 },   // violet
+    { x: 0.55, y: 0.45, r: 0.35, hue: 190, sat: 80, lit: 58, speed: 0.00015, phase: 4 },   // cyan
+    { x: 0.3,  y: 0.8,  r: 0.28, hue: 80,  sat: 70, lit: 55, speed: 0.00025, phase: 1 },   // lime2
+  ];
 
-  canvas.width = width;
-  canvas.height = height;
-
-  function createParticle() {
-    return {
-      x: Math.random() * width,
-      y: Math.random() * height,
-      radius: Math.random() * 1.7 + 0.6,
-      vx: (Math.random() - 0.5) * MAX_SPEED,
-      vy: (Math.random() - 0.5) * MAX_SPEED,
-      alpha: Math.random() * 0.45 + 0.1
-    };
-  }
-
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push(createParticle());
-  }
+  let t = 0;
 
   function draw() {
-    ctx.clearRect(0, 0, width, height);
+    t++;
+    ctx.clearRect(0, 0, W, H);
 
-    particles.forEach((p) => {
-      p.x += p.vx;
-      p.y += p.vy;
+    orbs.forEach(o => {
+      const cx = (o.x + Math.sin(t * o.speed + o.phase) * 0.12) * W;
+      const cy = (o.y + Math.cos(t * o.speed * 0.8 + o.phase) * 0.1) * H;
+      const rad = o.r * Math.max(W, H);
 
-      // wrap around edges
-      if (p.x < -10) p.x = width + 10;
-      if (p.x > width + 10) p.x = -10;
-      if (p.y < -10) p.y = height + 10;
-      if (p.y > height + 10) p.y = -10;
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, rad);
+      g.addColorStop(0, `hsla(${o.hue},${o.sat}%,${o.lit}%,0.12)`);
+      g.addColorStop(0.45, `hsla(${o.hue},${o.sat}%,${o.lit}%,0.04)`);
+      g.addColorStop(1, `hsla(${o.hue},${o.sat}%,${o.lit}%,0)`);
 
-      const gradient = ctx.createRadialGradient(
-        p.x,
-        p.y,
-        0,
-        p.x,
-        p.y,
-        p.radius * 4
-      );
-      gradient.addColorStop(
-        0,
-        `rgba(108, 196, 255, ${p.alpha + 0.15})`
-      );
-      gradient.addColorStop(
-        1,
-        `rgba(154, 91, 255, 0)`
-      );
-
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius * 4, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
     });
 
     requestAnimationFrame(draw);
   }
 
-  function onResize() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
+  window.addEventListener('resize', () => {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  });
+
+  draw();
+})();
+
+/* ═══════════════════════════════════════════════
+   TYPEWRITER
+═══════════════════════════════════════════════ */
+(function setupTypewriter() {
+  const el = document.getElementById('hero-typed');
+  if (!el) return;
+
+  const phrases = [
+    'Software Engineer',
+    'AI/ML Developer',
+    'Backend & Systems',
+    'Serverless & Cloud',
+    'Scientific ML',
+    'Trading Automation',
+  ];
+
+  let pi = 0, ci = 0, deleting = false;
+  const BASE = 88;
+
+  function tick() {
+    const phrase = phrases[pi];
+    if (!deleting) {
+      ci++;
+      el.textContent = phrase.slice(0, ci);
+      if (ci === phrase.length) {
+        setTimeout(() => { deleting = true; }, 1500);
+        return;
+      }
+    } else {
+      ci--;
+      el.textContent = phrase.slice(0, ci);
+      if (ci === 0) {
+        deleting = false;
+        pi = (pi + 1) % phrases.length;
+      }
+    }
+    setTimeout(tick, deleting ? BASE * 0.4 : BASE);
   }
 
-  window.addEventListener("resize", onResize);
-  draw();
-}
+  setTimeout(tick, 1400);
+})();
 
-// ---------- FOOTER YEAR ----------
-function setYear() {
-  const el = document.getElementById("year");
-  if (el) el.textContent = new Date().getFullYear();
-}
+/* ═══════════════════════════════════════════════
+   NAVBAR SCROLL STATE
+═══════════════════════════════════════════════ */
+(function setupNav() {
+  const nav = document.getElementById('nav');
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
 
-// ---------- INIT ----------
-document.addEventListener("DOMContentLoaded", () => {
-  typeLoop();
-  setupSmoothScroll();
-  setupRevealAnimations();
-  setupNavbar();
-  setupParticles();
-  setYear();
+  const onScroll = () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  if (hamburger) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+  }
+
+  // Close on link click
+  navLinks && navLinks.addEventListener('click', e => {
+    if (e.target.classList.contains('nav-link')) {
+      hamburger && hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
+    }
+  });
+})();
+
+/* ═══════════════════════════════════════════════
+   SMOOTH SCROLL
+═══════════════════════════════════════════════ */
+document.addEventListener('click', e => {
+  const link = e.target.closest('a[href^="#"]');
+  if (!link) return;
+  const target = document.querySelector(link.getAttribute('href'));
+  if (!target) return;
+  e.preventDefault();
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
+
+/* ═══════════════════════════════════════════════
+   INTERSECTION OBSERVER REVEALS
+═══════════════════════════════════════════════ */
+(function setupReveals() {
+  const els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(el => el.classList.add('visible'));
+    return;
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+
+  els.forEach(el => obs.observe(el));
+})();
+
+/* ═══════════════════════════════════════════════
+   COUNTER ANIMATION
+═══════════════════════════════════════════════ */
+(function setupCounters() {
+  const counters = document.querySelectorAll('.counter');
+  if (!counters.length) return;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = parseFloat(el.dataset.target);
+      const decimals = parseInt(el.dataset.decimals || '0');
+      const duration = 1400;
+      const start = performance.now();
+
+      function step(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 4);
+        el.textContent = (ease * target).toFixed(decimals);
+        if (progress < 1) requestAnimationFrame(step);
+      }
+
+      requestAnimationFrame(step);
+      obs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+
+  counters.forEach(c => obs.observe(c));
+})();
+
+/* ═══════════════════════════════════════════════
+   TILT ON HERO CARDS
+═══════════════════════════════════════════════ */
+(function setupTilt() {
+  const cards = document.querySelectorAll('[data-tilt]');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(600px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-3px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+})();
+
+/* ═══════════════════════════════════════════════
+   FOOTER YEAR
+═══════════════════════════════════════════════ */
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();

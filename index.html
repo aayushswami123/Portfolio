@@ -3,572 +3,389 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aayush Swami | Software Engineer & AI/ML Developer</title>
-  k
-  <!-- Fonts -->
+  <title>Aayush Swami — Software Engineer & AI/ML Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  />
-  
-
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Abstract / particle background -->
-  <canvas id="bg-particles"></canvas>
-  <div class="bg-gradient"></div>
-  <div class="bg-noise"></div>
+  <!-- Custom cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-  <!-- Floating glass navbar -->
-  <header class="nav">
+  <!-- Mesh background -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="noise-overlay"></div>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
     <div class="nav-inner">
       <a href="#home" class="nav-logo">
-        <span class="logo-mark">AS</span>
-        <span class="logo-text">Aayush Swami</span>
+        <span class="logo-glyph">AS</span>
       </a>
-
-      <nav class="nav-links">
-        <a href="#about" class="nav-link">About</a>
-        <a href="#skills" class="nav-link">Skills</a>
-        <a href="#experience" class="nav-link">Experience</a>
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="#research" class="nav-link">Research</a>
-        <a href="#activities" class="nav-link">Activities</a>
-        <a href="#resume" class="nav-link">Resume</a>
-        <a href="#contact" class="nav-link">Contact</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#about" class="nav-link" data-text="About">About</a>
+        <a href="#skills" class="nav-link" data-text="Skills">Skills</a>
+        <a href="#experience" class="nav-link" data-text="Exp">Experience</a>
+        <a href="#projects" class="nav-link" data-text="Work">Projects</a>
+        <a href="#research" class="nav-link" data-text="Research">Research</a>
+        <a href="#contact" class="nav-link cta-link" data-text="Contact">Contact</a>
       </nav>
-
-      <button class="nav-toggle" aria-label="Toggle navigation">
+      <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span>
       </button>
     </div>
   </header>
 
   <main>
-    <!-- HERO -->
-    <section id="home" class="section hero">
-      <div class="container hero-grid">
-        <div class="hero-content reveal">
-          <p class="hero-eyebrow">Welcome to</p>
-          <h1 class="hero-title">
-            <span class="hero-name">Aayush Swami</span>
+    <!-- ═══ HERO ═══ -->
+    <section id="home" class="hero">
+      <div class="hero-bg-text" aria-hidden="true">AAYUSH</div>
+
+      <div class="hero-inner container">
+        <div class="hero-left">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            <span>Available Summer–Fall 2026</span>
+          </div>
+
+          <h1 class="hero-heading">
+            <span class="line" data-delay="0">Building</span>
+            <span class="line accent-line" data-delay="1">Intelligent</span>
+            <span class="line" data-delay="2">Systems</span>
           </h1>
-          <p class="hero-subtitle">
-            <span id="hero-typed"></span>
-            <span class="cursor">|</span>
+
+          <p class="hero-mono">
+            <span class="prompt">›</span>
+            <span id="hero-typed"></span><span class="caret"></span>
           </p>
 
           <p class="hero-desc">
-            CS junior at Arizona State University building scalable backend
-            systems, fast serverless APIs, and AI tools using Python,
-            TypeScript, and cloud infrastructure. Focused on AI/ML, scientific
-            ML, and automation for real-world systems in research and startups.
+            CS junior at Arizona State University. I build scalable backend systems,
+            serverless APIs, and AI tools — from neural networks to trading bots to
+            real-time telemetry for rovers in the desert.
           </p>
 
-          <div class="hero-actions">
-            <a href="#projects" class="btn primary">View Projects</a>
-            <a href="#contact" class="btn ghost">Let’s Connect</a>
+          <div class="hero-cta">
+            <a href="#projects" class="btn-primary">
+              <span>View Work</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#contact" class="btn-ghost">Let's Connect</a>
           </div>
 
-          <div class="hero-tags">
-            <span class="tag">Software Engineering</span>
-            <span class="tag">AI / ML</span>
-            <span class="tag">Backend & APIs</span>
-            <span class="tag">Agentic AI</span>
-            <span class="tag">Trading Automation</span>
+          <div class="hero-chips">
+            <span class="chip">AI / ML</span>
+            <span class="chip">Backend & APIs</span>
+            <span class="chip">Agentic AI</span>
+            <span class="chip">Trading Automation</span>
+            <span class="chip">Cloud & Serverless</span>
           </div>
         </div>
 
-        <div class="hero-panel reveal delay-1">
-          <div class="hero-card glass">
-            <p class="hero-card-label">Current Focus</p>
-            <p class="hero-card-title">Software Engineer • AI/ML Developer</p>
-            <p class="hero-card-body">
-              Designing scalable ML pipelines, agent-based systems, and
-              full-stack tools with <strong>Python</strong>,
-              <strong>TypeScript</strong>, and cloud-native infrastructure.
-              Actively seeking <strong>SWE & AI/ML internships</strong> for
-              <strong>Summer–Fall 2026</strong>.
-            </p>
+        <div class="hero-right">
+          <div class="stat-card" data-tilt>
+            <div class="stat-label">GPA</div>
+            <div class="stat-val counter" data-target="3.88" data-decimals="2">0</div>
+            <div class="stat-sub">Arizona State University</div>
           </div>
 
-          <div class="hero-meta">
-            <div class="hero-pill glass">
-              <span class="pill-label">Education</span>
-              <span class="pill-value">B.S. CS @ ASU • GPA 3.88</span>
+          <div class="focus-card glass-card" data-tilt>
+            <div class="focus-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             </div>
-            <div class="hero-pill glass">
-              <span class="pill-label">Open To</span>
-              <span class="pill-value">SWE • AI/ML • Systems Internships</span>
+            <div class="focus-content">
+              <div class="focus-title">Current Focus</div>
+              <div class="focus-body">ML pipelines · Agentic systems · GPU-accelerated inference · Scientific ML at Rolston Lab</div>
+            </div>
+          </div>
+
+          <div class="location-card glass-card" data-tilt>
+            <div class="loc-pulse"></div>
+            <div>
+              <div class="loc-label">Based in</div>
+              <div class="loc-val">Tempe, Arizona</div>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="scroll-hint">
+        <div class="scroll-line"></div>
+        <span>scroll</span>
+      </div>
     </section>
 
-    <!-- ABOUT -->
+    <!-- ═══ ABOUT ═══ -->
     <section id="about" class="section">
-      <div class="container reveal">
-        <div class="section-header">
-          <h2 class="section-title">About Me</h2>
-          <p class="section-subtitle">
-            Software Engineer • AI/ML Developer • Systems & Automation
-          </p>
-        </div>
-
-        <div class="about-grid glass">
-          <p>
-            I’m <strong>Aayush Swami</strong>, a Computer Science junior at
-            <strong>Arizona State University</strong> (GPA 3.84) with experience
-            building <strong>scalable backend systems</strong>,
-            <strong>serverless APIs</strong>, and <strong>AI tools</strong> for
-            research labs and startups.
-          </p>
-          <p>
-            I work across <strong>AI/ML</strong>, <strong>backend systems</strong>,
-            <strong>distributed & cloud infrastructure</strong>, and
-            <strong>agentic AI</strong>. I enjoy taking ideas from an experiment
-            or prototype all the way to reliable, production-ready systems with
-            strong observability and documentation.
-          </p>
-          <p>
-            Some topics I’ve been deep into recently:
-          </p>
-          <ul class="about-list">
-            <li>BLIP-2 pipelines for multimodal scientific & financial data.</li>
-            <li>GPU-accelerated ML workflows and latency-optimized inference.</li>
-            <li>Real-time telemetry dashboards for robotics and rovers.</li>
-            <li>Agentic trading systems integrated with indicators & MT5.</li>
-          </ul>
-          <p class="about-extra">
-            Relevant coursework: Data Structures & Algorithms, Operating
-            Systems, Distributed Software Development, Software Engineering,
-            Human–Computer Interaction, Applied Linear Algebra, Probability &
-            Statistics, Discrete Math.
-          </p>
+      <div class="container">
+        <div class="section-tag reveal">01 — About</div>
+        <div class="about-layout">
+          <div class="about-left reveal">
+            <h2 class="section-heading">Hi, I'm<br><em>Aayush</em></h2>
+          </div>
+          <div class="about-right reveal delay-1">
+            <p class="about-lead">
+              I'm a Computer Science junior at <strong>Arizona State University</strong> (GPA 3.84) building systems at the intersection of <strong>AI, backend infrastructure, and scientific computing</strong>.
+            </p>
+            <p class="about-body">
+              I take ideas from experiment to production — with strong observability, clean APIs, and real-world reliability. Currently doing ML research at Rolston Lab and actively seeking SWE & AI/ML internships.
+            </p>
+            <ul class="about-list">
+              <li>BLIP-2 pipelines for multimodal scientific & financial data</li>
+              <li>GPU-accelerated ML workflows & latency-optimized inference</li>
+              <li>Real-time telemetry dashboards for robotics & rovers</li>
+              <li>Agentic trading systems integrated with MT5</li>
+            </ul>
+            <div class="about-courses">
+              <span class="course-label">Coursework</span>
+              <div class="course-tags">
+                <span>DSA</span><span>OS</span><span>Distributed Systems</span><span>Software Eng</span><span>Linear Algebra</span><span>Probability & Stats</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- SKILLS -->
+    <!-- ═══ SKILLS ═══ -->
     <section id="skills" class="section">
-      <div class="container reveal">
-        <div class="section-header">
-          <h2 class="section-title">Skills</h2>
-          <p class="section-subtitle">What I work with day-to-day</p>
-        </div>
-
+      <div class="container">
+        <div class="section-tag reveal">02 — Skills</div>
+        <h2 class="section-heading reveal">What I build<br><em>with</em></h2>
         <div class="skills-grid">
-          <div class="skill-card glass">
+          <div class="skill-block reveal" data-delay-reveal="0">
+            <div class="skill-num">01</div>
             <h3>Languages</h3>
-            <p>
-              Python, TypeScript, JavaScript, Java, C/C++, Go, SQL, Swift,
-              MATLAB, HTML/CSS
-            </p>
+            <p>Python · TypeScript · JavaScript · Java · C/C++ · Go · SQL · Swift · MATLAB</p>
           </div>
-
-          <div class="skill-card glass">
+          <div class="skill-block reveal" data-delay-reveal="1">
+            <div class="skill-num">02</div>
             <h3>AI / ML & Data</h3>
-            <p>
-              PyTorch, TensorFlow, Scikit-learn, Hugging Face, NumPy, Pandas,
-              OpenCV, Matplotlib, BLIP-2, LLaVA, OpenAI APIs
-            </p>
+            <p>PyTorch · TensorFlow · Hugging Face · BLIP-2 · LLaVA · OpenAI APIs · NumPy · Pandas · OpenCV</p>
           </div>
-
-          <div class="skill-card glass">
+          <div class="skill-block reveal" data-delay-reveal="2">
+            <div class="skill-num">03</div>
             <h3>Backend & APIs</h3>
-            <p>
-              FastAPI, MERN stack, Node.js, RESTful APIs, serverless
-              architectures, Edge Runtime
-            </p>
+            <p>FastAPI · MERN · Node.js · RESTful APIs · Serverless · Edge Runtime · GraphQL</p>
           </div>
-
-          <div class="skill-card glass">
-            <h3>Databases & Infra</h3>
-            <p>
-              PostgreSQL, MongoDB, MySQL, Firebase, InfluxDB, Cloudflare
-              Workers/Pages, AWS, Google Cloud, Render
-            </p>
+          <div class="skill-block reveal" data-delay-reveal="3">
+            <div class="skill-num">04</div>
+            <h3>Infrastructure</h3>
+            <p>PostgreSQL · MongoDB · Firebase · InfluxDB · Cloudflare Workers · AWS · Google Cloud</p>
           </div>
-
-          <div class="skill-card glass">
+          <div class="skill-block reveal" data-delay-reveal="4">
+            <div class="skill-num">05</div>
             <h3>DevOps & Practices</h3>
-            <p>
-              Docker, Kubernetes, GitHub Actions, CI/CD pipelines, GPU clusters,
-              Agile/Scrum, data visualization, ML Ops, trading automation
-            </p>
+            <p>Docker · Kubernetes · GitHub Actions · CI/CD · GPU Clusters · ML Ops · Agile/Scrum</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- EXPERIENCE -->
+    <!-- ═══ EXPERIENCE ═══ -->
     <section id="experience" class="section">
-      <div class="container reveal">
-        <div class="section-header">
-          <h2 class="section-title">Experience</h2>
-          <p class="section-subtitle">
-            Research, startups, and systems I’ve shipped.
-          </p>
-        </div>
+      <div class="container">
+        <div class="section-tag reveal">03 — Experience</div>
+        <h2 class="section-heading reveal">Where I've<br><em>shipped</em></h2>
+        <div class="timeline">
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-meta">Aug 2024 – Present</div>
+            <div class="tl-content glass-card">
+              <div class="tl-role">ML Researcher</div>
+              <div class="tl-company">Rolston Lab · Arizona State University</div>
+              <ul class="tl-list">
+                <li>Developing a 4D ML model for interfacial phenomena in energy materials</li>
+                <li>Built BLIP-2 VQA pipelines processing multimodal scientific datasets</li>
+                <li>Designed GPU-accelerated training workflows with Gaussian Process Regression</li>
+              </ul>
+              <div class="tl-tech">Python · PyTorch · BLIP-2 · GPR · GPU Clusters</div>
+            </div>
+          </div>
 
-        <div class="experience-grid">
-          <article class="experience-card glass">
-            <header class="exp-header">
-              <div>
-                <h3 class="exp-role">ML Researcher</h3>
-                <p class="exp-company">Rolston Lab · Arizona State University</p>
-              </div>
-              <p class="exp-meta">Aug 2024 – Present · Tempe, AZ</p>
-            </header>
-            <ul class="exp-list">
-              <li>
-                Built a <strong>BLIP-2 + PyTorch</strong> pipeline to extract
-                microscopy/sensor data, enabling automated preprocessing for
-                downstream ML models.
-              </li>
-              <li>
-                Optimized GPU usage on ASU’s supercomputing clusters and
-                redesigned inference flow, cutting model latency by
-                <strong>65%</strong>.
-              </li>
-              <li>
-                Achieved <strong>0.94 R²</strong> with a GPR model for battery
-                forecasting, improving reliability of degradation predictions.
-              </li>
-              <li>
-                Wrote technical documentation for reproducible training,
-                validation, and deployment of AI models.
-              </li>
-            </ul>
-          </article>
+          <div class="tl-item reveal delay-1">
+            <div class="tl-dot"></div>
+            <div class="tl-meta">May 2025 – Present</div>
+            <div class="tl-content glass-card">
+              <div class="tl-role">AI Backend Developer</div>
+              <div class="tl-company">Startup (Remote)</div>
+              <ul class="tl-list">
+                <li>Built serverless AI microservices on Cloudflare Workers with sub-50ms cold starts</li>
+                <li>Integrated LLM APIs with custom retrieval pipelines for product features</li>
+                <li>Designed edge-native architecture with Durable Objects for stateful inference</li>
+              </ul>
+              <div class="tl-tech">Cloudflare Workers · TypeScript · LLMs · Edge Runtime</div>
+            </div>
+          </div>
 
-          <article class="experience-card glass">
-            <header class="exp-header">
-              <div>
-                <h3 class="exp-role">Software Engineer Intern</h3>
-                <p class="exp-company">Spectra Education Consultancy</p>
-              </div>
-              <p class="exp-meta">May 2025 – Aug 2025 · Remote</p>
-            </header>
-            <ul class="exp-list">
-              <li>
-                Developed an AI support chatbot using <strong>Python</strong>,
-                NLP, and LLM-style agent workflows, cutting response time by
-                <strong>60%</strong>.
-              </li>
-              <li>
-                Re-architected a <strong>MERN + TypeScript</strong> backend and
-                introduced a Docker-based CI/CD pipeline, improving platform
-                uptime to <strong>99%</strong>.
-              </li>
-              <li>
-                Added an ML recommendation system that personalized content and
-                increased student engagement by <strong>40%</strong>.
-              </li>
-              <li>
-                Documented APIs and workflows to make iteration faster for
-                engineering and content teams.
-              </li>
-            </ul>
-          </article>
-
-          <article class="experience-card glass">
-            <header class="exp-header">
-              <div>
-                <h3 class="exp-role">Software Developer</h3>
-                <p class="exp-company">Odyssey Rover Project</p>
-              </div>
-              <p class="exp-meta">Jan 2025 – May 2025 · Tempe, AZ</p>
-            </header>
-            <ul class="exp-list">
-              <li>
-                Engineered a real-time telemetry dashboard with
-                <strong>TypeScript</strong> and <strong>Python</strong> to
-                stream and visualize rover sensor data with low latency.
-              </li>
-              <li>
-                Integrated LiDAR, ultrasonic, and environmental sensors with
-                Raspberry Pi to support autonomous navigation and control.
-              </li>
-              <li>
-                Built an LLM-based diagnostic system to detect hardware
-                anomalies and enable semi-autonomous system recovery.
-              </li>
-            </ul>
-          </article>
+          <div class="tl-item reveal delay-2">
+            <div class="tl-dot"></div>
+            <div class="tl-meta">Jan 2025 – May 2025</div>
+            <div class="tl-content glass-card">
+              <div class="tl-role">Rover Telemetry Engineer</div>
+              <div class="tl-company">Sun Devil Robotics · ASU</div>
+              <ul class="tl-list">
+                <li>Built a real-time telemetry dashboard for the rover competition team</li>
+                <li>Integrated InfluxDB + Grafana for live sensor stream visualization</li>
+                <li>Implemented Socket.io backend for low-latency rover command relay</li>
+              </ul>
+              <div class="tl-tech">Next.js · TypeScript · Socket.io · InfluxDB · Grafana</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- PROJECTS -->
+    <!-- ═══ PROJECTS ═══ -->
     <section id="projects" class="section">
-      <div class="container reveal">
-        <div class="section-header">
-          <h2 class="section-title">Projects</h2>
-          <p class="section-subtitle">
-            Systems, AI/ML, and automation projects I’ve built.
-          </p>
-        </div>
-
+      <div class="container">
+        <div class="section-tag reveal">04 — Projects</div>
+        <h2 class="section-heading reveal">Things I've<br><em>built</em></h2>
         <div class="projects-grid">
-          <article class="project-card glass">
-            <div class="project-label">AI / Trading</div>
-            <h3>AI-Powered Trading Agent</h3>
-            <p>
-              Python + FastAPI + PostgreSQL platform for real-time ML trading
-              predictions with GPU acceleration and serverless APIs. Combines
-              BLIP-2-based chart understanding with indicators like RSI, EMA,
-              and Supertrend.
-            </p>
-            <p class="project-tech">
-              Python • FastAPI • PostgreSQL • BLIP-2 • GPU • Agentic Workflows
-            </p>
+          <article class="project-card reveal" data-delay-reveal="0">
+            <div class="project-index">01</div>
+            <div class="project-cat">AI / RAG</div>
+            <h3>Multimodal Financial RAG</h3>
+            <p>Bloomberg data pipeline with BLIP-2 image + text embeddings for intelligent multi-asset portfolio analysis.</p>
+            <div class="project-stack">Python · BLIP-2 · LLaVA · RAG · Bloomberg API</div>
+            <div class="project-arrow">↗</div>
           </article>
 
-          <article class="project-card glass">
-            <div class="project-label">Automation / LLM</div>
-            <h3>Auto Cover-Letter & Greenhouse Auto-Apply</h3>
-            <p>
-              Agentic pipeline that scrapes job postings, extracts key skills,
-              and generates personalized cover letters with an ATS-focused LLM,
-              plus automated Greenhouse application flows using Selenium/Playwright.
-            </p>
-            <p class="project-tech">
-              Python • Requests/BeautifulSoup • LLMs • Cloudflare Workers AI • Playwright
-            </p>
+          <article class="project-card reveal" data-delay-reveal="1">
+            <div class="project-index">02</div>
+            <div class="project-cat">Robotics</div>
+            <h3>Rover Telemetry Dashboard</h3>
+            <p>Real-time telemetry & command dashboard with live sensor streams, used in desert rover competitions.</p>
+            <div class="project-stack">Next.js · TypeScript · Socket.io · Grafana · InfluxDB</div>
+            <div class="project-arrow">↗</div>
           </article>
 
-          <article class="project-card glass">
-            <div class="project-label">AI / Trading</div>
-            <h3>AI Chart Analyzer</h3>
-            <p>
-              BLIP-2 + PyTorch model that understands financial charts and
-              outputs structured insights and natural language explanations for
-              trading setups.
-            </p>
-            <p class="project-tech">
-              PyTorch • BLIP-2 • OpenAI APIs • Financial Data
-            </p>
+          <article class="project-card reveal" data-delay-reveal="2">
+            <div class="project-index">03</div>
+            <div class="project-cat">Scientific ML</div>
+            <h3>Battery Health Prediction</h3>
+            <p>Gaussian Process Regression pipeline using EIS data to forecast lithium-ion battery degradation.</p>
+            <div class="project-stack">Python · SciKit-Learn · GPR · EIS · Scientific ML</div>
+            <div class="project-arrow">↗</div>
           </article>
 
-          <article class="project-card glass">
-            <div class="project-label">Systems / Realtime</div>
-            <h3>Real-Time Rover Dashboard</h3>
-            <p>
-              Next.js + TypeScript dashboard for rover telemetry with streaming
-              socket connections, fault-tolerant command controls, and Grafana
-              visualizations.
-            </p>
-            <p class="project-tech">
-              Next.js • TypeScript • Socket.io • Grafana • InfluxDB
-            </p>
-          </article>
-
-          <article class="project-card glass">
-            <div class="project-label">Scientific ML</div>
-            <h3>Battery Health Prediction Model</h3>
-            <p>
-              Gaussian Process Regression pipeline using EIS data to forecast
-              lithium-ion battery degradation and state-of-health for improved
-              reliability.
-            </p>
-            <p class="project-tech">
-              Python • SciKit-Learn • GPR • Scientific ML • EIS
-            </p>
-          </article>
-
-          <article class="project-card glass">
-            <div class="project-label">Trading Automation</div>
+          <article class="project-card reveal" data-delay-reveal="3">
+            <div class="project-index">04</div>
+            <div class="project-cat">Trading Automation</div>
             <h3>Elite Confluence Trading Bot</h3>
-            <p>
-              Automated XAU/USD trading strategy integrating multiple technical
-              confluence signals with MT5 for fully automated execution and
-              risk management.
-            </p>
-            <p class="project-tech">
-              Python • MT5 • Technical Analysis • Automation
-            </p>
+            <p>Fully automated XAU/USD strategy integrating multi-indicator confluence signals with MT5 execution.</p>
+            <div class="project-stack">Python · MT5 · Technical Analysis · Automation</div>
+            <div class="project-arrow">↗</div>
           </article>
 
-          <article class="project-card glass">
-            <div class="project-label">Voice AI</div>
+          <article class="project-card reveal" data-delay-reveal="4">
+            <div class="project-index">05</div>
+            <div class="project-cat">Voice AI</div>
             <h3>Cloudflare AI Voice Assistant</h3>
-            <p>
-              Voice-enabled assistant on Workers AI using Llama 3.3 and
-              Durable Objects for low-latency inference and custom tools that
-              answer developer/system questions.
-            </p>
-            <p class="project-tech">
-              Cloudflare Workers • Workers AI • Llama 3.3 • Durable Objects
-            </p>
+            <p>Voice-enabled assistant on Workers AI using Llama 3.3 with Durable Objects for stateful low-latency inference.</p>
+            <div class="project-stack">Cloudflare Workers · Workers AI · Llama 3.3</div>
+            <div class="project-arrow">↗</div>
           </article>
 
-          <article class="project-card glass">
-            <div class="project-label">Mobile / Product</div>
-            <h3>Weather & Cafe Finder iOS App</h3>
-            <p>
-              iOS app that suggests nearby cafes and clothing choices using
-              real-time weather + geolocation APIs, with Firebase auth and
-              user preference storage.
-            </p>
-            <p class="project-tech">
-              Swift • iOS • Firebase • REST APIs
-            </p>
+          <article class="project-card reveal" data-delay-reveal="5">
+            <div class="project-index">06</div>
+            <div class="project-cat">Mobile / iOS</div>
+            <h3>Weather & Cafe Finder</h3>
+            <p>iOS app suggesting nearby cafes and outfit choices using real-time weather + geolocation with Firebase auth.</p>
+            <div class="project-stack">Swift · iOS · Firebase · REST APIs</div>
+            <div class="project-arrow">↗</div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- RESEARCH -->
+    <!-- ═══ RESEARCH ═══ -->
     <section id="research" class="section">
-      <div class="container reveal">
-        <div class="section-header">
-          <h2 class="section-title">Research</h2>
-          <p class="section-subtitle">Rolston Lab • Arizona State University</p>
-        </div>
-
-        <div class="research-grid glass">
-          <div class="research-item">
-            <h3>4D ML Model for Interfacial Phenomena</h3>
-            <p>
-              Developing ML models to understand and predict interfacial
-              behavior in energy materials across space, time, and operating
-              conditions, enabling smarter design of energy systems.
-            </p>
+      <div class="container">
+        <div class="section-tag reveal">05 — Research</div>
+        <h2 class="section-heading reveal">Rolston Lab<br><em>work</em></h2>
+        <div class="research-blocks">
+          <div class="research-block reveal glass-card">
+            <div class="rb-num">R1</div>
+            <div class="rb-content">
+              <h3>4D ML Model for Interfacial Phenomena</h3>
+              <p>ML models predicting interfacial behavior in energy materials across space, time, and operating conditions — enabling smarter energy system design.</p>
+            </div>
           </div>
-
-          <div class="research-item">
-            <h3>BLIP-2 for Scientific Data Extraction</h3>
-            <p>
-              Building BLIP-2-based pipelines to extract structured information
-              from microscopy images, plots, and scientific figures for
-              high-throughput analysis and automated preprocessing.
-            </p>
+          <div class="research-block reveal delay-1 glass-card">
+            <div class="rb-num">R2</div>
+            <div class="rb-content">
+              <h3>BLIP-2 Scientific Data Extraction</h3>
+              <p>BLIP-2 pipelines extracting structured information from microscopy images, plots, and scientific figures for high-throughput automated preprocessing.</p>
+            </div>
           </div>
-
-          <div class="research-item">
-            <h3>Battery EIS ML Pipeline</h3>
-            <p>
-              Designing and implementing ML workflows using Electrochemical
-              Impedance Spectroscopy (EIS) data for battery health prediction
-              and degradation modeling with GPR.
-            </p>
+          <div class="research-block reveal delay-2 glass-card">
+            <div class="rb-num">R3</div>
+            <div class="rb-content">
+              <h3>Battery EIS ML Pipeline</h3>
+              <p>ML workflows using Electrochemical Impedance Spectroscopy (EIS) for battery health prediction and degradation modeling with Gaussian Process Regression.</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ACTIVITIES -->
+    <!-- ═══ ACTIVITIES ═══ -->
     <section id="activities" class="section">
-      <div class="container reveal">
-        <div class="section-header">
-          <h2 class="section-title">Activities</h2>
-          <p class="section-subtitle">
-            Communities and programs I’m involved in.
-          </p>
-        </div>
-
-        <div class="activities-grid">
-          <article class="activity-card glass">
-            <h3>Core Team Member</h3>
-            <p class="activity-org">Google Developer Group · Arizona State University</p>
-            <p class="activity-text">
-              Organize and lead technical workshops on ML and web development,
-              helping 100+ students build real-world projects and understand
-              modern tooling.
-            </p>
-          </article>
-
-          <article class="activity-card glass">
-            <h3>Adobe Student Ambassador</h3>
-            <p class="activity-org">Adobe</p>
-            <p class="activity-text">
-              Participate in closed testing of new AI features in Adobe Express,
-              providing feedback on usability, responsiveness, and UX design for
-              creative workflows.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- RESUME -->
-    <section id="resume" class="section">
-      <div class="container reveal">
-        <div class="section-header">
-          <h2 class="section-title">Resume</h2>
-          <p class="section-subtitle">
-            Full details on my experience, projects, and coursework.
-          </p>
-        </div>
-
-        <div class="resume-card glass">
-          <p>
-            View my full resume for more details on my software engineering,
-            AI/ML, backend, and systems experience across research labs,
-            startups, and personal projects.
-          </p>
-          <a
-            href="assets/Aayush_Resume_swe_2025.pdf"
-            target="_blank"
-            rel="noopener"
-            class="btn primary"
-          >
-            Open Resume PDF
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="section">
-      <div class="container reveal">
-        <div class="section-header">
-          <h2 class="section-title">Contact</h2>
-          <p class="section-subtitle">
-            Let’s build something intelligent, reliable, and useful.
-          </p>
-        </div>
-
-        <div class="contact-grid glass">
-          <div class="contact-text">
-            <p>
-              I’m open to internships and collaborations in software
-              engineering, AI/ML, systems, and trading automation. Reach out if
-              you’d like to talk about roles, research, or product ideas.
-            </p>
+      <div class="container">
+        <div class="section-tag reveal">06 — Activities</div>
+        <div class="activities-row">
+          <div class="activity reveal glass-card">
+            <div class="act-icon">GDG</div>
+            <div>
+              <h3>Core Team Member</h3>
+              <div class="act-org">Google Developer Group · ASU</div>
+              <p>Organizing technical workshops on ML and web dev for 100+ students.</p>
+            </div>
           </div>
+          <div class="activity reveal delay-1 glass-card">
+            <div class="act-icon">ADB</div>
+            <div>
+              <h3>Adobe Student Ambassador</h3>
+              <div class="act-org">Adobe</div>
+              <p>Beta testing AI features in Adobe Express — UX, usability, and creative workflow feedback.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- ═══ CONTACT ═══ -->
+    <section id="contact" class="section contact-section">
+      <div class="container">
+        <div class="contact-inner reveal">
+          <div class="contact-top">
+            <div class="section-tag">07 — Contact</div>
+            <h2 class="contact-heading">Let's build<br><em>something real</em></h2>
+            <p class="contact-sub">Open to SWE & AI/ML internships, research collaborations, and product ideas. Reach out.</p>
+          </div>
           <div class="contact-links">
-            <a
-              href="mailto:aayushswami.dev@gmail.com"
-              class="contact-link"
-              target="_blank"
-              rel="noopener"
-            >
-              Email: aayushswami.dev@gmail.com
+            <a href="mailto:aayushswami.dev@gmail.com" class="contact-item">
+              <span class="ci-label">Email</span>
+              <span class="ci-val">aayushswami.dev@gmail.com</span>
+              <span class="ci-arrow">↗</span>
             </a>
-
-            <a
-              href="https://github.com/aayushswami123"
-              class="contact-link"
-              target="_blank"
-              rel="noopener"
-            >
-              GitHub: @aayushswami123
+            <a href="https://github.com/aayushswami123" target="_blank" rel="noopener" class="contact-item">
+              <span class="ci-label">GitHub</span>
+              <span class="ci-val">@aayushswami123</span>
+              <span class="ci-arrow">↗</span>
             </a>
-
-            <a
-              href="https://www.linkedin.com/in/aayush-swami"
-              class="contact-link"
-              target="_blank"
-              rel="noopener"
-            >
-              LinkedIn: /in/aayush-swami
+            <a href="https://www.linkedin.com/in/aayush-swami" target="_blank" rel="noopener" class="contact-item">
+              <span class="ci-label">LinkedIn</span>
+              <span class="ci-val">/in/aayush-swami</span>
+              <span class="ci-arrow">↗</span>
+            </a>
+            <a href="assets/Aayush_Resume_swe_2025.pdf" target="_blank" rel="noopener" class="contact-item">
+              <span class="ci-label">Resume</span>
+              <span class="ci-val">Download PDF</span>
+              <span class="ci-arrow">↗</span>
             </a>
           </div>
         </div>
@@ -579,9 +396,7 @@
   <footer class="footer">
     <div class="container footer-inner">
       <span>© <span id="year"></span> Aayush Swami</span>
-      <span class="footer-meta">
-        Built with vanilla HTML, CSS &amp; JS • Dark mode • AI/ML &amp; Systems
-      </span>
+      <span class="footer-right">Designed & built in Tempe, AZ</span>
     </div>
   </footer>
 
