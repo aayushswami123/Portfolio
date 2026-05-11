@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/aayushswami123/Portfolio#readme",
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "express": "^4.21.2",
     "nodemailer": "^6.10.0"
   }
