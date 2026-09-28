@@ -1,0 +1,31 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Aayush Swami",
+  "url": "https://aayushswami.com",
+  "email": "mailto:aayushswami.dev@gmail.com",
+  "jobTitle": "Software Engineer (AI Systems)",
+  "description": "Computer science senior at Arizona State University building AI systems — agents, retrieval, and backend APIs. Founder of NestuLabs.",
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Arizona State University"
+  },
+  "worksFor": [
+    { "@type": "Organization", "name": "NestuLabs", "url": "https://nestulabs.com" }
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Tempe",
+    "addressRegion": "AZ",
+    "addressCountry": "US"
+  },
+  "knowsAbout": [
+    "AI agents", "Retrieval-augmented generation", "Machine learning",
+    "Backend engineering", "CRDTs", "Python", "TypeScript", "AWS"
+  ],
+  "sameAs": [
+    "https://github.com/aayushswami123",
+    "https://www.linkedin.com/in/aayush-swami",
+    "https://leetcode.com/u/aayushswami8"
+  ]
+}
