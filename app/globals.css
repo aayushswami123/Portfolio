@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+
+  /* One visible focus style everywhere, in the one accent colour. */
+  :focus-visible {
+    outline: 2px solid theme("colors.cobalt");
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold text-ink;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* DESIGN.md: the streaming rule under the ask box is the only motion.
+     Honour the OS setting and there is none at all. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .link {
+    @apply text-cobalt underline decoration-cobalt/30 underline-offset-[3px] transition-colors hover:decoration-cobalt;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center rounded border px-4 py-2.5 text-sm font-medium transition-colors;
+  }
+
+  .btn-primary {
+    @apply border-cobalt bg-cobalt text-white hover:bg-[#1c37ae];
+  }
+
+  .btn-secondary {
+    @apply border-rule bg-surface text-ink hover:border-ink;
+  }
+
+  .section-heading {
+    @apply text-xl font-semibold tracking-[-0.01em] text-ink;
+  }
+
+  /* Diagrams scroll inside their own box rather than shrinking below
+     readable size. Required at 360px wide. */
+  .diagram-scroll {
+    @apply overflow-x-auto overscroll-x-contain;
+    scrollbar-width: thin;
+  }
+}
+
+/* The thin Cobalt rule that grows under the ask box while an answer streams. */
+@keyframes ask-progress {
+  0% {
+    transform: scaleX(0.02);
+  }
+  60% {
+    transform: scaleX(0.75);
+  }
+  100% {
+    transform: scaleX(0.94);
+  }
+}
+
+.ask-progress {
+  transform-origin: left center;
+  animation: ask-progress 12s cubic-bezier(0.22, 0.8, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ask-progress {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
