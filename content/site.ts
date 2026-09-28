@@ -26,7 +26,7 @@ export const ask = {
     "What's your research about?",
     "What roles are you looking for?",
   ],
-  note: "Answers come from an AI trained only on this site. For anything important, email me.",
+  note: "Answers use only what's on this site. For anything important, email me.",
   attribution: "Runs on Qualcomm Cloud AI 100.",
   maxLength: 300,
 } as const;

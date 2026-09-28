@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AskBox } from "@/components/AskBox";
-import { Container, Footer, Section } from "@/components/layout";
+import { Container, Footer, Section, SiteBar } from "@/components/layout";
 import { DiagramDetails } from "@/components/DiagramDetails";
 import { WorkCard } from "@/components/WorkCard";
 import { featuredWork, experience } from "@/content/work";
@@ -22,22 +22,23 @@ export default function HomePage() {
 
   return (
     <>
+      <SiteBar />
       <main id="main">
         {/* Hero — work first, no long preamble. */}
-        <Container className="pb-16 pt-14 sm:pb-24 sm:pt-20">
+        <Container className="pb-14 pt-12 sm:pb-20 sm:pt-20">
           <h1 className="text-3xl font-bold tracking-[-0.02em] sm:text-hero">{site.name}</h1>
 
-          <p className="mt-5 max-w-[22ch] text-xl font-medium leading-tight text-ink sm:max-w-[26ch] sm:text-2xl">
+          <p className="mt-4 max-w-[34ch] text-[1.375rem] leading-[1.35] text-graphite sm:text-[1.5rem]">
             {hero.pitch}
           </p>
 
-          <p className="mt-5 max-w-measure text-base leading-relaxed text-graphite">
+          <p className="mt-4 max-w-measure text-base leading-relaxed text-graphite">
             {hero.status}
           </p>
 
           <AskBox />
 
-          <div className="mt-10 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/resume" className="btn btn-primary">
               Download resume
             </Link>
@@ -56,9 +57,9 @@ export default function HomePage() {
         </Container>
 
         {/* Proof row */}
-        <Section className="!py-8">
+        <Section tight>
           <h2 className="sr-only">Where I work and study</h2>
-          <ul className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-sm text-graphite">
+          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-graphite">
             {proofRow.map((item) => (
               <li key={item}>{item}</li>
             ))}
@@ -74,7 +75,7 @@ export default function HomePage() {
                 className="flex flex-col gap-x-6 gap-y-1 text-base sm:flex-row"
               >
                 {entry.date ? (
-                  <span className="shrink-0 font-mono text-sm text-graphite sm:w-24 sm:pt-0.5">
+                  <span className="shrink-0 text-sm text-graphite sm:w-24 sm:pt-0.5">
                     {entry.date}
                   </span>
                 ) : (
@@ -103,7 +104,7 @@ export default function HomePage() {
 
         {/* Selected work */}
         <Section id="work" heading="Selected work">
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-x-12 lg:gap-y-16">
+          <div className="space-y-6 sm:space-y-8">
             {featuredWork.map((item) => (
               <WorkCard key={item.slug} item={item} />
             ))}
@@ -115,14 +116,16 @@ export default function HomePage() {
           <ul className="divide-y divide-rule border-t border-rule">
             {experience.map((row) => (
               <li key={`${row.company}-${row.role}`} className="py-5">
-                <div className="flex flex-col gap-x-6 gap-y-1 sm:flex-row sm:items-baseline sm:justify-between">
-                  <h3 className="text-base font-semibold text-ink">
-                    {row.company}
-                    <span className="font-normal text-graphite"> — {row.role}</span>
-                  </h3>
-                  {row.dates ? (
-                    <p className="shrink-0 font-mono text-sm text-graphite">{row.dates}</p>
-                  ) : null}
+                <div className="sm:flex sm:items-baseline sm:justify-between sm:gap-6">
+                  <div>
+                    <h3 className="text-base font-semibold text-ink">{row.company}</h3>
+                    <p className="mt-0.5 text-base text-graphite">{row.role}</p>
+                  </div>
+                  {/* The date column is always reserved so the rows line up;
+                      only the line itself is dropped when there is no date. */}
+                  <div className="mt-1 sm:mt-0 sm:w-44 sm:shrink-0 sm:text-right">
+                    {row.dates ? <p className="text-sm text-graphite">{row.dates}</p> : null}
+                  </div>
                 </div>
                 <p className="mt-2 max-w-measure text-base leading-relaxed text-graphite">
                   {row.result}
@@ -141,7 +144,7 @@ export default function HomePage() {
             {skills.map((group) => (
               <div key={group.label}>
                 <dt className="text-base font-semibold text-ink">{group.label}</dt>
-                <dd className="mt-1 font-mono text-sm leading-relaxed text-graphite">
+                <dd className="mt-1 text-sm leading-relaxed text-graphite">
                   {group.items.join(", ")}
                 </dd>
               </div>
@@ -195,7 +198,7 @@ export default function HomePage() {
               </p>
             ))}
             {about.gpa ? (
-              <p className="font-mono text-sm text-graphite">{`GPA ${about.gpa}`}</p>
+              <p className="text-sm text-graphite">{`GPA ${about.gpa}`}</p>
             ) : null}
           </div>
         </Section>
@@ -203,7 +206,7 @@ export default function HomePage() {
         {/* Contact */}
         <Section id="contact" heading={contact.heading}>
           <p className="max-w-measure text-base leading-relaxed text-ink">{contact.line}</p>
-          <ul className="mt-6 flex flex-wrap gap-x-8 gap-y-2 font-mono text-sm">
+          <ul className="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-sm">
             {contact.links.map((link) =>
               link.external ? (
                 <li key={link.href}>

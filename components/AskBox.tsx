@@ -158,13 +158,14 @@ export function AskBox() {
   const busy = state.kind === "loading" || state.kind === "answering";
 
   return (
-    <div className="mt-8">
+    // One Surface panel holds the box, its suggestions, the answer and the
+    // note, so the hero's bold element reads as a single object.
+    <div className="panel mt-8">
       <form
         onSubmit={(event) => {
           event.preventDefault();
           void submit(value);
         }}
-        className="relative"
       >
         <label htmlFor="ask-input" className="sr-only">
           Ask a question about Aayush&apos;s work
@@ -193,7 +194,7 @@ export function AskBox() {
           <button
             type="submit"
             disabled={busy}
-            className="shrink-0 border-l border-ink bg-cobalt px-5 text-sm font-medium text-white transition-colors hover:bg-[#1c37ae] disabled:cursor-wait"
+            className="shrink-0 bg-cobalt px-5 text-sm font-medium text-white transition-colors hover:bg-[#1c37ae] disabled:cursor-wait"
           >
             {busy ? "Thinking" : ask.button}
           </button>
@@ -205,26 +206,21 @@ export function AskBox() {
         </div>
       </form>
 
-      <div className="mt-3 flex flex-wrap gap-2">
+      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
         {ask.suggestions.map((suggestion) => (
           <button
             key={suggestion}
             type="button"
-            disabled={busy}
             onClick={() => {
               setValue(suggestion);
               void submit(suggestion);
             }}
-            className="rounded border border-rule bg-surface px-3 py-1.5 text-sm text-graphite transition-colors hover:border-ink hover:text-ink disabled:cursor-not-allowed disabled:opacity-60"
+            className="text-button"
           >
             {suggestion}
           </button>
         ))}
       </div>
-
-      <p id="ask-note" className="mt-3 max-w-measure text-sm text-graphite">
-        {ask.note}
-      </p>
 
       <div aria-live="polite" aria-atomic="false">
         {state.kind === "answering" || state.kind === "answered" ? (
@@ -232,6 +228,10 @@ export function AskBox() {
         ) : null}
         {state.kind === "fallback" ? <Fallback reason={state.reason} /> : null}
       </div>
+
+      <p id="ask-note" className="mt-5 max-w-measure text-sm text-graphite">
+        {ask.note}
+      </p>
     </div>
   );
 }
@@ -239,7 +239,7 @@ export function AskBox() {
 function Answer({ text, streaming }: { text: string; streaming: boolean }) {
   const { body, paths } = splitAnswer(text);
   return (
-    <div className="mt-6 border-l-2 border-rule pl-4">
+    <div className="mt-6 border-t border-rule pt-5">
       <p className="max-w-measure whitespace-pre-wrap text-base leading-relaxed text-ink">
         {body}
       </p>
@@ -258,7 +258,7 @@ function Answer({ text, streaming }: { text: string; streaming: boolean }) {
 
 function Fallback({ reason }: { reason: string }) {
   return (
-    <div className="mt-6 border-l-2 border-rule pl-4">
+    <div className="mt-6 border-t border-rule pt-5">
       <p className="max-w-measure text-base text-ink">{REASON_NOTE[reason] ?? DEFAULT_NOTE}</p>
       <dl className="mt-4 space-y-4">
         {fallbackAnswers.map((item) => (

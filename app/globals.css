@@ -57,16 +57,28 @@
     @apply inline-flex items-center justify-center rounded border px-4 py-2.5 text-sm font-medium transition-colors;
   }
 
+  /* Solid Cobalt, white text, a shade darker on hover. Nothing here carries a
+     dimmed state — a control only looks disabled when it actually is. */
   .btn-primary {
-    @apply border-cobalt bg-cobalt text-white hover:bg-[#1c37ae];
+    @apply border-cobalt bg-cobalt text-white hover:border-[#1c37ae] hover:bg-[#1c37ae];
   }
 
   .btn-secondary {
     @apply border-rule bg-surface text-ink hover:border-ink;
   }
 
+  /* A bordered panel on Surface. The ask box, each featured project. */
+  .panel {
+    @apply rounded border border-rule bg-surface p-6 sm:p-8;
+  }
+
   .section-heading {
     @apply text-xl font-semibold tracking-[-0.01em] text-ink;
+  }
+
+  /* Small text button: no fill, no border, underline on hover. */
+  .text-button {
+    @apply rounded text-sm text-graphite underline decoration-transparent underline-offset-[3px] transition-colors hover:text-ink hover:decoration-graphite;
   }
 
   /* Diagrams scroll inside their own box rather than shrinking below

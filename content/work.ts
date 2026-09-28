@@ -34,14 +34,9 @@ export const featuredWork: WorkItem[] = [
     problem:
       "Libraries like Yjs are a black box. I wanted to know how real-time collaboration actually works — so I built the sync engine myself.",
     built:
-      "A conflict-free (CRDT) text sync engine in TypeScript, written from scratch with no existing CRDT library. It sends only small binary updates over WebSockets, shows live cursors, and plugs into TipTap/ProseMirror editors.",
-    // [ADD: real benchmark numbers — these replace the targets below once measured]
+      "A conflict-free (CRDT) text sync engine in TypeScript, written from scratch with no existing CRDT library. It sends only small binary updates over WebSockets, shows live cursors, and plugs into TipTap/ProseMirror editors. Built against targets of under 5 ms to apply a local edit, under 100 ms for a remote one to appear, and 100+ people editing at once.",
+    // [ADD: real benchmark numbers — the metric row stays hidden until these exist]
     metrics: [null, null, null],
-    targets: [
-      { value: "< 5 ms", label: "Local edit applied (target)" },
-      { value: "< 100 ms", label: "Remote sync (target)" },
-      { value: "100+", label: "Concurrent editors (target)" },
-    ],
     stack: ["TypeScript", "WebSockets", "Custom binary protocol"],
     links: [
       { label: "Read case study", href: "/work/crdt-engine" },

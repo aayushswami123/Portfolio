@@ -14,7 +14,7 @@ export default function NotFound() {
       <main id="main">
         <Container className="py-20 sm:py-28">
           <div className="max-w-reading">
-            <p className="font-mono text-sm text-graphite">404</p>
+            <p className="text-sm text-graphite">404</p>
             <h1 className="mt-2 text-2xl font-bold tracking-[-0.02em] sm:text-3xl">
               That page isn&apos;t here
             </h1>

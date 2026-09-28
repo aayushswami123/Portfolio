@@ -19,21 +19,12 @@ const MONO_ADVANCE = 0.6;
 export const PRESETS = {
   full: { fontSize: 13, edgeFontSize: 11, padX: 14, padY: 11, gapX: 64, gapY: 26, lineHeight: 1.35 },
   /**
-   * The home page shows each diagram inside a half-width card. A wide
-   * left-to-right diagram scaled into that column drops its labels to about
-   * 9px. Turning the preview top-to-bottom makes it narrow instead of wide, so
-   * it fits the column at full size and stays readable at 360px too.
+   * The home page shows a scaled-down thumbnail beside each project, capped at
+   * 180px tall, that links through to the full-size diagram on the case study
+   * page. Slightly larger type and tighter gaps keep the aspect ratio compact,
+   * so it survives the downscale better than the full version would.
    */
-  preview: {
-    fontSize: 13,
-    edgeFontSize: 11,
-    padX: 13,
-    padY: 10,
-    gapX: 34,
-    gapY: 18,
-    lineHeight: 1.3,
-    direction: "TD",
-  },
+  preview: { fontSize: 15, edgeFontSize: 12, padX: 13, padY: 10, gapX: 44, gapY: 20, lineHeight: 1.3 },
 };
 
 function textWidth(text, fontSize) {
@@ -159,6 +150,9 @@ function escapeXml(text) {
 /**
  * Build the SVG. `direction` LR/TD only affects which axis layers advance on.
  */
+/**
+ * Build the SVG. `direction` LR/TD only affects which axis layers advance on.
+ */
 export function renderSvg({ graph, preset, title, description }) {
   const style = PRESETS[preset];
   const { nodes, edges } = graph;
@@ -188,20 +182,60 @@ export function renderSvg({ graph, preset, title, description }) {
     });
   }
 
+  /**
+   * An edge that skips a layer has nowhere to go, and ends up drawn straight
+   * through whatever node sits in between. So give it somewhere to go: insert
+   * an invisible waypoint in every layer it crosses. A waypoint takes a slot
+   * in its layer like any other node, which opens a lane for the edge and lets
+   * the ordering pass below untangle it.
+   */
+  const waypointIds = [];
+  const routes = new Map();
+  let waypointCount = 0;
+
+  for (const edge of forwardEdges) {
+    const chain = [edge.from];
+    for (let layer = layerOf.get(edge.from) + 1; layer < layerOf.get(edge.to); layer += 1) {
+      // A colon cannot appear in a parsed node id, so this cannot collide.
+      const id = `wp:${waypointCount++}`;
+      box.set(id, {
+        id,
+        waypoint: true,
+        lines: [],
+        shape: "waypoint",
+        width: vertical ? 10 : 1,
+        height: vertical ? 1 : 10,
+      });
+      layerOf.set(id, layer);
+      waypointIds.push(id);
+      chain.push(id);
+    }
+    chain.push(edge.to);
+    routes.set(edge, chain);
+  }
+
+  /** Every one-layer hop, waypoints included. This is what ordering sorts on. */
+  const segments = [];
+  for (const chain of routes.values()) {
+    for (let index = 0; index + 1 < chain.length; index += 1) {
+      segments.push({ from: chain[index], to: chain[index + 1] });
+    }
+  }
+
   // Group by layer, then order within a layer by the average position of
   // whatever already points at it. Two passes settles these small graphs.
   const layers = [];
-  for (const node of nodes) {
-    const index = layerOf.get(node.id);
-    (layers[index] ??= []).push(node.id);
+  for (const id of [...nodeIds, ...waypointIds]) {
+    const index = layerOf.get(id);
+    (layers[index] ??= []).push(id);
   }
   for (let pass = 0; pass < 3; pass += 1) {
     for (let index = 1; index < layers.length; index += 1) {
       const previousLayer = layers[index - 1];
       const rank = (id) => {
-        const parents = forwardEdges
-          .filter((edge) => edge.to === id && previousLayer.includes(edge.from))
-          .map((edge) => previousLayer.indexOf(edge.from));
+        const parents = segments
+          .filter((segment) => segment.to === id && previousLayer.includes(segment.from))
+          .map((segment) => previousLayer.indexOf(segment.from));
         if (parents.length === 0) return Number.MAX_SAFE_INTEGER;
         return parents.reduce((sum, value) => sum + value, 0) / parents.length;
       };
@@ -219,19 +253,23 @@ export function renderSvg({ graph, preset, title, description }) {
 
   const labelHeight = style.edgeFontSize + 6;
   const labelWidthOf = (edge) => textWidth(edge.label, style.edgeFontSize) + 10;
+  const labelledEdges = forwardEdges.filter((edge) => edge.label);
 
   /**
    * An edge label belongs in the first gap after its source, even when the
    * edge spans several layers — put it at the geometric midpoint instead and a
-   * long edge drops its label on top of whatever node it happens to fly over.
+   * long edge drops its label on top of whatever it flies over.
    */
-  const labelledEdges = forwardEdges.filter((edge) => edge.label);
   const gapOf = (edge) => layerOf.get(edge.from);
+  /** The node or waypoint the edge reaches first — what the label sits beside. */
+  const firstHop = (edge) => box.get(routes.get(edge)[1]);
 
+  // A waypoint is a lane, not a box, so it needs less room around it.
+  const alongGap = (id) => (box.get(id).waypoint ? style.gapY * 0.6 : style.gapY);
   const alongSpan = layers.map((ids) =>
     ids.reduce(
-      (total, id) => total + (vertical ? box.get(id).width : box.get(id).height) + style.gapY,
-      -style.gapY,
+      (total, id) => total + (vertical ? box.get(id).width : box.get(id).height) + alongGap(id),
+      0,
     ),
   );
   const alongTotal = Math.max(...alongSpan);
@@ -252,17 +290,25 @@ export function renderSvg({ graph, preset, title, description }) {
         if (vertical) {
           node.x = along;
           node.y = layerStart[index] + (layerExtent[index] - node.height) / 2;
-          along += node.width + style.gapY;
+          along += node.width + alongGap(id);
         } else {
           node.x = layerStart[index] + (layerExtent[index] - node.width) / 2;
           node.y = along;
-          along += node.height + style.gapY;
+          along += node.height + alongGap(id);
         }
       }
     }
 
     return { layerStart, acrossTotal: cursor - gapAfter[layers.length - 1] };
   }
+
+  const labelCentre = (edge) => {
+    const from = box.get(edge.from);
+    const to = firstHop(edge);
+    return vertical
+      ? (from.x + from.width / 2 + to.x + to.width / 2) / 2
+      : (from.y + from.height / 2 + to.y + to.height / 2) / 2;
+  };
 
   /**
    * Gap sizing differs by direction. Left-to-right, a label sits along the gap
@@ -294,14 +340,14 @@ export function renderSvg({ graph, preset, title, description }) {
       const ordered = [...group].sort((a, b) => labelCentre(a) - labelCentre(b));
       for (const edge of ordered) {
         const half = labelWidthOf(edge) / 2 + 4;
-        const centre = labelCentre(edge);
+        const middle = labelCentre(edge);
         let row = 0;
         while (
-          occupied[row]?.some((span) => centre - half < span.end && centre + half > span.start)
+          occupied[row]?.some((span) => middle - half < span.end && middle + half > span.start)
         ) {
           row += 1;
         }
-        (occupied[row] ??= []).push({ start: centre - half, end: centre + half });
+        (occupied[row] ??= []).push({ start: middle - half, end: middle + half });
         rows.set(edge, row);
       }
       base[index] = Math.max(base[index], occupied.length * (labelHeight + 4) + 10);
@@ -310,24 +356,14 @@ export function renderSvg({ graph, preset, title, description }) {
     return { gaps: base, rows };
   }
 
-  const labelCentre = (edge) => {
-    const from = box.get(edge.from);
-    const to = box.get(edge.to);
-    return vertical
-      ? (from.x + from.width / 2 + to.x + to.width / 2) / 2
-      : (from.y + from.height / 2 + to.y + to.height / 2) / 2;
-  };
-
   // Two passes: the first gives label positions something to measure against,
   // the second lays the diagram out with gaps that actually fit them.
-  let placement = place(layers.map(() => style.gapX));
+  place(layers.map(() => style.gapX));
   const { gaps, rows: labelRows } = gapsFor();
-  placement = place(gaps);
-  const { layerStart, acrossTotal } = placement;
+  const { layerStart, acrossTotal } = place(gaps);
 
   /** Centre of the gap that follows a layer, on the across axis. */
-  const gapCentre = (index) =>
-    layerStart[index] + layerExtent[index] + gaps[index] / 2;
+  const gapCentre = (index) => layerStart[index] + layerExtent[index] + gaps[index] / 2;
   const gapTop = (index) => layerStart[index] + layerExtent[index];
 
   // Return edges get their own lane: below a left-to-right diagram, to the
@@ -397,12 +433,34 @@ export function renderSvg({ graph, preset, title, description }) {
     const h = node.height;
     if (vertical) {
       if (side === "out") return { x: x + w / 2, y: y + h };
-      if (side === "in") return { x: x + w / 2, y };
-    } else {
-      if (side === "out") return { x: x + w, y: y + h / 2 };
-      if (side === "in") return { x, y: y + h / 2 };
+      return { x: x + w / 2, y };
     }
-    return { x: x + w / 2, y: y + h };
+    if (side === "out") return { x: x + w, y: y + h / 2 };
+    return { x, y: y + h / 2 };
+  };
+
+  const middleOf = (node) => {
+    const { x, y } = shift(node);
+    return { x: x + node.width / 2, y: y + node.height / 2 };
+  };
+
+  /** A smooth path through the waypoints, curving only on the across axis. */
+  const curveThrough = (points) => {
+    let d = `M ${round(points[0].x)} ${round(points[0].y)}`;
+    for (let index = 1; index < points.length; index += 1) {
+      const a = points[index - 1];
+      const b = points[index];
+      if (Math.abs(a.x - b.x) < 1.5 || Math.abs(a.y - b.y) < 1.5) {
+        d += ` L ${round(b.x)} ${round(b.y)}`;
+      } else if (vertical) {
+        const dy = (b.y - a.y) * 0.5;
+        d += ` C ${round(a.x)} ${round(a.y + dy)}, ${round(b.x)} ${round(b.y - dy)}, ${round(b.x)} ${round(b.y)}`;
+      } else {
+        const dx = (b.x - a.x) * 0.5;
+        d += ` C ${round(a.x + dx)} ${round(a.y)}, ${round(b.x - dx)} ${round(b.y)}, ${round(b.x)} ${round(b.y)}`;
+      }
+    }
+    return d;
   };
 
   let backIndex = 0;
@@ -420,7 +478,6 @@ export function renderSvg({ graph, preset, title, description }) {
     let labelAt;
 
     if (backEdges.has(index)) {
-      // Route return edges through a lane under (or beside) the diagram.
       backIndex += 1;
       const a = shift(from);
       const b = shift(to);
@@ -428,41 +485,34 @@ export function renderSvg({ graph, preset, title, description }) {
         const lane = width - margin - backLane + backIndex * 12;
         const ay = a.y + from.height / 2;
         const by = b.y + to.height / 2;
-        const ax = a.x + from.width;
-        const bx = b.x + to.width;
-        path = `M ${ax} ${ay} L ${lane} ${ay} L ${lane} ${by} L ${bx} ${by}`;
+        path = `M ${a.x + from.width} ${ay} L ${lane} ${ay} L ${lane} ${by} L ${b.x + to.width} ${by}`;
         labelAt = { x: lane - labelHeight, y: (ay + by) / 2 };
       } else {
         const lane = height - margin - backLane + backIndex * 12;
         const ax = a.x + from.width / 2;
-        const ay = a.y + from.height;
         const bx = b.x + to.width / 2;
-        const by = b.y + to.height;
-        path = `M ${ax} ${ay} L ${ax} ${lane} L ${bx} ${lane} L ${bx} ${by}`;
+        path = `M ${ax} ${a.y + from.height} L ${ax} ${lane} L ${bx} ${lane} L ${bx} ${b.y + to.height}`;
         labelAt = { x: (ax + bx) / 2, y: lane - labelHeight };
       }
     } else {
+      const chain = routes.get(edge);
       const start = anchor(from, "out");
       const end = anchor(to, "in");
-      if (Math.abs(start.y - end.y) < 1.5 || Math.abs(start.x - end.x) < 1.5) {
-        path = `M ${round(start.x)} ${round(start.y)} L ${round(end.x)} ${round(end.y)}`;
-      } else if (vertical) {
-        const dy = (end.y - start.y) * 0.5;
-        path = `M ${round(start.x)} ${round(start.y)} C ${round(start.x)} ${round(start.y + dy)}, ${round(end.x)} ${round(end.y - dy)}, ${round(end.x)} ${round(end.y)}`;
-      } else {
-        const dx = (end.x - start.x) * 0.5;
-        path = `M ${round(start.x)} ${round(start.y)} C ${round(start.x + dx)} ${round(start.y)}, ${round(end.x - dx)} ${round(end.y)}, ${round(end.x)} ${round(end.y)}`;
-      }
-      // Labels live in the first gap after the source, never on top of a node.
-      const gapIndex = layerOf.get(edge.from);
+      const waypoints = chain.slice(1, -1).map((id) => middleOf(box.get(id)));
+      path = curveThrough([start, ...waypoints, end]);
+
+      // The label goes in the first gap, beside the first hop — never at the
+      // midpoint of a long edge, which lands on whatever it passes over.
+      const gapIndex = gapOf(edge);
+      const nextPoint = waypoints[0] ?? end;
       if (vertical) {
         const row = labelRows.get(edge) ?? 0;
         labelAt = {
-          x: (start.x + end.x) / 2,
+          x: (start.x + nextPoint.x) / 2,
           y: gapTop(gapIndex) + margin + 9 + row * (labelHeight + 4) + labelHeight / 2,
         };
       } else {
-        labelAt = { x: gapCentre(gapIndex) + margin, y: (start.y + end.y) / 2 - 9 };
+        labelAt = { x: gapCentre(gapIndex) + margin, y: (start.y + nextPoint.y) / 2 - 9 };
       }
     }
 
@@ -481,7 +531,10 @@ export function renderSvg({ graph, preset, title, description }) {
   const marker = (id, color) =>
     `<marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 9 5 L 0 10 z" fill="${color}"/></marker>`;
 
-  const defs = [marker("__UID__-arrow-ink", COLOR.ink), marker("__UID__-arrow-cobalt", COLOR.cobalt)].join("");
+  const defs = [
+    marker("__UID__-arrow-ink", COLOR.ink),
+    marker("__UID__-arrow-cobalt", COLOR.cobalt),
+  ].join("");
 
   return {
     width,

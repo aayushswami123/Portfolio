@@ -37,10 +37,12 @@ export interface WorkItem {
   tag: WorkTag;
   problem: string;
   built: string;
-  /** Up to 3 metrics. Pending ones are dropped before render. */
+  /**
+   * Up to 3 metrics. Pending ones are dropped before render, and the whole
+   * row is hidden unless a real measured number exists — a card full of
+   * "target" numbers reads as a card with no numbers.
+   */
   metrics: Maybe<Metric>[];
-  /** Targets shown only while `metrics` has nothing real to show. */
-  targets?: Metric[];
   stack: string[];
   links: Maybe<LinkRef>[];
   /** Live dot next to shipped products only. */

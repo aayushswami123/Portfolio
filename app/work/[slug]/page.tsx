@@ -57,7 +57,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               </div>
               <div className="flex gap-3">
                 <dt className="w-16 shrink-0 text-graphite">Stack</dt>
-                <dd className="font-mono text-ink">{study.stack.join(", ")}</dd>
+                <dd className="text-ink">{study.stack.join(", ")}</dd>
               </div>
               {links.length > 0 ? (
                 <div className="flex gap-3">
@@ -91,7 +91,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   <div key={metric.label}>
                     <dt className="sr-only">{metric.label}</dt>
                     <dd>
-                      <span className="block font-mono text-xl text-ink">{metric.value}</span>
+                      <span className="block text-xl font-semibold tabular-nums text-ink">{metric.value}</span>
                       <span className="mt-1 block text-sm text-graphite">{metric.label}</span>
                     </dd>
                   </div>
@@ -153,8 +153,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                       {measured.map((row) => (
                         <tr key={row.what} className="border-b border-rule">
                           <td className="py-2 pr-4 text-ink">{row.what}</td>
-                          <td className="py-2 pr-4 font-mono text-graphite">{row.target}</td>
-                          <td className="py-2 pr-4 font-mono text-ink">{row.measured}</td>
+                          <td className="py-2 pr-4 tabular-nums text-graphite">{row.target}</td>
+                          <td className="py-2 pr-4 tabular-nums text-ink">{row.measured}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -174,7 +174,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   {study.table.rows.map((row) => (
                     <li key={row.what} className="flex flex-wrap gap-x-3 text-base">
                       <span className="text-ink">{row.what}</span>
-                      <span className="font-mono text-graphite">{row.target}</span>
+                      <span className="tabular-nums text-graphite">{row.target}</span>
                     </li>
                   ))}
                 </ul>
