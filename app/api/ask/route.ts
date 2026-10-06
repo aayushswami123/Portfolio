@@ -167,6 +167,12 @@ export async function POST(request: Request) {
 
   if (!upstream.ok || !upstream.body) {
     clearTimeout(timeout);
+    // The provider's own message goes to the server logs (Vercel → Logs), never
+    // to the visitor — it is the only way to tell a quota from a bad key.
+    const detail = await upstream.text().catch(() => "");
+    console.error(
+      `[ask] upstream ${upstream.status} model=${model} retry-after=${upstream.headers.get("retry-after") ?? "-"} body=${detail.slice(0, 300)}`,
+    );
     return fallback(`upstream-${upstream.status}`);
   }
 
