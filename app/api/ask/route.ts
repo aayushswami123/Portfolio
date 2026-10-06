@@ -46,12 +46,24 @@ function fallback(reason: string, status = 200) {
   return NextResponse.json({ fallback: true, reason }, { status });
 }
 
-/** Only this site may call the endpoint. */
+/**
+ * Only this site may call the endpoint: the canonical domains, plus whatever
+ * host is serving this request. The second part is what lets Vercel preview
+ * and deployment URLs (*.vercel.app) work without listing each one — another
+ * website's page sends its own Origin, which never matches our Host.
+ */
 function originAllowed(request: Request): boolean {
-  const allowed = new Set([process.env.SITE_ORIGIN ?? site.url, "https://www.aayushswami.com"]);
-  if (process.env.NODE_ENV !== "production") {
-    allowed.add("http://localhost:3000");
-    allowed.add("http://127.0.0.1:3000");
+  const allowed = new Set([
+    process.env.SITE_ORIGIN ?? site.url,
+    "https://aayushswami.com",
+    "https://www.aayushswami.com",
+  ]);
+  const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  if (host) {
+    allowed.add(`https://${host}`);
+    if (process.env.NODE_ENV !== "production" || /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host)) {
+      allowed.add(`http://${host}`);
+    }
   }
 
   const origin = request.headers.get("origin");
