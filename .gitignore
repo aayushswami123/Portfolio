@@ -13,5 +13,4 @@ next-env.d.ts
 *.tsbuildinfo
 
 # generated at build time
-public/flowcharts/
 content/generated/

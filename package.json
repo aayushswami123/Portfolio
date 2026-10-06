@@ -2,19 +2,21 @@
   "name": "aayushswami-com",
   "version": "1.0.0",
   "private": true,
-  "description": "Portfolio for Aayush Swami — aayushswami.com",
+  "description": "Portfolio for Aayush Swami \u2014 aayushswami.com",
   "scripts": {
     "prebuild": "npm run build-content",
-    "build-content": "node scripts/render-flowcharts.mjs && node scripts/build-knowledge.mjs",
+    "build-content": "node scripts/build-knowledge.mjs",
     "dev": "npm run build-content && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "check-links": "node scripts/check-links.mjs",
-    "todos": "node scripts/list-todos.mjs"
+    "todos": "node scripts/list-todos.mjs",
+    "demos:check": "node scripts/check-demos.mjs"
   },
   "dependencies": {
+    "framer-motion": "^12.43.0",
     "next": "16.3.6",
     "react": "19.0.0",
     "react-dom": "19.0.0"

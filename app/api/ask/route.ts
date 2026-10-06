@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { systemPrompt } from "@/content/generated/knowledge";
 import { ask as askConfig, site } from "@/content/site";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
+import { activityAsKnowledge, getGitHubActivity } from "@/lib/github-activity";
 
 /**
  * The "Ask about me" endpoint.
@@ -24,6 +25,20 @@ const TEMPERATURE = 0.2;
 /** Keep the last 4 turns of the conversation only. */
 const MAX_HISTORY_TURNS = 4;
 const UPSTREAM_TIMEOUT_MS = 20_000;
+/** Longest wait for the next chunk once streaming, and for the whole answer. */
+const IDLE_TIMEOUT_MS = 15_000;
+const TOTAL_TIMEOUT_MS = 40_000;
+
+const TIMED_OUT = Symbol("timed-out");
+
+/** Races a read against a timer. Abort signals do not reliably break a stalled read. */
+function readWithin<T>(read: Promise<T>, ms: number): Promise<T | typeof TIMED_OUT> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<typeof TIMED_OUT>((resolve) => {
+    timer = setTimeout(() => resolve(TIMED_OUT), ms);
+  });
+  return Promise.race([read, timeout]).finally(() => clearTimeout(timer));
+}
 
 type Turn = { role: "user" | "assistant"; content: string };
 
@@ -97,8 +112,15 @@ export async function POST(request: Request) {
     );
   }
 
+  // Recent GitHub activity rides along as extra knowledge. It comes from the
+  // hourly cache, so it adds no GitHub or model calls to a normal request.
+  const activity = activityAsKnowledge(await getGitHubActivity().catch(() => []));
+  const system = activity
+    ? systemPrompt.replace("</knowledge>", `\n${activity}\n</knowledge>`)
+    : systemPrompt;
+
   const messages = [
-    { role: "system", content: systemPrompt },
+    { role: "system", content: system },
     ...parseTurns(history),
     // The question is data. The system prompt already tells the model to
     // ignore instructions inside it; wrapping it keeps the boundary obvious.
@@ -142,22 +164,34 @@ export async function POST(request: Request) {
   const encoder = new TextEncoder();
   const reader = upstream.body.getReader();
   const parseSse = createSseParser();
+  const startedAt = Date.now();
+  let closed = false;
+
+  const finish = (controllerOut: ReadableStreamDefaultController<Uint8Array>) => {
+    if (closed) return;
+    closed = true;
+    clearTimeout(timeout);
+    controllerOut.close();
+    void reader.cancel().catch(() => undefined);
+  };
 
   const stream = new ReadableStream<Uint8Array>({
     async pull(controllerOut) {
       try {
-        const { done, value } = await reader.read();
-        if (done) {
-          clearTimeout(timeout);
-          controllerOut.close();
+        const budget = Math.min(IDLE_TIMEOUT_MS, TOTAL_TIMEOUT_MS - (Date.now() - startedAt));
+        const result = await readWithin(reader.read(), Math.max(budget, 0));
+        if (result === TIMED_OUT || result.done) {
+          finish(controllerOut);
           return;
         }
-        for (const chunk of parseSse(decoder.decode(value, { stream: true }))) {
-          controllerOut.enqueue(encoder.encode(chunk));
-        }
+        const { pieces, done } = parseSse(decoder.decode(result.value, { stream: true }));
+        for (const piece of pieces) controllerOut.enqueue(encoder.encode(piece));
+        // Close on the end-of-answer signal (finish_reason or [DONE]), not on
+        // EOF: inside a route handler the upstream body does not always end
+        // when the provider is done.
+        if (done) finish(controllerOut);
       } catch {
-        clearTimeout(timeout);
-        controllerOut.close();
+        finish(controllerOut);
       }
     },
     cancel() {
@@ -183,10 +217,15 @@ export async function POST(request: Request) {
 function createSseParser() {
   let tail = "";
 
-  return function parse(text: string): string[] {
+  return function parse(text: string): { pieces: string[]; done: boolean } {
     const out: string[] = [];
     const lines = (tail + text).split("\n");
     tail = lines.pop() ?? "";
+    // A final frame can arrive without its trailing newline.
+    if (tail.trim() === "data: [DONE]") {
+      lines.push(tail);
+      tail = "";
+    }
 
     for (const line of lines) {
       const trimmed = line.trim();
@@ -194,18 +233,23 @@ function createSseParser() {
       const payload = trimmed.slice(5).trim();
       if (payload === "[DONE]") {
         tail = "";
-        continue;
+        return { pieces: out, done: true };
       }
       try {
         const parsed = JSON.parse(payload) as {
-          choices?: { delta?: { content?: string }; text?: string }[];
+          choices?: { delta?: { content?: string }; text?: string; finish_reason?: string | null }[];
         };
-        const piece = parsed.choices?.[0]?.delta?.content ?? parsed.choices?.[0]?.text;
+        const choice = parsed.choices?.[0];
+        const piece = choice?.delta?.content ?? choice?.text;
         if (piece) out.push(piece);
+        if (choice?.finish_reason) {
+          tail = "";
+          return { pieces: out, done: true };
+        }
       } catch {
         // A partial frame; the tail will pick it up on the next read.
       }
     }
-    return out;
+    return { pieces: out, done: false };
   };
 }

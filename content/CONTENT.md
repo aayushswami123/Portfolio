@@ -25,27 +25,33 @@ I build AI systems people actually use — agents, search, and the backend under
 **Status line (equal weight to all three sides):**
 Engineer, researcher, and founder. Incoming Software Engineer Intern, AI Solutions at
 Cloudwick. ML researcher at ASU's Rolston Lab. Founder of NestuLabs.
-CS senior at Arizona State (BS 2027, MS 2028) — open to 2027 new-grad roles.
+Open to 2027 new-grad roles.
+
+**Education line:** Arizona State University — BS Computer Science 2027, MS 2028 · GPA 3.83
 
 ### Ask about me (hero box)
-- **Placeholder:** Ask anything about my work — e.g. what did you build at Rolston Lab?
+- **Label:** Ask about my work
+- **Placeholder:** e.g. What did you build at Rolston Lab?
 - **Button:** Ask
 - **Suggested questions:**
   - What are you building at NestuLabs?
   - How does your collaborative editor work?
   - What's your research about?
-  - What roles are you looking for?
+  - What did you build at hackathons?
 - **Small note under the box:** Answers come from an AI trained only on this site.
   For anything important, email me.
-- **Fallback when AI is unavailable:** show the answers to the first 3 suggested
-  questions (written from the sections below) and an "Email me" button.
+- **Fallback when AI is unavailable:** show the answers to the 4 suggested questions,
+  plus "What roles are you looking for?" (written from the sections below), with the
+  question just asked first, and an "Email me" button.
 
 **Buttons:** Download resume · GitHub · Email me
 
-### Recent — shipping log (below proof row, newest first, show 5)
+### Recent — shipping log (below the logo strip, show the newest 3)
 | Date | Entry | Link |
 |---|---|---|
-| Oct 2026 | Building at Cal Hacks 13.0 in San Francisco | — |
+| Oct 2026 | Won Best Use of Snowflake at Hacktoberfest Hack Day x sunhacks | — |
+| Oct 2026 | Built AeroTrace at Honeywell Aerospace Devils Invent | — |
+| Oct 2026 | Heading to Cal Hacks 13.0 in San Francisco | — |
 | Sep 2026 | Accepted an offer as Incoming Software Engineer Intern, AI Solutions at Cloudwick | — |
 | Sep 2026 | Started the Qualcomm AI100 capstone: a prompt-to-plan travel planner | — |
 | Aug 2026 | NestuLabs AI Visibility plugin approved on WordPress.org | [ADD: plugin URL] |
@@ -55,8 +61,11 @@ CS senior at Arizona State (BS 2027, MS 2028) — open to 2027 new-grad roles.
 
 > After Oct 26, change the Cal Hacks line to what you built there.
 
-### Proof row
-Cloudwick (incoming) · SHOPLINE partnership · Qualcomm (capstone sponsor) · Rolston Lab, ASU · Interplanetary Lab, ASU · FURI
+### Logo strip (replaces the proof row)
+Cloudwick (incoming intern) · SHOPLINE (partner) · Arizona State University (Rolston Lab, Interplanetary Lab) · Capstone sponsored by Qualcomm
+
+> [ADD: logo files in public/logos/ — cloudwick.svg, shopline.svg, asu.svg] Each logo
+> shows only once its file exists. Qualcomm stays text only.
 
 ---
 
@@ -112,6 +121,38 @@ behavior in energy materials.
 
 ---
 
+## Hackathons (directly after Selected work)
+
+### PR Lifeguard
+**Event:** MLH Hacktoberfest Hack Day Tempe x sunhacks, Arizona State University — Oct 2026
+**Award:** Winner · Best Use of Snowflake
+**Problem:** Open-source maintainers have too many pull requests and no quick way to see
+which ones are small and which need real review time.
+**What we built:** An AI tool that sorts open GitHub pull requests by how much effort each
+one needs, so maintainers can clear the easy ones first. Built in one day.
+**Team:** [ADD: teammate name — ask them first]
+**Stack:** Snowflake · [ADD: rest of stack]
+**Code:** https://github.com/makhijaaryan/hactober-asu-hackathon
+**Demo:** [ADD: video]
+**Devpost:** [ADD]
+**Tag:** Engineering
+
+### AeroTrace (Team Avio)
+**Event:** Honeywell Aerospace Devils Invent, Arizona State University — Future-Ready Avionics — Oct 2026
+**Award:** [ADD: placement/award if any, else no badge]
+**Problem:** Avionics software runs on decades-old C, C++, and Ada code. Engineers spend
+weeks just figuring out what calls what.
+**What we built:** An agent that reads a legacy codebase and builds call trees showing how
+functions and data depend on each other. Built for C, C++, and Ada.
+**How:** libclang parses C and C++; Tree-sitter parses Ada. The parsers build a dependency
+graph of functions and data, and the agent turns it into a call tree view.
+**Stack:** Python, libclang, Tree-sitter · [ADD: LLM/agent stack]
+**Code:** Private (not open source).
+**Demo:** [ADD: video]
+**Tag:** Engineering
+
+---
+
 ## Experience
 
 | Company | Role | Dates | One line |
@@ -121,6 +162,9 @@ behavior in energy materials.
 | NestuLabs | Founder | [ADD: start date] – present | AI visibility product for businesses; partnership with SHOPLINE; client builds in Next.js. |
 | Spectra Education | Software Engineer Intern | [ADD: dates] | Built an AI support chatbot, a MERN backend, and Docker CI/CD. [ADD: one number, e.g. tickets handled] |
 | Interplanetary Lab, ASU | Rover Telemetry Engineer, Odyssey Rover | Jan 2025 – May 2025 | Built the real-time telemetry and command dashboard for the Odyssey rover with Socket.io, InfluxDB, and Grafana. |
+
+> [ADD: Cloudwick start month] — the date becomes "Starting <month> 2026".
+> [ADD: Rolston Lab site URL] · [ADD: Interplanetary Lab site URL] — company names link once set.
 
 > [CHECK: The old site lists "AI Backend Developer — Startup (Remote), May 2025 – present".
 > Either name the company or remove it. Unnamed roles look weak to recruiters.]
@@ -157,7 +201,7 @@ Trading Bot" into the Agentic trading research item.
 - Adobe Student Ambassador
 - Venture Scout, LvlUp Ventures
 - Accelerators: LvlUp Labs, Momentum by DevLabs
-- Hackathons: Cal Hacks 13.0 (2026), VillageHacks
+- Hackathons: Cal Hacks 13.0 (2026), Honeywell Devils Invent (2026), Hacktoberfest Hack Day x sunhacks — Best Use of Snowflake (2026), VillageHacks
 
 ---
 
@@ -169,7 +213,7 @@ clean APIs, good tests, and knowing why the system made a choice.
 Outside class I do ML research at Rolston Lab and run NestuLabs, where I build tools
 that help businesses show up in AI search. I'm based in Tempe, Arizona.
 
-GPA 3.83 [CHECK: must match the resume exactly]
+> GPA now lives in the hero education line. [CHECK: GPA 3.83 must match the resume exactly]
 
 ---
 
@@ -184,3 +228,10 @@ engineering. I also like hearing about hard problems at early-stage startups.
 - Resume: /resume  [ADD: new PDF named Aayush_Swami_Resume_2026.pdf]
 
 **Footer:** © 2026 Aayush Swami. Built in Tempe, Arizona.
+
+> Media still to supply (notes, never shown to the Ask box):
+> [ADD: demo videos — public/demos/<slug>.mp4 + <slug>-poster.webp, max 40 s, 1280px, H.264, under 6 MB]
+> Slugs: nestulabs-ai-visibility, crdt-engine, rolston-research, agentic-trading,
+> pr-lifeguard, aerotrace. Run npm run demos:check.
+> [ADD: screenshots in public/work/<slug>.webp — used when a project has no demo]
+> [ADD: nestulabs.com font name — the site keeps Schibsted Grotesk until then]

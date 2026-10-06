@@ -1,31 +1,38 @@
 import Link from "next/link";
-import { Flowchart, isFlowchart } from "@/components/Flowchart";
+import { Figure } from "@/components/Figure";
+import { LinkList } from "@/components/LinkList";
 import { present, type WorkItem } from "@/content/types";
+import type { Media } from "@/lib/media";
 
 /**
- * One item in Selected work: a Surface panel, text left and diagram right at
- * roughly 60/40 on desktop.
+ * One item in Selected work. At >=1024px: text left (5/12), media right
+ * (7/12). Media is the demo, else a screenshot, else the diagram.
  *
- * Bordered, not shadowed, and no hover lift — DESIGN.md calls both out as the
- * things that make a site look generated. Metrics are plain text in the HTML;
- * nothing counts up, and the row is hidden entirely unless a real measured
- * number exists.
+ * Metrics are plain text in the HTML; nothing counts up, and the row is hidden
+ * entirely unless a real measured number exists.
  */
-export function WorkCard({ item }: { item: WorkItem }) {
+export function WorkCard({
+  item,
+  media,
+  figure,
+}: {
+  item: WorkItem;
+  media: Media | null;
+  figure: number | null;
+}) {
   const metrics = present(item.metrics);
   const links = present(item.links);
   const caseStudyHref = item.caseStudy ? `/work/${item.slug}` : null;
-  const hasDiagram = Boolean(item.diagram && isFlowchart(item.diagram));
 
   return (
     <article className="panel">
-      <div className={`grid gap-8 ${hasDiagram ? "lg:grid-cols-5" : ""}`}>
-        <div className={hasDiagram ? "lg:col-span-3" : ""}>
+      <div className={`grid grid-cols-1 gap-8 ${media ? "lg:grid-cols-12 lg:gap-10" : ""}`}>
+        <div className={`flex min-w-0 flex-col ${media ? "lg:col-span-5" : ""}`}>
           <p className="text-sm text-graphite">{item.tag}</p>
 
-          <h3 className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-lg font-semibold text-ink">
+          <h3 className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-lg font-semibold tracking-[-0.01em]">
             {caseStudyHref ? (
-              <Link href={caseStudyHref} className="hover:text-cobalt">
+              <Link href={caseStudyHref} className="hover:text-accent">
                 {item.title}
               </Link>
             ) : (
@@ -39,10 +46,7 @@ export function WorkCard({ item }: { item: WorkItem }) {
             ) : null}
           </h3>
 
-          <p className="mt-3 max-w-measure text-base leading-relaxed text-graphite">
-            {item.problem}
-          </p>
-          <p className="mt-3 max-w-measure text-base leading-relaxed text-ink">{item.built}</p>
+          <p className="mt-3 max-w-measure text-base text-ink">{item.summary}</p>
 
           {metrics.length > 0 ? (
             <dl className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
@@ -60,49 +64,21 @@ export function WorkCard({ item }: { item: WorkItem }) {
             </dl>
           ) : null}
 
-          <p className="mt-5 text-sm text-graphite">{item.stack.join(", ")}</p>
+          <p className="mt-4 text-sm text-graphite">{item.stack.join(", ")}</p>
 
-          {links.length > 0 ? (
-            <p className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-              {links.map((link) =>
-                link.external ? (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link"
-                  >
-                    {link.label}
-                  </a>
-                ) : (
-                  <Link key={link.href} href={link.href} className="link">
-                    {link.label}
-                  </Link>
-                ),
-              )}
-            </p>
-          ) : null}
+          {links.length > 0 ? <LinkList links={links} className="mt-5 lg:mt-auto lg:pt-6" /> : null}
         </div>
 
-        {item.diagram && isFlowchart(item.diagram) ? (
-          // Centred in its column: these diagrams are much wider than they are
-          // tall, so top-aligning one leaves a tall empty block beside the text.
-          <div className="lg:col-span-2 lg:self-center">
-            {caseStudyHref ? (
-              // No aria-label here on purpose: the link takes its accessible
-              // name from the diagram's own <title> plus the caption, so the
-              // name a screen reader announces matches the text on screen.
-              <Link href={caseStudyHref} className="block rounded">
-                <Flowchart
-                  name={item.diagram}
-                  variant="preview"
-                  caption="Open the full diagram on the case study page"
-                />
-              </Link>
-            ) : (
-              <Flowchart name={item.diagram} variant="preview" />
-            )}
+        {media && figure !== null ? (
+          <div className="min-w-0 lg:col-span-7 lg:self-center">
+            <Figure
+              media={media}
+              number={figure}
+              title={item.title}
+              caption={item.mediaCaption}
+              href={caseStudyHref}
+              uid={`fig-${item.slug}`}
+            />
           </div>
         ) : null}
       </div>

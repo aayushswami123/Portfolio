@@ -5,6 +5,13 @@
 @layer base {
   :root {
     color-scheme: light;
+    --text-body: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --text-body: 1.0625rem;
+    }
   }
 
   html {
@@ -12,14 +19,14 @@
   }
 
   body {
-    @apply bg-paper text-ink font-sans antialiased;
+    @apply bg-surface text-ink font-sans text-base antialiased;
   }
 
   /* One visible focus style everywhere, in the one accent colour. */
   :focus-visible {
-    outline: 2px solid theme("colors.cobalt");
+    outline: 2px solid theme("colors.accent");
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: 4px;
   }
 
   h1,
@@ -34,13 +41,13 @@
     text-wrap: pretty;
   }
 
-  /* DESIGN.md: the streaming rule under the ask box is the only motion.
-     Honour the OS setting and there is none at all. */
+  /* DESIGN.md: every motion on the page switches off with the OS setting. */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
@@ -50,35 +57,50 @@
 
 @layer components {
   .link {
-    @apply text-cobalt underline decoration-cobalt/30 underline-offset-[3px] transition-colors hover:decoration-cobalt;
+    @apply text-accent underline decoration-accent decoration-1 underline-offset-[3px] hover:decoration-2;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center rounded border px-4 py-2.5 text-sm font-medium transition-colors;
+    @apply inline-flex items-center justify-center rounded-btn border px-4 py-2.5 text-sm font-medium transition-[transform,background-color,border-color,filter] duration-150 active:scale-[0.98];
   }
 
-  /* Solid Cobalt, white text, a shade darker on hover. Nothing here carries a
-     dimmed state — a control only looks disabled when it actually is. */
   .btn-primary {
-    @apply border-cobalt bg-cobalt text-white hover:border-[#1c37ae] hover:bg-[#1c37ae];
+    @apply border-accent bg-accent text-white hover:brightness-[0.92];
   }
 
   .btn-secondary {
-    @apply border-rule bg-surface text-ink hover:border-ink;
+    @apply border-rule bg-card text-ink hover:border-accent/40;
   }
 
-  /* A bordered panel on Surface. The ask box, each featured project. */
+  /* A bordered Card panel. Hover tints the border; nothing lifts or scales. */
   .panel {
-    @apply rounded border border-rule bg-surface p-6 sm:p-8;
+    @apply rounded-panel border border-rule bg-card p-5 transition-colors duration-200 hover:border-accent/40 sm:p-8;
   }
 
-  .section-heading {
-    @apply text-xl font-semibold tracking-[-0.01em] text-ink;
+  /* Anything inside a panel: Inset background, never a second border. */
+  .well {
+    @apply rounded-[8px] bg-inset;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-[6px] bg-accent-soft px-2 py-0.5 text-xs font-medium text-accent;
+  }
+
+  .heading-lg {
+    @apply text-2xl font-semibold tracking-[-0.02em] sm:text-3xl;
+  }
+
+  .heading-md {
+    @apply text-xl font-semibold tracking-[-0.015em] sm:text-2xl;
+  }
+
+  .heading-sm {
+    @apply text-lg font-semibold tracking-[-0.01em];
   }
 
   /* Small text button: no fill, no border, underline on hover. */
   .text-button {
-    @apply rounded text-sm text-graphite underline decoration-transparent underline-offset-[3px] transition-colors hover:text-ink hover:decoration-graphite;
+    @apply rounded text-left text-sm text-graphite underline decoration-transparent underline-offset-[3px] transition-colors hover:text-ink hover:decoration-graphite;
   }
 
   /* Diagrams scroll inside their own box rather than shrinking below
@@ -89,7 +111,25 @@
   }
 }
 
-/* The thin Cobalt rule that grows under the ask box while an answer streams. */
+/* 1. Hero pitch: word-by-word reveal, once, on load. Pure CSS, so it needs no
+   JavaScript and starts with the first paint. */
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.3em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.word-reveal > span {
+  display: inline-block;
+  animation: word-in 220ms cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+
+/* 2. The Accent line that grows under the ask input while an answer streams. */
 @keyframes ask-progress {
   0% {
     transform: scaleX(0.02);
@@ -107,7 +147,64 @@
   animation: ask-progress 12s cubic-bezier(0.22, 0.8, 0.3, 1) forwards;
 }
 
+/* 4. Diagrams. The main path is drawn with pathLength="1", so a dash of 1
+   hides or shows the whole path. Only armed diagrams start hidden: without
+   JavaScript, or with reduced motion, the diagram is simply drawn. */
+.dg-main {
+  transition: stroke 200ms ease;
+}
+
+.dg-head {
+  transition: fill 200ms ease, opacity 200ms ease;
+}
+
+[data-dg="armed"] .dg-main {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+[data-dg="armed"] .dg-head {
+  opacity: 0;
+}
+
+[data-dg="drawn"] .dg-main {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition:
+    stroke-dashoffset 800ms cubic-bezier(0.4, 0, 0.2, 1),
+    stroke 200ms ease;
+}
+
+[data-dg="drawn"] .dg-head {
+  opacity: 1;
+  transition:
+    opacity 150ms ease 700ms,
+    fill 200ms ease;
+}
+
+.dg:hover .dg-main {
+  stroke: theme("colors.accent");
+}
+
+.dg:hover .dg-head {
+  fill: theme("colors.accent");
+}
+
+/* 5. Demo posters settle from 0.96 to 1 the first time they are seen. */
+[data-poster="armed"] {
+  transform: scale(0.96);
+}
+
+[data-poster="seen"] {
+  transform: none;
+  transition: transform 400ms cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .word-reveal > span {
+    animation: none;
+  }
+
   .ask-progress {
     animation: none;
     transform: scaleX(1);

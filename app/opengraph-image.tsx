@@ -19,13 +19,13 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#F7F8FA",
+          background: "#F8F8F6",
           padding: "80px",
           fontFamily: "sans-serif",
         }}
       >
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 76, fontWeight: 700, color: "#14171C", letterSpacing: "-0.02em" }}>
+          <div style={{ fontSize: 76, fontWeight: 700, color: "#0F0F0F", letterSpacing: "-0.02em" }}>
             {site.name}
           </div>
           <div
@@ -33,7 +33,7 @@ export default function OpenGraphImage() {
               marginTop: 28,
               fontSize: 40,
               lineHeight: 1.25,
-              color: "#14171C",
+              color: "#0F0F0F",
               maxWidth: 900,
             }}
           >
@@ -42,7 +42,7 @@ export default function OpenGraphImage() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <div style={{ width: 64, height: 4, background: "#2344D0" }} />
+          <div style={{ width: 64, height: 4, background: "#6C47FF" }} />
           <div style={{ fontSize: 26, color: "#5A6170" }}>
             Engineer · Researcher · Founder — aayushswami.com
           </div>

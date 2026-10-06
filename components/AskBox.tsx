@@ -8,8 +8,8 @@ import { ask, fallbackAnswers, site } from "@/content/site";
  * The one bold element on the page (docs/DESIGN.md).
  *
  * A precise input field, not a chat app: no bubbles, no avatars, no typing
- * dots. The answer streams in below as plain body text. The only motion on the
- * page is a thin Cobalt rule growing under the box while it streams.
+ * dots. The answer streams in below as plain body text, and a thin Accent line
+ * grows under the input while it streams.
  *
  * Every failure path lands in `fallback` — the hero must never look broken.
  */
@@ -36,7 +36,8 @@ function splitAnswer(text: string): { body: string; paths: string[] } {
   const paths: string[] = [];
   const body = text
     .replace(/Read more:\s*([^\s.,;]+)/gi, (_match, path: string) => {
-      if (path.startsWith("/")) paths.push(path);
+      // Only real pages: the model sometimes invents a plausible-looking path.
+      if (path in PATH_LABELS) paths.push(path);
       return "";
     })
     .replace(/\n{3,}/g, "\n\n")
@@ -46,6 +47,7 @@ function splitAnswer(text: string): { body: string; paths: string[] } {
 
 const PATH_LABELS: Record<string, string> = {
   "/#work": "Selected work",
+  "/#hackathons": "Hackathons",
   "/#experience": "Experience",
   "/#contact": "Contact",
   "/resume": "Resume",
@@ -158,55 +160,60 @@ export function AskBox() {
   const busy = state.kind === "loading" || state.kind === "answering";
 
   return (
-    // One Surface panel holds the box, its suggestions, the answer and the
-    // note, so the hero's bold element reads as a single object.
-    <div className="panel mt-8">
+    // One Card panel holds the box, its suggestions, the answer and the note,
+    // so the hero's bold element reads as a single object. Inside it, only the
+    // input carries a border.
+    <div className="panel hover:border-rule">
       <form
         onSubmit={(event) => {
           event.preventDefault();
           void submit(value);
         }}
       >
-        <label htmlFor="ask-input" className="sr-only">
-          Ask a question about Aayush&apos;s work
+        <label htmlFor="ask-input" className="block text-base font-semibold text-ink">
+          Ask about my work
         </label>
-        <div className="flex h-14 items-stretch overflow-hidden rounded border border-ink bg-surface focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-cobalt">
-          <input
-            id="ask-input"
-            ref={inputRef}
-            type="text"
-            value={value}
-            onChange={(event) => setValue(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Escape") {
-                setValue("");
-                setState({ kind: "empty" });
-                abortRef.current?.abort();
-              }
-            }}
-            placeholder={ask.placeholder}
-            maxLength={ask.maxLength}
-            autoComplete="off"
-            enterKeyHint="send"
-            aria-describedby="ask-note"
-            className="min-w-0 flex-1 bg-transparent px-4 text-base text-ink placeholder:text-graphite focus:outline-none"
-          />
+        <div className="mt-3 flex gap-2">
+          <div className="relative min-w-0 flex-1">
+            <input
+              id="ask-input"
+              ref={inputRef}
+              type="text"
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") {
+                  setValue("");
+                  setState({ kind: "empty" });
+                  abortRef.current?.abort();
+                }
+              }}
+              placeholder={ask.placeholder}
+              maxLength={ask.maxLength}
+              autoComplete="off"
+              enterKeyHint="send"
+              aria-describedby="ask-note"
+              className="h-12 w-full rounded-btn border border-rule bg-card px-4 text-base text-ink placeholder:text-graphite focus:border-accent focus:outline-none focus-visible:outline-none"
+            />
+            {/* An Accent line grows under the input while the answer streams. */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-x-2 -bottom-px h-0.5 overflow-hidden rounded-full"
+            >
+              {busy ? <div className="ask-progress h-full w-full bg-accent" /> : null}
+            </div>
+          </div>
           <button
             type="submit"
             disabled={busy}
-            className="shrink-0 bg-cobalt px-5 text-sm font-medium text-white transition-colors hover:bg-[#1c37ae] disabled:cursor-wait"
+            className={`btn btn-primary h-12 shrink-0 px-5 ${busy ? "cursor-wait opacity-60" : ""}`}
           >
             {busy ? "Thinking" : ask.button}
           </button>
         </div>
-
-        {/* The single moment of motion: a thin Cobalt rule under the box. */}
-        <div aria-hidden="true" className="h-px w-full overflow-hidden">
-          {busy ? <div className="ask-progress h-px w-full bg-cobalt" /> : null}
-        </div>
       </form>
 
-      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+      <div className="mt-4 flex flex-col items-start gap-y-2">
         {ask.suggestions.map((suggestion) => (
           <button
             key={suggestion}
@@ -226,10 +233,12 @@ export function AskBox() {
         {state.kind === "answering" || state.kind === "answered" ? (
           <Answer text={state.text} streaming={state.kind === "answering"} />
         ) : null}
-        {state.kind === "fallback" ? <Fallback reason={state.reason} /> : null}
+        {state.kind === "fallback" ? (
+          <Fallback reason={state.reason} question={state.question} />
+        ) : null}
       </div>
 
-      <p id="ask-note" className="mt-5 max-w-measure text-sm text-graphite">
+      <p id="ask-note" className="mt-5 text-xs text-graphite">
         {ask.note}
       </p>
     </div>
@@ -239,8 +248,8 @@ export function AskBox() {
 function Answer({ text, streaming }: { text: string; streaming: boolean }) {
   const { body, paths } = splitAnswer(text);
   return (
-    <div className="mt-6 border-t border-rule pt-5">
-      <p className="max-w-measure whitespace-pre-wrap text-base leading-relaxed text-ink">
+    <div className="well mt-5 p-4">
+      <p className="max-w-measure whitespace-pre-wrap text-base text-ink">
         {body}
       </p>
       {!streaming && paths.length > 0 ? (
@@ -256,15 +265,19 @@ function Answer({ text, streaming }: { text: string; streaming: boolean }) {
   );
 }
 
-function Fallback({ reason }: { reason: string }) {
+function Fallback({ reason, question }: { reason: string; question: string | null }) {
+  // The answer to the question just asked, if there is one, comes first.
+  const answers = [...fallbackAnswers].sort(
+    (a, b) => Number(b.question === question) - Number(a.question === question),
+  );
   return (
-    <div className="mt-6 border-t border-rule pt-5">
+    <div className="well mt-5 p-4">
       <p className="max-w-measure text-base text-ink">{REASON_NOTE[reason] ?? DEFAULT_NOTE}</p>
       <dl className="mt-4 space-y-4">
-        {fallbackAnswers.map((item) => (
+        {answers.map((item) => (
           <div key={item.question}>
             <dt className="text-sm font-medium text-ink">{item.question}</dt>
-            <dd className="mt-1 max-w-measure text-base leading-relaxed text-graphite">
+            <dd className="mt-1 max-w-measure text-sm text-graphite">
               {item.answer}{" "}
               <Link href={item.link.href} className="link">
                 {item.link.label}

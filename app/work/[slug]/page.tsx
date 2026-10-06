@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Container, Footer, SiteBar } from "@/components/layout";
-import { Flowchart, isFlowchart } from "@/components/Flowchart";
+import { Container, Footer, GUTTER_GRID, SiteBar } from "@/components/layout";
+import { Figure } from "@/components/Figure";
+import { isDiagram } from "@/content/diagrams";
+import { figureCounter } from "@/lib/media";
 import { caseStudies, getCaseStudy } from "@/content/case-studies";
 import { present } from "@/content/types";
 import { JsonLd, caseStudyGraph, pageMetadata } from "@/lib/seo";
@@ -36,12 +38,27 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   const links = present(study.links);
   const metrics = present(study.metrics);
   const measured = study.table?.rows.filter((row) => row.measured !== null) ?? [];
+  // A section whose every line is still a placeholder would render as a bare
+  // heading; leave it out until it has something to say.
+  const sections = study.sections.filter(
+    (section) =>
+      (section.body?.length ?? 0) > 0 ||
+      present(section.bullets ?? []).length > 0 ||
+      Boolean(section.diagram),
+  );
+
+  // Figures are numbered in page order.
+  const fig = figureCounter();
+  const figures = sections.map((section) =>
+    section.diagram && isDiagram(section.diagram) ? fig.next() : null,
+  );
 
   return (
     <>
       <SiteBar />
       <main id="main">
-        <Container className="py-14 sm:py-20">
+        <Container className={`py-14 sm:py-20 ${GUTTER_GRID}`}>
+          <div aria-hidden="true" />
           {/* Narrow reading column, per docs/DESIGN.md. */}
           <div className="max-w-reading">
             <p className="text-sm text-graphite">{study.tag}</p>
@@ -99,9 +116,9 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               </dl>
             ) : null}
 
-            {study.sections.map((section) => (
+            {sections.map((section, sectionIndex) => (
               <section key={section.heading} className="mt-12">
-                <h2 className="section-heading">{section.heading}</h2>
+                <h2 className="heading-md">{section.heading}</h2>
 
                 {section.body?.map((paragraph) => (
                   <p
@@ -125,19 +142,24 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   </ul>
                 ) : null}
 
-                {section.diagram && isFlowchart(section.diagram) ? (
-                  <Flowchart
-                    name={section.diagram}
-                    caption={section.diagramCaption}
-                    className="mt-6"
-                  />
+                {section.diagram && isDiagram(section.diagram) && figures[sectionIndex] ? (
+                  <div className="mt-6">
+                    <Figure
+                      media={{ kind: "diagram", name: section.diagram }}
+                      number={figures[sectionIndex]!}
+                      title={section.heading}
+                      caption=""
+                      captionOverride={section.diagramCaption}
+                      uid={`fig-${section.diagram}`}
+                    />
+                  </div>
                 ) : null}
               </section>
             ))}
 
             {study.table && measured.length > 0 ? (
               <section className="mt-12">
-                <h2 className="section-heading">{study.table.caption}</h2>
+                <h2 className="heading-md">{study.table.caption}</h2>
                 <div className="diagram-scroll mt-4">
                   <table className="w-full min-w-[420px] border-collapse text-base">
                     <thead>
@@ -165,7 +187,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
 
             {study.table && measured.length === 0 ? (
               <section className="mt-12">
-                <h2 className="section-heading">Targets</h2>
+                <h2 className="heading-md">Targets</h2>
                 <p className="mt-2 text-sm text-graphite">
                   These are the targets the engine is built against. Measured numbers replace them
                   once the benchmarks are published.

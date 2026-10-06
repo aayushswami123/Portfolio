@@ -32,9 +32,12 @@ export interface LinkRef {
 export type WorkTag = "Engineering" | "Research" | "Founder" | "Research + Engineering";
 
 export interface WorkItem {
+  /** Also the media slug: public/demos/<slug>.mp4, public/work/<slug>.webp. */
   slug: string;
   title: string;
   tag: WorkTag;
+  /** The panel description. Two lines at most on desktop. */
+  summary: string;
   problem: string;
   built: string;
   /**
@@ -47,14 +50,46 @@ export interface WorkItem {
   links: Maybe<LinkRef>[];
   /** Live dot next to shipped products only. */
   live?: boolean;
-  /** Filename in public/flowcharts, without extension. */
+  /** Key in content/diagrams.ts. */
   diagram: Maybe<string>;
+  /** Caption for a demo or screenshot, without the "Fig. N — " prefix. */
+  mediaCaption: string;
   /** Does this item have a case study page? */
   caseStudy: boolean;
 }
 
+export interface HackathonItem {
+  slug: string;
+  event: string;
+  date: string;
+  title: string;
+  award: Maybe<string>;
+  problem: string;
+  /** The two-line panel description. */
+  built: string;
+  how?: string;
+  teammate: Maybe<string>;
+  stack: Maybe<string>[];
+  links: Maybe<LinkRef>[];
+  /** Shows "Code private" in place of a code link. */
+  codePrivate?: boolean;
+  tag: WorkTag;
+  diagram: Maybe<string>;
+  mediaCaption: string;
+}
+
+export interface Logo {
+  name: string;
+  /** Filename in public/logos/. The entry renders only once the file exists. */
+  file: string;
+  label: string;
+  href: string;
+}
+
 export interface ExperienceRow {
   company: string;
+  /** Company or lab site. The name becomes a link when this is set. */
+  href?: Maybe<string>;
   role: string;
   dates: Maybe<string>;
   result: string;

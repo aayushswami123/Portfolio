@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F7F8FA",
+  themeColor: "#F8F8F6",
   colorScheme: "light",
 };
 
@@ -58,7 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:border focus:border-cobalt focus:bg-surface focus:px-3 focus:py-2 focus:text-sm"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:border focus:border-accent focus:bg-card focus:px-3 focus:py-2 focus:text-sm"
         >
           Skip to content
         </a>

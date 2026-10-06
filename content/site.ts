@@ -14,17 +14,19 @@ export const hero = {
   pitch:
     "I build AI systems people actually use — agents, search, and the backend underneath.",
   status:
-    "Engineer, researcher, and founder. Incoming Software Engineer Intern, AI Solutions at Cloudwick. ML researcher at ASU's Rolston Lab. Founder of NestuLabs. CS senior at Arizona State (BS 2027, MS 2028) — open to 2027 new-grad roles.",
+    "Engineer, researcher, and founder. Incoming Software Engineer Intern, AI Solutions at Cloudwick. ML researcher at ASU's Rolston Lab. Founder of NestuLabs. Open to 2027 new-grad roles.",
+  // [CHECK: GPA must match the resume exactly]
+  education: "Arizona State University — BS Computer Science 2027, MS 2028 · GPA 3.83",
 } as const;
 
 export const ask = {
-  placeholder: "Ask anything about my work — e.g. what did you build at Rolston Lab?",
+  placeholder: "e.g. What did you build at Rolston Lab?",
   button: "Ask",
   suggestions: [
     "What are you building at NestuLabs?",
     "How does your collaborative editor work?",
     "What's your research about?",
-    "What roles are you looking for?",
+    "What did you build at hackathons?",
   ],
   note: "Answers use only what's on this site. For anything important, email me.",
   attribution: "Runs on Qualcomm Cloud AI 100.",
@@ -54,24 +56,32 @@ export const fallbackAnswers: FallbackAnswer[] = [
       "Two things. At ASU's Rolston Lab, Aayush builds BLIP-2 pipelines that pull structured data out of scientific figures, and a Gaussian Process model that predicts lithium-ion battery health from impedance (EIS) data — presented at FURI in Spring 2025. Separately, he runs an agentic trading study with a professor, where agents follow a fixed strategy on live gold prices and log the reason for every decision.",
     link: { label: "See selected work", href: "/#work" },
   },
+  {
+    question: "What did you build at hackathons?",
+    answer:
+      "At Hacktoberfest Hack Day x sunhacks (Oct 2026), Aayush's team built PR Lifeguard, an AI tool that sorts open GitHub pull requests by effort, and won Best Use of Snowflake. At Honeywell Aerospace Devils Invent, Team Avio built AeroTrace, an agent that reads legacy C, C++, and Ada code and builds call trees of how functions and data connect.",
+    link: { label: "See hackathons", href: "/#hackathons" },
+  },
+  {
+    question: "What roles are you looking for?",
+    answer:
+      "Aayush is looking for 2027 new-grad roles in software, ML, and forward-deployed engineering. He also likes hearing about hard problems at early-stage startups.",
+    link: { label: "Get in touch", href: "/#contact" },
+  },
 ];
 
-export const proofRow = [
-  "Cloudwick (incoming)",
-  "SHOPLINE partnership",
-  "Qualcomm (capstone sponsor)",
-  "Rolston Lab, ASU",
-  "Interplanetary Lab, ASU",
-  "FURI",
-] as const;
-
 /**
- * Shipping log — newest first, five shown.
- * TODO(aayush): after Cal Hacks 13.0 (Oct 2026), change the first line to what
- * you actually built there.
+ * Shipping log — three shown, in the order Aayush listed them.
  */
 export const shippingLog: LogEntry[] = [
-  { date: "Oct 2026", entry: "Building at Cal Hacks 13.0 in San Francisco", link: null },
+  {
+    date: "Oct 2026",
+    entry: "Won Best Use of Snowflake at Hacktoberfest Hack Day x sunhacks",
+    link: null,
+  },
+  { date: "Oct 2026", entry: "Built AeroTrace at Honeywell Aerospace Devils Invent", link: null },
+  // TODO(aayush): after Oct 26, replace with what you built at Cal Hacks.
+  { date: "Oct 2026", entry: "Heading to Cal Hacks 13.0 in San Francisco", link: null },
   {
     date: "Sep 2026",
     entry:
@@ -109,7 +119,19 @@ export const shippingLog: LogEntry[] = [
   },
 ];
 
-export const shippingLogCount = 5;
+export const shippingLogCount = 3;
+
+/**
+ * "On GitHub" under Recent: public commits and pull requests, summarised by
+ * the AI 100 model and refreshed hourly (lib/github-activity.ts).
+ */
+export const githubActivity = {
+  user: "aayushswami123",
+  /** Repos whose activity is noise on the site (this site's own repo). */
+  exclude: ["aayushswami123/Portfolio"],
+  /** Repo-days shown. */
+  max: 4,
+};
 
 export const skills: SkillGroup[] = [
   { label: "Languages", items: ["Python", "TypeScript", "JavaScript", "Java", "C/C++", "SQL"] },
@@ -177,7 +199,6 @@ export const moreProjects = [
     name: "Odyssey rover telemetry dashboard",
     text: "Interplanetary Lab, ASU — live sensor streams and commands for the Odyssey rover.",
     link: null,
-    diagram: "odyssey-rover-telemetry",
   },
 ];
 
@@ -187,7 +208,7 @@ export const leadership = [
   "Adobe Student Ambassador",
   "Venture Scout, LvlUp Ventures",
   "Accelerators: LvlUp Labs, Momentum by DevLabs",
-  "Hackathons: Cal Hacks 13.0 (2026), VillageHacks",
+  "Hackathons: Cal Hacks 13.0 (2026), Honeywell Devils Invent (2026), Hacktoberfest Hack Day x sunhacks — Best Use of Snowflake (2026), VillageHacks",
 ];
 
 export const about = {
@@ -195,8 +216,6 @@ export const about = {
     "I'm a computer science senior at Arizona State, in the accelerated BS/MS program. I like the part of AI work where a demo has to become something people rely on — clean APIs, good tests, and knowing why the system made a choice.",
     "Outside class I do ML research at Rolston Lab and run NestuLabs, where I build tools that help businesses show up in AI search. I'm based in Tempe, Arizona.",
   ],
-  // [CHECK: must match the resume exactly]
-  gpa: "3.83",
 } as const;
 
 export const contact: {

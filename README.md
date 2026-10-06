@@ -20,7 +20,8 @@ npm run dev                  # http://localhost:3000
 |---|---|
 | `npm run dev` | Build content, then start the dev server |
 | `npm run build` | `prebuild` regenerates content, then `next build` |
-| `npm run build-content` | Render flowcharts to SVG and rebuild the ask-box knowledge file |
+| `npm run build-content` | Rebuild the ask-box knowledge file |
+| `npm run demos:check` | Warn about demo videos over 6 MB or 40 s, or missing posters |
 | `npm run check-links` | Fetch every external link and resolve every internal one (`-- --local` skips the network) |
 | `npm run todos` | List every `[ADD]` / `[CHECK]` still outstanding, and missing files |
 | `npm run lint` / `npm run typecheck` | ESLint / `tsc --noEmit` |
@@ -28,25 +29,30 @@ npm run dev                  # http://localhost:3000
 ## How content works
 
 Copy lives in typed data files — `content/site.ts`, `content/work.ts`,
-`content/case-studies.ts` — so text changes never touch a component.
+`content/hackathons.ts`, `content/logos.ts`, `content/case-studies.ts` — so text changes
+never touch a component.
 
 A placeholder from `CONTENT.md` is modelled as `null`, not as a string. Components drop
 `null` values before rendering, so a missing value renders as nothing and brackets can
 never ship. `npm run todos` is the punch list of what is still `null`.
 
-## Flowcharts
+## Diagrams
 
-`scripts/render-flowcharts.mjs` parses the Mermaid blocks in `content/FLOWCHARTS.md`,
-`content/case-studies/*.md` and `docs/ASK-ABOUT-ME.md`, lays them out, and writes static
-SVGs to `public/flowcharts/`. No browser and no puppeteer, so the build stays fast and the
-output matches `docs/DESIGN.md` exactly.
+Diagrams are hand-authored in `content/diagrams.ts`: every box and line has explicit
+coordinates, with straight lines and right angles only and no crossings. There is no
+layout engine or edge router. `components/Diagram.tsx` renders them as inline static SVG
+in the page HTML, each with a `<title>` and `<desc>` for screen readers and AI crawlers,
+and refuses a diagonal segment in development.
 
-Each diagram is rendered twice: full size (left-to-right) for the case study pages, and a
-top-to-bottom preview that fits the home page's half-width cards without shrinking the
-labels. Both carry a `<title>` and `<desc>` for screen readers and AI crawlers.
+To add a diagram, add an entry to `content/diagrams.ts` with its one-sentence description
+and caption. The Mermaid blocks in the markdown files are kept as the readable source of
+what each diagram shows.
 
-To add a diagram: write the Mermaid block, then add an entry to `MANIFEST` in
-`scripts/render-flowcharts.mjs` with its one-sentence description.
+## Media
+
+Project panels show, in order: a demo (`public/demos/<slug>.mp4` +
+`<slug>-poster.webp`), else a screenshot (`public/work/<slug>.webp`), else the diagram.
+Logos render once their file is in `public/logos/` (filenames in `content/logos.ts`).
 
 ## "Ask about me"
 
@@ -62,7 +68,7 @@ AI_MODEL=
 ```
 
 Switching providers is a config change. With any of the three unset, the endpoint returns
-`{ fallback: true }` and the box shows three prewritten answers plus an "Email me" button —
+`{ fallback: true }` and the box shows five prewritten answers (the one just asked first) plus an "Email me" button —
 the hero never looks broken.
 
 Rate limits (10/IP/hour, 40/IP/day, 1,000/day globally) use Upstash Redis when

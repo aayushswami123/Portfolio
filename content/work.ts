@@ -10,6 +10,8 @@ export const featuredWork: WorkItem[] = [
     slug: "nestulabs-ai-visibility",
     title: "NestuLabs AI Visibility",
     tag: "Founder",
+    summary:
+      "A WordPress plugin and weekly tracker that make a business readable to AI assistants.",
     problem:
       "Businesses don't know if ChatGPT, Gemini, or Perplexity recommend them — and have no easy way to fix it.",
     built:
@@ -25,12 +27,15 @@ export const featuredWork: WorkItem[] = [
     ],
     live: true,
     diagram: "nestulabs-ai-visibility",
+    mediaCaption: "NestuLabs AI Visibility demo.",
     caseStudy: true,
   },
   {
     slug: "crdt-engine",
     title: "Real-time collaborative editing engine",
     tag: "Engineering",
+    summary:
+      "A conflict-free text sync engine in TypeScript, built from scratch with no CRDT library.",
     problem:
       "Libraries like Yjs are a black box. I wanted to know how real-time collaboration actually works — so I built the sync engine myself.",
     built:
@@ -44,12 +49,15 @@ export const featuredWork: WorkItem[] = [
       null,
     ],
     diagram: "crdt-engine",
+    mediaCaption: "Collaborative editing engine demo.",
     caseStudy: true,
   },
   {
-    slug: "rolston-lab-research",
+    slug: "rolston-research",
     title: "Machine learning research at Rolston Lab",
     tag: "Research",
+    summary:
+      "BLIP-2 pipelines for scientific figures and a Gaussian Process model for battery health.",
     problem:
       "Scientific data — microscopy images, plots, battery measurements — is slow to process by hand.",
     built:
@@ -64,12 +72,15 @@ export const featuredWork: WorkItem[] = [
       null,
     ],
     diagram: "rolston-lab-research",
+    mediaCaption: "Rolston Lab research demo.",
     caseStudy: false,
   },
   {
     slug: "agentic-trading",
     title: "Agentic trading research",
     tag: "Research + Engineering",
+    summary:
+      "Agents check live gold prices against fixed rules and log the reason for every decision.",
     problem:
       "Can an AI agent follow a fixed trading strategy and explain every decision it makes?",
     built:
@@ -83,6 +94,7 @@ export const featuredWork: WorkItem[] = [
       null,
     ],
     diagram: "agentic-trading",
+    mediaCaption: "Agentic trading dashboard demo.",
     caseStudy: true,
   },
 ];
@@ -96,12 +108,15 @@ export const experience: ExperienceRow[] = [
   {
     company: "Cloudwick",
     role: "Incoming Software Engineer Intern, AI Solutions",
+    // [ADD: start month] — becomes "Starting <month> 2026"
     dates: "Starting 2026",
     result:
       "Will build Python backend and APIs on AWS for AI products: chat assistants, document search, agentic workflows, and AI evaluation.",
   },
   {
     company: "Rolston Lab, Arizona State",
+    // [ADD: Rolston Lab site URL]
+    href: null,
     role: "Undergraduate ML Researcher",
     dates: "Aug 2024 – present",
     result:
@@ -125,6 +140,8 @@ export const experience: ExperienceRow[] = [
   },
   {
     company: "Interplanetary Lab, ASU",
+    // [ADD: Interplanetary Lab site URL]
+    href: null,
     role: "Rover Telemetry Engineer, Odyssey Rover",
     dates: "Jan 2025 – May 2025",
     result:

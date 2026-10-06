@@ -32,7 +32,16 @@ const BLOCKED_STATUSES = new Set([401, 403, 429, 999]);
 const ROUTES = new Set(["/", "/resume", "/sitemap.xml", "/robots.txt", "/llms.txt"]);
 
 /** Anchors that must exist on the home page. */
-const ANCHORS = new Set(["work", "experience", "contact", "main"]);
+const ANCHORS = new Set([
+  "main",
+  "recent",
+  "work",
+  "hackathons",
+  "experience",
+  "skills",
+  "projects",
+  "contact",
+]);
 
 function collectFromSource(text, source, found) {
   // Quoted URLs and href targets in the typed content and components.
@@ -54,6 +63,8 @@ async function gather() {
     "content/site.ts",
     "content/work.ts",
     "content/case-studies.ts",
+    "content/hackathons.ts",
+    "content/logos.ts",
     "public/llms.txt",
     "public/person-jsonld.json",
   ];

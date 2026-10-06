@@ -56,7 +56,7 @@ Do not add a vector database, embeddings, or RAG. Less code, fewer bugs.
 
 ## UI states (all required)
 1. Empty — placeholder + suggested questions
-2. Loading — Cobalt line grows under the box; the Ask button shows "Thinking"
+2. Loading — Accent line grows under the input; the Ask button shows "Thinking"
 3. Streaming answer — plain body text, then 1–2 links
 4. Error / rate-limited / API down — "The assistant is taking a break. Here are quick
    answers:" + 3 prewritten answers + Email me
