@@ -1,25 +1,38 @@
 {
-  "name": "portfolio",
+  "name": "aayushswami-com",
   "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "private": true,
+  "description": "Portfolio for Aayush Swami \u2014 aayushswami.com",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "prebuild": "npm run build-content",
+    "build-content": "node scripts/build-knowledge.mjs",
+    "dev": "npm run build-content && next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check-links": "node scripts/check-links.mjs",
+    "todos": "node scripts/list-todos.mjs",
+    "demos:check": "node scripts/check-demos.mjs"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/aayushswami123/Portfolio.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/aayushswami123/Portfolio/issues"
-  },
-  "homepage": "https://github.com/aayushswami123/Portfolio#readme",
   "dependencies": {
-    "express": "^4.21.2",
-    "nodemailer": "^6.10.0"
+    "framer-motion": "^12.43.0",
+    "next": "16.3.6",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.7",
+    "@types/react": "19.0.7",
+    "@types/react-dom": "19.0.3",
+    "autoprefixer": "10.4.20",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.3.6",
+    "postcss": "^8.5.28",
+    "tailwindcss": "3.4.17",
+    "typescript": "5.7.3"
+  },
+  "overrides": {
+    "@eslint/plugin-kit": "^0.3.5"
   }
 }

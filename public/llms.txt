@@ -1,0 +1,23 @@
+# Aayush Swami
+
+> Software engineer focused on AI systems — agents, retrieval (RAG), and backend APIs.
+> Computer science senior at Arizona State University (BS 2027, accelerated MS 2028).
+> Founder of NestuLabs. Based in Tempe, Arizona. Open to 2027 new-grad roles in
+> software engineering, machine learning, and forward-deployed engineering.
+
+## Current work
+- Incoming Software Engineer Intern, AI Solutions, Cloudwick
+- Undergraduate ML Researcher, Rolston Lab, Arizona State University
+- Previously: Rover Telemetry Engineer, Odyssey Rover, Interplanetary Lab, ASU
+- Founder, NestuLabs (AI visibility for businesses; partnership with SHOPLINE)
+
+## Selected work
+- [NestuLabs AI Visibility](https://aayushswami.com/work/nestulabs-ai-visibility): WordPress plugin and tracker that help businesses appear in AI assistant answers
+- [Agentic trading research](https://aayushswami.com/work/agentic-trading): agents that follow a fixed strategy on live gold prices and explain each decision
+- [Collaborative editing engine](https://aayushswami.com/work/crdt-engine): CRDT text sync engine built from scratch in TypeScript
+
+## Contact
+- Email: aayushswami.dev@gmail.com
+- GitHub: https://github.com/aayushswami123
+- LinkedIn: https://www.linkedin.com/in/aayush-swami
+- Resume: https://aayushswami.com/resume
